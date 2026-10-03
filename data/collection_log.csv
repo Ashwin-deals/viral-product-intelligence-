@@ -10,3 +10,12 @@ run_timestamp,source,product_id,records_collected,status,error_message,quota_uni
 2026-10-03T16:26:09Z,youtube,P046,550,success,,7
 2026-10-03T16:26:15Z,youtube,P057,550,success,,7
 2026-10-03T16:26:22Z,youtube,P059,544,success,,7
+2026-10-03T16:43:24Z,youtube,P044,550,success,query v2: motorola edge 70 review -fusion -pro -max -neo,7
+2026-10-03T16:43:30Z,youtube,P057,492,success,query v2: pixel 9 review -pro -xl -fold -9a,7
+2026-10-03T16:43:36Z,youtube_recent,P003,50,success,50-result cap hit; true count is higher,1
+2026-10-03T16:43:37Z,youtube_recent,P006,50,success,50-result cap hit; true count is higher,1
+2026-10-03T16:43:37Z,youtube_recent,P016,50,success,50-result cap hit; true count is higher,1
+2026-10-03T16:43:38Z,youtube_recent,P035,46,success,,1
+2026-10-03T16:43:39Z,youtube_recent,P043,18,success,,1
+2026-10-03T16:43:40Z,youtube_recent,P046,34,success,,1
+2026-10-03T16:43:41Z,youtube_recent,P059,37,success,,1

@@ -1,0 +1,47 @@
+file,column,type,definition,limitations
+data/youtube/videos_snapshot.csv,snapshot_date,date (YYYY-MM-DD),Collection day in India time (Asia/Kolkata).,
+data/youtube/videos_snapshot.csv,product_id,string,Registry product id (P001..P060).,
+data/youtube/videos_snapshot.csv,query_version,string,"Registry version whose youtube_query produced this row (v1, v2, ...); see docs/registry_changelog.md.",Rows from different query versions are different samples; compare only within one version.
+data/youtube/videos_snapshot.csv,video_id,string,YouTube video id from search.list (type=video).,
+data/youtube/videos_snapshot.csv,title,string,videos.list snippet.title at snapshot time.,Creators can edit titles.
+data/youtube/videos_snapshot.csv,channel_id,string,videos.list snippet.channelId.,
+data/youtube/videos_snapshot.csv,published_at,timestamp (ISO 8601 UTC),videos.list snippet.publishedAt (upload time).,
+data/youtube/videos_snapshot.csv,view_count,integer,videos.list statistics.viewCount: cumulative views at snapshot time.,"Empty when YouTube does not return it. Cumulative, not views on the snapshot day."
+data/youtube/videos_snapshot.csv,like_count,integer,videos.list statistics.likeCount: cumulative likes.,"Empty when the creator hides likes (missing, not 0)."
+data/youtube/videos_snapshot.csv,comment_count,integer,videos.list statistics.commentCount: cumulative comments.,"Empty when comments are disabled (missing, not 0)."
+data/youtube/comments_snapshot.csv,snapshot_date,date (YYYY-MM-DD),Collection day in India time.,
+data/youtube/comments_snapshot.csv,product_id,string,Registry product id.,
+data/youtube/comments_snapshot.csv,query_version,string,Registry version of the youtube_query used.,
+data/youtube/comments_snapshot.csv,video_id,string,Video the comment thread belongs to; one of the top-5 videos by view_count in that snapshot.,"Only the 5 most-viewed videos of the snapshot get comments, so the commented set changes when ranking changes."
+data/youtube/comments_snapshot.csv,comment_id,string,"Top-level comment id (commentThreads.list, order=relevance, up to 100 per video).",Replies are not collected; relevance order is YouTube's choice and can change.
+data/youtube/comments_snapshot.csv,text,string,snippet.textOriginal of the top-level comment.,"Personal data: git-ignored, never committed. Author names and channel ids exist only in raw/youtube JSON."
+data/youtube/comments_snapshot.csv,like_count,integer,Likes on the comment at snapshot time.,
+data/youtube/comments_snapshot.csv,published_at,timestamp (ISO 8601 UTC),When the comment was posted.,
+data/youtube/product_daily.csv,snapshot_date,date (YYYY-MM-DD),Collection day in India time.,
+data/youtube/product_daily.csv,product_id,string,Registry product id.,
+data/youtube/product_daily.csv,query_version,string,Registry version of the youtube_query used.,
+data/youtube/product_daily.csv,video_result_count,integer,Number of videos returned by the main search for this snapshot.,"CAPPED VALUE, NOT A SIGNAL: the main search fetches at most --max-videos (default 50) and almost every product has more matches, so this is 50 for every pilot product. Use result_cap_hit to see whether the cap was hit, and videos_published_7d (recent_window_daily) for upload activity."
+data/youtube/product_daily.csv,video_views_total,integer,Sum of view_count over the videos in this snapshot's main search results.,"Covers the top-50 relevance-ranked search results for youtube_query (regionCode=IN) at snapshot time; the set can change between snapshots, so changes mix real growth with a changing sample. Videos with hidden statistics count as 0 in this sum."
+data/youtube/product_daily.csv,video_comments_total,integer,Sum of comment_count over the same videos.,Same sample caveat as video_views_total; videos with comments disabled count as 0.
+data/youtube/product_daily.csv,search_total_results_approx,integer,search.list pageInfo.totalResults of the first page.,"YouTube documents this as an approximation with a maximum of 1,000,000; 8 of 10 pilot products returned exactly 1,000,000, so it carries little signal."
+data/youtube/product_daily.csv,result_cap_hit,boolean,true if the main search had more results than were fetched (a nextPageToken was returned).,Empty for rows collected before the column existed whose raw file is missing.
+data/youtube/recent_window_daily.csv,snapshot_date,date (YYYY-MM-DD),Collection day in India time.,
+data/youtube/recent_window_daily.csv,product_id,string,Registry product id.,
+data/youtube/recent_window_daily.csv,query_version,string,Registry version of the youtube_query used.,
+data/youtube/recent_window_daily.csv,window_days,integer,Length of the recent window (7).,
+data/youtube/recent_window_daily.csv,published_after,timestamp (ISO 8601 UTC),publishedAfter sent to search.list: run time minus window_days.,Windows of runs on different days overlap; daily values are rolling 7-day counts.
+data/youtube/recent_window_daily.csv,videos_published_7d,integer,"Videos returned by one search.list call with q=youtube_query, type=video, regionCode=IN, order=date, publishedAfter, maxResults=50.","Capped at 50 (see cap_hit). order=date relies on the search index, so very new uploads can be missing, and it returns loose matches: in the pilot only 8-74% of titles named the exact model."
+data/youtube/recent_window_daily.csv,videos_7d_on_target,integer,"Of videos_published_7d, those whose title names the exact model (src/title_match.py: model phrase not followed by a sibling word such as Pro/Max).","Title-based heuristic; misses videos that name the model only in the description, and is bounded by the 50-result cap."
+data/youtube/recent_window_daily.csv,cap_hit,boolean,true if the 50-result cap was hit and more results existed (nextPageToken returned); the true count is then higher than videos_published_7d.,
+data/youtube/recent_window_daily.csv,search_total_results_approx,integer,pageInfo.totalResults of the recent search.,Approximation per YouTube docs; do not use as a count.
+data/youtube/quota_usage.csv,date,date (YYYY-MM-DD),Quota day in Pacific time (the API resets quota at midnight PT).,
+data/youtube/quota_usage.csv,units,integer,"Quota units charged for one request (1 per list call), including failed requests and retries.",
+data/youtube/quota_usage.csv,search_calls,integer,"1 if the request was a search.list call (separate cap of 100/day), else 0.",
+data/youtube/quota_usage.csv,method,string,API method called.,
+data/youtube/quota_usage.csv,run_timestamp,timestamp (ISO 8601 UTC),Start of the collector run that made the request.,
+data/processed/youtube_videos_clean.csv,(all columns),,Cleaned copy of videos_snapshot.csv: see docs/cleaning_summary_youtube.md for rules; plus is_active_query.,Git-ignored.
+data/processed/youtube_comments_clean.csv,(all columns),,"Cleaned copy of comments_snapshot.csv; plus is_emoji_only, likely_non_english, is_active_query.",Git-ignored (comment text).
+data/processed/youtube_product_daily_clean.csv,(all columns),,Cleaned copy of product_daily.csv; plus is_active_query.,
+data/processed/youtube_videos_clean.csv,is_active_query,boolean,true if query_version is the product's query version in the active registry (config.ACTIVE_REGISTRY).,Filter on this for one consistent series per product.
+data/processed/youtube_comments_clean.csv,is_emoji_only,boolean,"true if the cleaned text has no letter or digit in any script (emoji, symbols, punctuation only).",Flag only; rows are kept.
+data/processed/youtube_comments_clean.csv,likely_non_english,boolean,true if fewer than half of the letters are Latin a-z.,"Script heuristic, not language detection: romanised Hindi/Tamil counts as Latin."
