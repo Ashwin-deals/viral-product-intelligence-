@@ -1,0 +1,2 @@
+run_timestamp,source,product_id,records_collected,status,error_message,quota_units
+2026-10-03T16:17:57Z,youtube,P003,5,smoke_test_ok,,1
