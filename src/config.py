@@ -103,8 +103,8 @@ class Paths:
 # Every registry version keeps the same columns and product_ids; versions differ only in
 # documented changes (see docs/registry_changelog.md). The collectors read ACTIVE_REGISTRY.
 # trends_query is identical across versions; only youtube_query may change.
-REGISTRY_FILES = {"v1": "products.csv", "v2": "products_v2.csv"}  # oldest first
-ACTIVE_REGISTRY = "v2"
+REGISTRY_FILES = {"v1": "products.csv", "v2": "products_v2.csv", "v3": "products_v3.csv"}  # oldest first
+ACTIVE_REGISTRY = "v3"
 
 PATHS = Paths.from_root(ROOT)
 
@@ -149,6 +149,9 @@ YOUTUBE_COMMENTS_PAGE_SIZE = 100
 
 # Optional second pass (--pass recent|both): newest videos uploaded in the last N days.
 # search.list with order=date and publishedAfter=<run time - N days>, one page of up to 50.
+# Title-based exact-model filter (src/title_match.py): products whose share of on-target video
+# titles is below this are flagged (low_on_target_share) in the cleaned daily table.
+ON_TARGET_MIN_SHARE = 0.60
 YOUTUBE_RECENT_WINDOW_DAYS = 7
 YOUTUBE_RECENT_MAX_RESULTS = 50
 
