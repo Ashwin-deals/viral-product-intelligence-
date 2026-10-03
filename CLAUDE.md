@@ -4,17 +4,19 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project
 
-University Business Analytics capstone: "Viral Product Intelligence: Early Detection and Prediction of Consumer Demand Surges Using Multi-Source Signals". Scope: 60 smartphones in the India market (`data/products.csv`), tracked through YouTube Data API v3 snapshots and manually exported Google Trends data.
+University Business Analytics capstone: "Viral Product Intelligence: Early Detection and Prediction of Consumer Demand Surges Using Multi-Source Signals". Scope: 60 smartphones in the India market (registry versions in `data/products*.csv`; active: `data/products_v3.csv`), tracked through YouTube Data API v3 snapshots and manually exported Google Trends data.
 
 Status (2026-10-03):
 - The collection pipeline is built.
 - The YouTube pilot ran on snapshot 2026-10-03:
   - main pass for all 10 pilot products;
   - v2-query re-collection of P044 and P057;
-  - 7-day recent pass for 7 of the 10.
-- YouTube cleaning is built (`src/clean_youtube.py`). Trends cleaning is a TODO stub (`src/clean_trends.py`), because the Google Trends exports have not been downloaded yet; that is a manual human step.
+  - 7-day recent pass for all 10.
+- Registry v3 is active: P044 is back on its v1 query, and P057 keeps its v2 query. Nothing was re-collected for v3.
+- Built: YouTube cleaning (`src/clean_youtube.py`), Trends cleaning (`src/clean_trends.py`) and the aligned table (`src/build_aligned.py`). The last two exit cleanly until the Google Trends exports are downloaded, which is a manual human step.
+- Teammate handoff: `docs/handoff_task1.md`.
 - Nothing is scheduled.
-- No modelling or dashboard work has started; do not start it unless asked.
+- No features, labels (growth, acceleration, surge labels), modelling or dashboard work have been done. They belong to teammates; do not start them unless asked.
 
 ## Commands
 
@@ -22,7 +24,7 @@ Status (2026-10-03):
 pip3 install -r requirements.txt
 python3 -m pytest                                  # all tests; no network or API key needed
 python3 -m pytest tests/test_load_trends.py -k weekly   # a single test
-python3 src/validate_products.py                   # registry checks
+python3 src/validate_products.py                   # every registry version + cross-version checks
 python3 src/select_pilot.py                        # data/pilot_products.csv (seed 42)
 python3 src/collect_youtube.py --dry-run [--all]   # plan + quota estimate, no API calls
 python3 src/collect_youtube.py --smoke-test        # one search.list call, writes only a log row
@@ -33,7 +35,10 @@ python3 src/collect_youtube.py --plan | --migrate  # quota scenarios / local sch
 python3 src/make_trends_checklist.py               # Trends export checklist + batch date range
 python3 src/load_trends.py [--allow-weekly]        # raw/trends/*.csv -> data/trends_long.csv
 python3 src/pilot_report.py                        # go/no-go report
+python3 src/check_query_versions.py                # raw files + table rows vs registry query versions
 python3 src/clean_youtube.py                       # data/youtube -> data/processed (+ cleaning report)
+python3 src/clean_trends.py                        # data/trends_long.csv -> data/processed/trends_clean.csv
+python3 src/build_aligned.py                       # Trends index + same-day YouTube -> aligned_daily.csv
 python3 src/backup_local_data.py                   # archive git-ignored local data into backups/
 ```
 
@@ -41,7 +46,7 @@ Scripts are run from the repo root as `python3 src/<script>.py`. Modules import 
 
 ## Architecture
 
-- Registry versions: `config.REGISTRY_FILES` maps v1 to `data/products.csv` and v2 to `data/products_v2.csv`, and `config.ACTIVE_REGISTRY` (now v2) is what the collector reads. `resolve_products` takes product_ids from any products file and the fields from the active registry. It attaches `query_version`, the oldest version with the same `youtube_query`. Raw file names get `_q<version>` for versions after v1, and extract keys include `query_version`.
+- Registry versions: `config.REGISTRY_FILES` maps v1, v2 and v3 to `data/products.csv`, `products_v2.csv` and `products_v3.csv`. The collector, cleaning and alignment read `config.ACTIVE_REGISTRY` (now v3). `resolve_products` takes product_ids from any products file and the fields from the active registry. It attaches `query_version`, the oldest version with the same `youtube_query`. Raw file names get `_q<version>` for versions after v1, and extract keys include `query_version`.
 - `src/title_match.py`: classifies a video title as on-target, sibling or off-topic for a `trends_query`. The pilot report's on-target share and the recent pass's `videos_7d_on_target` both use it.
 - `src/config.py`: single source of settings. `Paths` derives every file location from one root, so tests use `Paths.from_root(tmp_path)`; functions take a `paths` argument rather than reading module globals. It also holds the YouTube settings, the quota constants (with the doc URLs where they were verified) and the Trends window.
 - `src/common.py`: the collection-log writer (writes the header if the file is empty; append-only), `redact()` for API keys, and `append_rows_dedup()` for flat extracts.
@@ -55,19 +60,27 @@ Scripts are run from the repo root as `python3 src/<script>.py`. Modules import 
   - Tests fake the googleapiclient service (`FakeService` in `tests/test_collect_youtube.py`), so no network is used.
 - `src/load_trends.py`: validates all exports first (file name, search term = `trends_query`, daily granularity, identical date range across products' latest exports). It writes `data/trends_long.csv` only if everything passes; otherwise it logs and exits 1.
 - `src/pilot_report.py`: read-only; must not crash when inputs are missing. It reports on each product's active query version and compares query versions.
-- `src/clean_youtube.py`: writes only to `data/processed/` and `docs/cleaning_summary_youtube.md`, and is idempotent. Key duplicates keep the first row seen. Missing counts are never 0, outliers are never removed, and comments are flagged rather than dropped. Each step's numbers go to `data/processed/cleaning_report_youtube.csv`.
+- `src/clean_youtube.py`: writes only to `data/processed/` and `docs/cleaning_summary_youtube.md`, and is idempotent.
+  - It keeps only rows whose `query_version` is the product's active one (step `select_active_query`).
+  - Key duplicates keep the first row seen. Missing counts are never 0, outliers are never removed, and comments are flagged rather than dropped.
+  - It adds the on-target metrics (`*_on_target*`, `on_target_share`, `low_on_target_share` < `config.ON_TARGET_MIN_SHARE`) next to the all-video totals.
+  - Each step's numbers go to `data/processed/cleaning_report_youtube.csv`.
+- `src/check_query_versions.py`: read-only on `raw/`. It writes `data/youtube/raw_file_index.csv` and exits 1 on any mismatch. Untagged raw files are v1 by convention.
+- `src/clean_trends.py`: keeps each product's latest export, deduplicates on `(product_id, date)`, and reports gaps without filling them.
+- `src/build_aligned.py`: a left join on the Trends daily index, with observed flags and no forward fill.
+- Both Trends-side scripts exit 0 and write nothing when their input is missing.
 
 ## Data conventions
 
 - `raw/` holds untouched originals, append-only. Never edit, overwrite or delete them; existing raw files are reused as a cache (`skipped_cached`). Raw files are written with mode `"x"`.
-- `data/` holds every CSV the project generates. Never delete rows from `data/collection_log.csv`. Do not edit `data/products.csv` or the frozen `products_v1_*.csv`; if the registry changes, save a new dated version.
+- `data/` holds every CSV the project generates. Never delete rows from `data/collection_log.csv`. Do not edit any registry version (`products.csv`, `products_v2.csv`, `products_v3.csv`) or the frozen `products_v1_*.csv`. If the registry changes, add a new version file.
 - **The GitHub repo is public.** `raw/youtube/*.json`, `data/youtube/{videos,comments}_snapshot.csv`, their cleaned copies in `data/processed/` and `backups/` are git-ignored because they contain YouTube content and commenter identifiers. Do not commit them, or un-ignore them, unless the user decides to.
 - **Google Trends (team decision 2026-10-03):** India, a custom range of exactly 269 days (daily data; longer ranges switch to weekly), the same start and end dates for every product, one term per export. Files are named `raw/trends/<product_id>_<YYYY-MM-DD>.csv`, where the date is the download date. `<1` is stored as 0.5 with `is_below_threshold=true`.
 - **YouTube quota (verified 2026-10-03 at developers.google.com/youtube/v3/determine_quota_cost):** each list call costs 1 unit. There are 10,000 units/day plus a separate cap of 100 search.list calls/day, resetting at midnight Pacific Time. The defaults budget 9,000 units and 90 search calls. The pilot measured 7 units and 1 search call per product.
-- Registry columns, in order: `product_id, product_name, brand, category, trends_query, youtube_query, launch_period, product_type, notes`. `youtube_query` is always `<trends_query> review`; the validator enforces this. Redmi/Poco and iQOO are listed as their own brands.
+- Registry columns, in order: `product_id, product_name, brand, category, trends_query, youtube_query, launch_period, product_type, notes`. `youtube_query` is `<trends_query> review`, optionally followed by `-term` exclusions; the validator enforces this, and between versions only `youtube_query` may change. Redmi/Poco and iQOO are listed as their own brands.
 - Base-model queries also match sibling models: Trends broad-matches them, and YouTube search returns sibling videos. `pilot_report.py` flags products whose video titles mostly name a sibling.
-- Registry v2 narrowed the P044 and P057 YouTube queries with `-term` exclusions; it did not clearly help (see `docs/registry_changelog.md`). Never edit an earlier registry version or the frozen copy: add a new version file, register it in `config.REGISTRY_FILES`, and log it in the changelog.
-- `video_result_count` is capped at 50 and is not a signal. Use the recent pass (`videos_published_7d`, `videos_7d_on_target`, `cap_hit`). Every YouTube field is defined in `data/data_dictionary.csv`.
+- Registry v2 narrowed the P044 and P057 YouTube queries with `-term` exclusions. It did not clearly help: P044 fell from 56% to 44% on-target, and P057 rose from 58% to 64%. v3 therefore reverted P044 and kept P057; see `docs/registry_changelog.md`. Never edit an earlier registry version or the frozen copy: add a new version file, register it in `config.REGISTRY_FILES`, and log it in the changelog.
+- `video_result_count` is capped at 50 and is not a signal. **Modelling should use the on-target columns** (`views_on_target_total`, `comments_on_target_total`, `videos_7d_on_target`), not the all-video totals. P044 is flagged `low_on_target_share` (56%). Every field is defined in `data/data_dictionary.csv`.
 - Quota per product: main pass 7 units + 1 search call, recent pass 1 + 1. Both passes daily for 60 products would need 120 search calls/day, over the 90 budget; `--plan` shows the options.
 
 ## Rules for working in this repo

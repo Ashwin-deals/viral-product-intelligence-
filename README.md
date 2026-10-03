@@ -19,9 +19,14 @@ All CSV files live in `data/`.
 | `data/youtube/product_daily.csv` | Per product per day: number of videos found, total views, total comments. |
 | `data/youtube/quota_usage.csv` | YouTube API quota used per request, bucketed by Pacific date (the API's quota day). |
 | `data/trends_long.csv` | Google Trends interest over time (daily) in long format, rebuilt from `raw/trends/` by `src/load_trends.py`. |
-| `data/products_v2.csv` | Registry v2, the **active** registry: v1 with narrowed `youtube_query` for P044 and P057. Changes and results are in [docs/registry_changelog.md](docs/registry_changelog.md). |
+| `data/products_v2.csv` | Registry v2: v1 with narrowed `youtube_query` for P044 and P057. Superseded; kept unchanged. |
+| `data/products_v3.csv` | Registry v3, the **active** registry: v2 with P044 back on its v1 query. The changes and measurements behind them are in [docs/registry_changelog.md](docs/registry_changelog.md). |
 | `data/youtube/recent_window_daily.csv` | Recent-window pass: uploads in the last 7 days per product and day (`videos_published_7d`, title-matched `videos_7d_on_target`, `cap_hit`). |
-| `data/processed/youtube_product_daily_clean.csv` | Cleaned `product_daily.csv` (`src/clean_youtube.py`). The cleaned video and comment tables sit next to it but are git-ignored. |
+| `data/youtube/raw_file_index.csv` | One row per raw YouTube file, with its query version and whether its query matches the registry (`src/check_query_versions.py`). |
+| `data/processed/youtube_product_daily_clean.csv` | Cleaned `product_daily.csv`, active query versions only, with exact-model metrics (`videos_on_target`, `views_on_target_total`, `comments_on_target_total`, `on_target_share`, `low_on_target_share`) next to the all-video totals. The cleaned video and comment tables sit next to it but are git-ignored. |
+| `data/processed/youtube_recent_window_clean.csv` | Cleaned recent-window pass. |
+| `data/processed/trends_clean.csv`, `cleaning_report_trends.csv` | Cleaned Google Trends (latest export per product) and its evidence report (`src/clean_trends.py`). Created once exports exist. |
+| `data/processed/aligned_daily.csv`, `alignment_report.csv` | Trends daily index joined with same-day YouTube data and registry fields, with observed flags and no forward fill (`src/build_aligned.py`). Created once Trends exists. |
 | `data/processed/cleaning_report_youtube.csv` | Before/after evidence for the YouTube cleaning: rows per step, duplicates, missing values, drops with reasons. Summary: [docs/cleaning_summary_youtube.md](docs/cleaning_summary_youtube.md). |
 | `data/trends_export_checklist.csv` | One row per product to export from Google Trends: expected file name, pilot flag, and `done`/`notes` columns to fill in. Made by `src/make_trends_checklist.py`. |
 
@@ -77,6 +82,7 @@ python3 src/collect_youtube.py --only P044,P057
 python3 src/collect_youtube.py --plan       # quota needed for weekly/daily schedules, no API calls
 python3 src/collect_youtube.py --migrate    # update local extracts to the current schema, no API calls
 python3 src/pilot_report.py                 # go/no-go report: coverage, joins, quota, warnings
+python3 src/check_query_versions.py         # every raw file and table row tied to its query version
 python3 src/clean_youtube.py                # clean the YouTube tables into data/processed/
 ```
 
@@ -87,13 +93,14 @@ How a run works:
 - Quota use is stored in `data/youtube/quota_usage.csv`. A run stops cleanly before it would exceed either budget.
 - If a raw file for the same product and date already exists, it is reused instead of re-fetched, and the product is logged as `skipped_cached`. Running again on the same day therefore costs nothing.
 - `--all` orders products as never-collected first, then stalest, then already collected today. When a budget cap is hit, the run stops with `aborted_budget`, and the next run continues with the remaining products. Measured cost is 7 units and 1 search call per product: all 60 products take 420 units and 60 search calls per snapshot, so daily snapshots fit. To run it on a schedule, see [docs/scheduling.md](docs/scheduling.md); nothing is scheduled by the repo.
-- **Registry versions:** the collector reads the registry named by `ACTIVE_REGISTRY` in `src/config.py` (now `v2`). A `--products` file only selects product_ids; all other fields come from the active registry. Each product's `query_version` is the oldest registry version with the same `youtube_query`. Raw files for query versions after v1 get a `_qvN` tag (`P044_2026-10-03_qv2_search.json`), and extract rows carry `query_version`, so re-collections never collide.
+- **Registry versions:** the collector reads the registry named by `ACTIVE_REGISTRY` in `src/config.py` (now `v3`). A `--products` file only selects product_ids; all other fields come from the active registry. Each product's `query_version` is the oldest registry version with the same `youtube_query`. Raw files for query versions after v1 get a `_qvN` tag (`P044_2026-10-03_qv2_search.json`), and extract rows carry `query_version`, so re-collections never collide.
 - **`video_result_count` is a capped value, not a signal.** It is the number of videos the main search returned, which is the 50-result cap for every pilot product. `result_cap_hit` records whether the cap was hit. For upload activity, use the recent pass: `videos_published_7d` (cap-aware, with `cap_hit`) and the title-matched `videos_7d_on_target`. Every field is defined in `data/data_dictionary.csv`.
 - **Quota per product:** main pass 7 units + 1 search call; recent pass 1 unit + 1 search call. Run `--plan` for the schedules. Both passes daily for 60 products needs 120 search calls/day, which **exceeds the 90-call budget** (at most 45 products/day). Main weekly plus recent daily works if the main pass is spread over 2 days.
 - Pilot status (snapshot 2026-10-03):
   - The main pass collected all 10 pilot products (500 videos, 4,697 comments, 70 units).
   - P044 and P057 were re-collected with the v2 queries (14 units).
-  - The recent pass ran for 7 of the 10 pilot products (7 units); P018, P044 and P057 were skipped to stay under that day's search-call limit.
+  - The recent pass ran for all 10 pilot products (10 units): 7 in one run, then P018, P044 and P057 later the same day.
+  - Registry v3 (active) reverted P044 to its v1 query without re-collecting it. P044's active data is therefore its v1 collection; P057 stays on v2.
 
 ### Google Trends
 
@@ -110,15 +117,26 @@ The loader fails with a clear message, and writes nothing, if a file is badly na
 
 `<1` values are stored as `search_interest = 0.5` with `is_below_threshold = true`.
 
-### Cleaning
+### Cleaning and alignment
 
-`python3 src/clean_youtube.py` reads `data/youtube/` and writes cleaned tables plus `cleaning_report_youtube.csv` to `data/processed/`, without touching its inputs. Re-running it gives identical files. The rules are in [docs/cleaning_summary_youtube.md](docs/cleaning_summary_youtube.md):
-- timestamps in ISO 8601 UTC;
-- duplicates removed on exact match and on key, keeping the first row seen;
-- missing values kept apart from zero;
-- comment text cleaned, with emoji-only and non-Latin-script comments flagged, not dropped;
-- outliers never removed.
+```
+python3 src/clean_youtube.py     # data/youtube -> data/processed (+ cleaning_report_youtube.csv)
+python3 src/clean_trends.py      # data/trends_long.csv -> data/processed/trends_clean.csv (+ report)
+python3 src/build_aligned.py     # Trends daily index + same-day YouTube -> aligned_daily.csv (+ report)
+```
 
-Google Trends cleaning is a marked TODO stub (`src/clean_trends.py`) until the exports are downloaded.
+All three read their inputs without changing them, and re-running gives identical files.
+- **YouTube cleaning** (rules in [docs/cleaning_summary_youtube.md](docs/cleaning_summary_youtube.md)):
+  - Only rows from each product's **active query version** are kept, and the report lists the excluded ones.
+  - Timestamps are standardized to ISO 8601 UTC.
+  - Duplicates are removed on exact match and on key, keeping the first row seen.
+  - Missing values are kept apart from zero.
+  - Comment text is cleaned. Emoji-only and non-Latin-script comments are flagged, not dropped.
+  - Outliers are never removed.
+  - **Exact-model metrics** are added next to the all-video totals. Use the `*_on_target` columns for modelling, and treat products with `low_on_target_share` (below 60%) with care.
+- **Trends cleaning** keeps each product's latest export. It removes exact and `(product_id, date)` duplicates, keeps the `<1` rule (0.5 with `is_below_threshold`), keeps zero apart from missing, and reports gaps in the daily index without filling them. With no exports yet, it exits cleanly and writes nothing.
+- **Alignment** is a left join on the Trends daily index. It adds `trends_observed`, `youtube_observed` and `youtube_recent_observed`, with no forward fill and no features or labels. Without Trends data it exits cleanly.
+
+Handoff for teammates: [docs/handoff_task1.md](docs/handoff_task1.md).
 
 Note: cleaned outputs go to `data/processed/`. The top-level `processed/` folder is an unused placeholder.

@@ -22,7 +22,7 @@ There are two passes:
 - **Result:** every product gets a daily recent count and a weekly main snapshot.
 
 Each job:
-- It collects every product in the active registry (`ACTIVE_REGISTRY` in `src/config.py`). Products never collected come first, then the stalest; products already collected today go last.
+- It collects every product in the active registry (`ACTIVE_REGISTRY` in `src/config.py`, currently v3), using each product's active `youtube_query`. A future registry version takes effect on the next run without any schedule change. Products never collected come first, then the stalest; products already collected today go last.
 - Before each product it checks both the unit budget (default 9,000 of the API's 10,000 units/day) and the `search.list` call budget (default 90 of the API's 100 calls/day). It stops cleanly if the next product would not fit, and logs `aborted_budget`. The next run continues with the products that were not collected.
 - Running it twice on the same day costs no quota. Products with raw files for today are served from the cache and logged `skipped_cached`.
 - The pilot measured about 6 seconds per product for the main pass and under 1 second for the recent pass. The search-call cap (90/day), not the unit budget, is the binding limit.
@@ -180,7 +180,9 @@ CRON_TZ=Asia/Kolkata
 
 - The log file and `data/collection_log.csv` show one row per product (`success`, `skipped_cached`, `aborted_budget`, `failed`, ...).
 - `python3 src/pilot_report.py` summarizes the pilot products, joins and quota.
-- `python3 src/clean_youtube.py` refreshes the cleaned tables in `data/processed/`.
+- `python3 src/check_query_versions.py` confirms every new raw file and row matches its registry query.
+- `python3 src/clean_youtube.py` refreshes the cleaned tables in `data/processed/`, keeping active query versions and adding the on-target metrics.
+- Once Trends exports exist: `python3 src/clean_trends.py` and `python3 src/build_aligned.py` rebuild the aligned table. Only snapshot dates inside the Trends window align, so plan Trends re-exports with that in mind (`docs/handoff_task1.md`).
 - `python3 src/backup_local_data.py` archives the local-only data into `backups/`.
 - The job does not commit or push anything. Data stays on the collecting machine until someone commits the shareable files (see README, "What is committed").
 - If you see `quota_exceeded`, or `failed` with a key error, the job stops on its own. Fix the cause before the next scheduled run; do not loop retries.
