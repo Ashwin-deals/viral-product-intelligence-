@@ -7,7 +7,7 @@ import pytest
 from googleapiclient.errors import HttpError
 
 import collect_youtube as cy
-from common import append_rows_dedup, redact
+from common import append_rows, append_rows_dedup, redact
 from conftest import read_csv
 
 SNAPSHOT = "2026-10-03"
@@ -280,3 +280,52 @@ def test_redact_removes_key(monkeypatch):
     cleaned = redact(text)
     assert FAKE_KEY not in cleaned and "secret-value-123" not in cleaned
     assert "q=x" in cleaned
+
+
+# --- full runs (--all) ----------------------------------------------------------------
+
+def test_resume_order_puts_uncollected_and_stalest_first(paths, products):
+    p3 = dict(products[0], product_id="P003", youtube_query="p3 review")
+    append_rows(paths.product_daily_csv, cy.PRODUCT_DAILY_HEADER, [
+        {"snapshot_date": "2026-09-20", "product_id": "P001", "video_result_count": 1,
+         "video_views_total": 1, "video_comments_total": 1},
+        {"snapshot_date": "2026-09-27", "product_id": "P003", "video_result_count": 1,
+         "video_views_total": 1, "video_comments_total": 1},
+    ])
+    ordered = cy.resume_order([products[0], products[1], p3], paths, SNAPSHOT)
+    assert [p["product_id"] for p in ordered] == ["P002", "P001", "P003"]
+
+
+def test_all_run_stops_at_search_cap_and_resumes_next_run(paths, products):
+    first = make_collector(paths, FakeService(), search_budget=1)
+    counts = cy.run_collection(first, cy.resume_order(products, paths, SNAPSHOT), paths)
+    assert counts == {"success": 1, "aborted_budget": 1}
+
+    # next run (budget raised, or the next quota day): the uncollected product goes first,
+    # the finished one is served from cache at no cost
+    service = FakeService()
+    second = make_collector(paths, service, search_budget=2)
+    order = cy.resume_order(products, paths, SNAPSHOT)
+    assert [p["product_id"] for p in order] == ["P002", "P001"]
+    counts = cy.run_collection(second, order, paths)
+    assert counts == {"success": 1, "skipped_cached": 1}
+    assert calls_by_method(service).count("search") == 1
+    log = read_csv(paths.collection_log_csv)
+    assert [(r["product_id"], r["status"]) for r in log] == [
+        ("P001", "success"), ("P002", "aborted_budget"), ("P002", "success"), ("P001", "skipped_cached")]
+
+
+def test_cli_all_dry_run_uses_full_registry_without_api(paths, capsys, monkeypatch):
+    monkeypatch.delenv("YOUTUBE_API_KEY", raising=False)
+    assert cy.main(["--all", "--dry-run"], paths=paths) == 0
+    out = capsys.readouterr().out
+    assert "P001" in out and "P002" in out and "Products that fit in today's remaining budget: 2 of 2" in out
+
+
+def test_cli_rejects_budgets_above_api_limits(paths):
+    with pytest.raises(SystemExit):
+        cy.parse_args(["--search-call-budget", "101"])
+    with pytest.raises(SystemExit):
+        cy.parse_args(["--daily-budget", "10001"])
+    with pytest.raises(SystemExit):
+        cy.parse_args(["--all", "--products", "x.csv"])

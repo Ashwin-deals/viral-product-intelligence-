@@ -9,6 +9,7 @@ Usage (from the repo root):
     python src/collect_youtube.py --dry-run       # plan + quota estimate, no API calls
     python src/collect_youtube.py --smoke-test    # one search to check the key, writes only a log row
     python src/collect_youtube.py                 # collect data/pilot_products.csv
+    python src/collect_youtube.py --all           # every product in data/products.csv, resumable
 """
 
 import argparse
@@ -489,13 +490,15 @@ def print_quota_summary(tracker):
 
 def dry_run(products, paths, snapshot_date, tracker, args):
     print(f"DRY RUN for snapshot {snapshot_date}: no API calls, nothing written.\n")
-    total_units = total_search = 0
+    total_units = total_search = fitting = 0
     for p in products:
         cached = cached_steps(paths, p["product_id"], snapshot_date)
         units, search_calls = estimate_product_cost(
             args.max_videos, args.comment_videos, args.comments_per_video, cached)
         total_units += units
         total_search += search_calls
+        if tracker.can_afford(total_units, total_search):
+            fitting += 1
         note = f"cached: {','.join(sorted(cached))}" if cached else ""
         print(f"  {p['product_id']}  q={p['youtube_query']!r:<36} units<={units:<4} search_calls<={search_calls} {note}")
     print(
@@ -507,6 +510,7 @@ def dry_run(products, paths, snapshot_date, tracker, args):
         f"{tracker.used_search_calls} search.list calls."
         f"\nBudget: {tracker.unit_budget} units, {tracker.search_call_budget} search.list calls -> "
         f"{'fits' if tracker.can_afford(total_units, total_search) else 'DOES NOT FIT; run would stop early'}."
+        f"\nProducts that fit in today's remaining budget: {fitting} of {len(products)}."
     )
 
 
@@ -529,9 +533,32 @@ def smoke_test(product, paths, tracker, api_key):
     return 0
 
 
+def resume_order(products, paths, snapshot_date):
+    """Order for --all runs: products never collected first, then the stalest snapshot first
+    (ties by product_id). Products already collected for snapshot_date go last; their raw
+    files are cached, so they cost no quota. A run that stops on a budget cap therefore
+    continues with the uncollected products next time."""
+    last = {}
+    if paths.product_daily_csv.exists() and paths.product_daily_csv.stat().st_size > 0:
+        with open(paths.product_daily_csv, newline="", encoding="utf-8") as f:
+            for row in csv.DictReader(f):
+                last[row["product_id"]] = max(last.get(row["product_id"], ""), row["snapshot_date"])
+
+    def key(product):
+        pid = product["product_id"]
+        done_today = cached_steps(paths, pid, snapshot_date) == {"search", "videos", "comments"}
+        return (done_today, last.get(pid, ""), pid)
+
+    return sorted(products, key=key)
+
+
 def parse_args(argv=None):
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument("--products", type=Path, default=config.PATHS.pilot_products_csv)
+    target = parser.add_mutually_exclusive_group()
+    target.add_argument("--products", type=Path, help="products CSV (default: data/pilot_products.csv)")
+    target.add_argument("--all", action="store_true",
+                        help="every product in data/products.csv, stalest first; stops cleanly at a budget "
+                             "cap and continues where it stopped on the next run")
     parser.add_argument("--max-videos", type=int, default=config.YOUTUBE_MAX_VIDEOS)
     parser.add_argument("--comment-videos", type=int, default=config.YOUTUBE_COMMENT_VIDEOS)
     parser.add_argument("--comments-per-video", type=int, default=config.YOUTUBE_COMMENTS_PER_VIDEO)
@@ -546,15 +573,23 @@ def parse_args(argv=None):
     for name in ("max_videos", "comment_videos", "comments_per_video", "daily_budget", "search_call_budget"):
         if getattr(args, name) < 0:
             parser.error(f"--{name.replace('_', '-')} must be >= 0")
+    if args.daily_budget > config.DEFAULT_DAILY_QUOTA_UNITS:
+        parser.error(f"--daily-budget cannot exceed the API's {config.DEFAULT_DAILY_QUOTA_UNITS} units/day")
+    if args.search_call_budget > config.SEARCH_LIST_DAILY_CALL_LIMIT:
+        parser.error(f"--search-call-budget cannot exceed the API's "
+                     f"{config.SEARCH_LIST_DAILY_CALL_LIMIT} search.list calls/day")
     return args
 
 
 def main(argv=None, paths=config.PATHS):
     args = parse_args(argv)
-    products = read_products(args.products)
+    products_csv = paths.products_csv if args.all else (args.products or paths.pilot_products_csv)
+    products = read_products(products_csv)
     if not products:
-        raise SystemExit(f"no products in {args.products}")
+        raise SystemExit(f"no products in {products_csv}")
     snapshot_date = today_in(config.SNAPSHOT_TIMEZONE)
+    if args.all:
+        products = resume_order(products, paths, snapshot_date)
     tracker = QuotaTracker(
         paths.quota_usage_csv, today_in(config.QUOTA_TIMEZONE), args.daily_budget,
         args.search_call_budget, now_utc_iso(),
