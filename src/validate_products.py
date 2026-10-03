@@ -1,7 +1,7 @@
 """Validate data/products.csv, the product registry.
 
 Usage (from the repo root):
-    python src/validate_products.py [path/to/products.csv]
+    python src/validate_products.py [path/to/products.csv]   # e.g. data/products_v2.csv
 
 Prints a PASS/FAIL line for each check, with the CSV line numbers of any
 problems (line 1 is the header), and exits with status 1 if any check fails.
@@ -29,6 +29,7 @@ REQUIRED_COLUMNS = [
 PRODUCT_TYPES = {"RISING", "STABLE", "DECLINING"}
 LAUNCH_PERIOD_PATTERN = re.compile(r"^(\d{4}-(0[1-9]|1[0-2])|established|unverified)$")
 YOUTUBE_SUFFIX = " review"
+EXCLUSIONS_PATTERN = re.compile(r"( -[a-z0-9]+)+")
 
 
 def load(path):
@@ -100,8 +101,14 @@ def check_queries(records):
                 seen[key] = line
     for line, rec in records:
         expected = rec["trends_query"] + YOUTUBE_SUFFIX
-        if rec["trends_query"] and rec["youtube_query"] != expected:
-            problems.append(f"line {line}: youtube_query {rec['youtube_query']!r}, expected {expected!r}")
+        query = rec["youtube_query"]
+        if not rec["trends_query"] or query == expected:
+            continue
+        # Registry v2+ may narrow a query with YouTube's NOT operator: "<base> -term -term ..."
+        exclusions = query[len(expected):] if query.startswith(expected + " ") else None
+        if exclusions is None or not EXCLUSIONS_PATTERN.fullmatch(exclusions):
+            problems.append(f"line {line}: youtube_query {query!r}, expected {expected!r} "
+                            "optionally followed by exclusions like ' -pro -max'")
     return problems
 
 

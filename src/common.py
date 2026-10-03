@@ -61,6 +61,29 @@ def append_rows_dedup(path, header, rows, key_fields):
     return len(new_rows)
 
 
+def ensure_schema(path, header, fill):
+    """Rewrite a generated CSV whose header differs from `header`, adding the missing columns.
+    fill(row) returns values for the missing columns. Returns True if the file was rewritten.
+    Only for tables in data/; raw/ originals are never rewritten."""
+    if not path.exists() or path.stat().st_size == 0:
+        return False
+    with open(path, newline="", encoding="utf-8") as f:
+        reader = csv.DictReader(f)
+        if reader.fieldnames == header:
+            return False
+        unknown = set(reader.fieldnames) - set(header)
+        if unknown:
+            raise ValueError(f"{path.name} has unexpected columns {sorted(unknown)}")
+        rows = [{**row, **{k: v for k, v in fill(row).items() if k not in row}} for row in reader]
+    tmp = path.with_suffix(path.suffix + ".tmp")
+    with open(tmp, "w", newline="", encoding="utf-8") as f:
+        writer = csv.DictWriter(f, fieldnames=header)
+        writer.writeheader()
+        writer.writerows({k: row.get(k, "") for k in header} for row in rows)
+    tmp.replace(path)
+    return True
+
+
 def log_collection(paths, source, product_id, records_collected, status, error_message="", quota_units=0):
     """Append one row to data/collection_log.csv. Never rewrites existing rows."""
     append_rows(

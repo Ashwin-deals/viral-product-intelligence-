@@ -8,7 +8,7 @@ from googleapiclient.errors import HttpError
 
 import collect_youtube as cy
 from common import append_rows, append_rows_dedup, redact
-from conftest import read_csv
+from conftest import read_csv, write_products
 
 SNAPSHOT = "2026-10-03"
 QUOTA_DATE = "2026-10-02"
@@ -22,7 +22,8 @@ def http_error(status, reason):
 
 def search_ok(params):
     n = params["maxResults"]
-    return {"items": [{"id": {"kind": "youtube#video", "videoId": f"v{i}"}} for i in range(1, n + 1)]}
+    return {"items": [{"id": {"kind": "youtube#video", "videoId": f"v{i}"}} for i in range(1, n + 1)],
+            "pageInfo": {"totalResults": 1000, "resultsPerPage": n}, "nextPageToken": "next"}
 
 
 def videos_ok(params):
@@ -228,8 +229,9 @@ def test_extracts_written_and_deduplicated(paths, products):
     assert len(videos) == 3 and len(comments) == 4 and len(daily) == 1
     assert {c["video_id"] for c in comments} == {"v3", "v2"}  # top 2 by view count
     assert comments[0]["text"] == "comment 1, with a comma\nand a newline"
-    assert daily[0] == {"snapshot_date": SNAPSHOT, "product_id": "P001", "video_result_count": "3",
-                        "video_views_total": "600", "video_comments_total": "6"}
+    assert daily[0] == {"snapshot_date": SNAPSHOT, "product_id": "P001", "query_version": "v1",
+                        "video_result_count": "3", "video_views_total": "600", "video_comments_total": "6",
+                        "search_total_results_approx": "1000", "result_cap_hit": "true"}
 
 
 def test_same_video_kept_for_each_product(paths, products):
@@ -329,3 +331,146 @@ def test_cli_rejects_budgets_above_api_limits(paths):
         cy.parse_args(["--daily-budget", "10001"])
     with pytest.raises(SystemExit):
         cy.parse_args(["--all", "--products", "x.csv"])
+
+
+# --- query versions -------------------------------------------------------------------
+
+def use_v2_query(paths, products, pid="P002", query="pixel 11 review -pro"):
+    v2 = [dict(p, youtube_query=query) if p["product_id"] == pid else p for p in products]
+    write_products(paths.registry_csv("v2"), v2)
+
+
+def test_resolve_products_takes_active_registry_fields_and_query_version(paths, products, monkeypatch):
+    monkeypatch.setattr(cy.config, "ACTIVE_REGISTRY", "v2")
+    use_v2_query(paths, products)
+    resolved = cy.resolve_products([{"product_id": "P001"}, {"product_id": "P002"}], paths)
+    assert [(p["product_id"], p["query_version"], p["youtube_query"]) for p in resolved] == [
+        ("P001", "v1", "iphone 18 pro review"), ("P002", "v2", "pixel 11 review -pro")]
+    with pytest.raises(SystemExit):
+        cy.resolve_products([{"product_id": "P999"}], paths)
+
+
+def test_new_query_version_gets_own_raw_files_and_rows(paths, products, monkeypatch):
+    monkeypatch.setattr(cy.config, "ACTIVE_REGISTRY", "v2")
+    v1_product = cy.resolve_products([{"product_id": "P002"}], paths)[0]
+    make_collector(paths, FakeService()).collect_product(v1_product)
+    use_v2_query(paths, products)
+    v2_product = cy.resolve_products([{"product_id": "P002"}], paths)[0]
+
+    service = FakeService()
+    status, _, _ = make_collector(paths, service).collect_product(v2_product)
+
+    assert status == "success" and service.calls[0][1]["q"] == "pixel 11 review -pro"  # not served from v1 cache
+    names = sorted(p.name for p in paths.raw_youtube_dir.iterdir())
+    assert f"P002_{SNAPSHOT}_search.json" in names and f"P002_{SNAPSHOT}_qv2_search.json" in names
+    daily = read_csv(paths.product_daily_csv)
+    assert [(r["product_id"], r["query_version"]) for r in daily] == [("P002", "v1"), ("P002", "v2")]
+    videos = read_csv(paths.videos_snapshot_csv)
+    assert sum(r["query_version"] == "v2" for r in videos) == 3  # same video ids kept per version
+
+
+def test_only_flag_filters_products(paths, capsys):
+    cy.main(["--all", "--only", "p002", "--dry-run"], paths=paths)
+    out = capsys.readouterr().out
+    assert "P002" in out and "P001" not in out
+    with pytest.raises(SystemExit):
+        cy.main(["--all", "--only", "P999", "--dry-run"], paths=paths)
+
+
+# --- recent-window pass ------------------------------------------------------------------
+
+def test_recent_pass_counts_uploads_and_caches(paths, products):
+    service = FakeService()
+    collector = make_collector(paths, service)
+
+    status, count, message = collector.collect_recent(products[0])
+
+    assert (status, count) == ("success", 50) and "cap hit" in message
+    name, params = service.calls[0]
+    assert name == "search" and params["order"] == "date" and params["maxResults"] == 50
+    assert params["publishedAfter"].endswith("Z")
+    assert collector.tracker.run_units == 1 and collector.tracker.run_search_calls == 1
+    assert (paths.raw_youtube_dir / f"P001_{SNAPSHOT}_recent7d.json").exists()
+    row = read_csv(paths.recent_window_csv)[0]
+    assert (row["videos_published_7d"], row["cap_hit"], row["window_days"]) == ("50", "true", "7")
+    assert row["published_after"] == params["publishedAfter"]
+
+    service2 = FakeService()
+    assert make_collector(paths, service2).collect_recent(products[0])[0] == "skipped_cached"
+    assert service2.calls == [] and len(read_csv(paths.recent_window_csv)) == 1
+
+
+def test_recent_pass_under_cap_is_not_flagged(paths, products):
+    service = FakeService(search=lambda params: {"items": [{"id": {"videoId": "a"}}, {"id": {"videoId": "b"}}],
+                                                 "pageInfo": {"totalResults": 2}})
+    status, count, message = make_collector(paths, service).collect_recent(products[0])
+    assert (status, count, message) == ("success", 2, "")
+    assert read_csv(paths.recent_window_csv)[0]["cap_hit"] == "false"
+
+
+def test_both_passes_logged_separately(paths, products):
+    counts = cy.run_collection(make_collector(paths, FakeService()), products[:1], paths, passes=("main", "recent"))
+    assert counts == {"main:success": 1, "recent:success": 1}
+    log = read_csv(paths.collection_log_csv)
+    assert [(r["source"], r["status"], r["quota_units"]) for r in log] == [
+        ("youtube", "success", "4"), ("youtube_recent", "success", "1")]
+
+
+def test_recent_pass_respects_search_cap(paths, products):
+    counts = cy.run_collection(make_collector(paths, FakeService(), search_budget=1), products,
+                               paths, passes=("recent",))
+    assert counts == {"success": 1, "aborted_budget": 1}
+
+
+def test_plan_scenarios_for_sixty_products():
+    text = "\n".join(cy.plan_scenarios(60, (7, 1), (1, 1), 9000, 90))
+    assert "A. Main weekly only: 420 units, 60 search calls on the run day (fits)" in text
+    assert "B. Recent daily only: 60 units, 60 search calls/day (fits)" in text
+    assert "On the day both run: 480 units, 120 search calls (EXCEEDS the daily budget)" in text
+    assert "spread the main pass over 2 days (at most 30 products/day" in text
+    assert "at most 45 products/day can get both passes" in text
+
+
+def test_cli_plan_prints_without_api(paths, capsys, monkeypatch):
+    monkeypatch.delenv("YOUTUBE_API_KEY", raising=False)
+    assert cy.main(["--plan"], paths=paths) == 0
+    assert "Quota plan for 2 products" in capsys.readouterr().out
+
+
+# --- schema migration ---------------------------------------------------------------------
+
+def test_migrate_extracts_adds_query_version_and_search_fields(paths, products):
+    make_collector(paths, FakeService()).collect_product(products[0])
+    # rewrite the extracts in the pre-query-version schema
+    old_headers = {
+        paths.videos_snapshot_csv: [h for h in cy.VIDEOS_HEADER if h != "query_version"],
+        paths.comments_snapshot_csv: [h for h in cy.COMMENTS_HEADER if h != "query_version"],
+        paths.product_daily_csv: cy.PRODUCT_DAILY_HEADER[:2] + cy.PRODUCT_DAILY_HEADER[3:6],
+    }
+    expected = {path: read_csv(path) for path in old_headers}
+    for path, header in old_headers.items():
+        rows = read_csv(path)
+        path.unlink()
+        append_rows(path, header, [{k: r[k] for k in header} for r in rows])
+
+    assert sorted(cy.migrate_extracts(paths)) == ["comments_snapshot.csv", "product_daily.csv",
+                                                   "videos_snapshot.csv"]
+    for path, rows in expected.items():
+        assert read_csv(path) == rows  # identical to what a current-schema run writes
+    assert cy.migrate_extracts(paths) == []  # idempotent
+
+
+def test_recent_on_target_count_and_migration(paths, products):
+    titles = ["iPhone 18 Pro review", "iPhone 18 Pro Max camera test", "Best phones of 2026", "iphone 18 pro &amp; more"]
+    service = FakeService(search=lambda params: {"items": [
+        {"id": {"videoId": f"r{i}"}, "snippet": {"title": t}} for i, t in enumerate(titles)]})
+    make_collector(paths, service).collect_recent(products[0])
+    row = read_csv(paths.recent_window_csv)[0]
+    assert (row["videos_published_7d"], row["videos_7d_on_target"]) == ("4", "2")
+
+    # a file written before the column existed is filled from the raw response
+    old_header = [h for h in cy.RECENT_HEADER if h != "videos_7d_on_target"]
+    paths.recent_window_csv.unlink()
+    append_rows(paths.recent_window_csv, old_header, [{k: row[k] for k in old_header}])
+    assert cy.main(["--migrate"], paths=paths) == 0
+    assert read_csv(paths.recent_window_csv) == [row]

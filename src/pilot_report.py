@@ -12,15 +12,13 @@ import sys
 import pandas as pd
 
 import config
-from collect_youtube import estimate_product_cost
+from collect_youtube import estimate_product_cost, resolve_products
+from title_match import classify_titles  # noqa: F401  (re-exported for tests)
 
 MIN_VIDEOS = 10
 FLAT_SHARE = 0.5  # warn when at least half of a product's Trends days are 0 or "<1"
 ON_TARGET_MIN_SHARE = 0.5  # warn when fewer than half of the video titles name the exact model
 SIBLING_MAX_SHARE = 0.25  # warn when a quarter or more of the titles name a sibling model instead
-# Words that, right after the search phrase, mean a sibling model (e.g. "vivo t5" + "pro").
-VARIANT_WORDS = {"pro", "max", "plus", "ultra", "lite", "fusion", "neo", "fold", "xl", "fe", "mini",
-                 "power", "prime", "edge", "flip", "air", "duo", "c", "e", "r", "s", "x"}
 YOUTUBE_FAILURE_STATUSES = {"failed", "quota_exceeded", "aborted_budget"}
 
 
@@ -46,36 +44,29 @@ def missing_days(dates):
     return int((days.iloc[-1] - days.iloc[0]).days + 1 - days.nunique())
 
 
-def normalize_title(title):
-    title = title.lower().replace("+", " plus ")
-    return re.sub(r"[^a-z0-9]+", " ", title).strip()
+def active_rows(df, active_qv):
+    """Rows collected with each product's active query version (files from before query
+    versions have no query_version column; those rows are v1)."""
+    if df.empty:
+        return df
+    qv = df["query_version"] if "query_version" in df else pd.Series("v1", index=df.index)
+    return df[qv == df["product_id"].map(active_qv).fillna("v1")]
 
 
-def model_phrase(query):
-    """Regex for the model in a title. Queries of 3+ words drop the leading brand/series word
-    ("galaxy z flip 8" -> "z flip 8", "motorola edge 70" -> "edge 70") because titles often omit
-    it, and spaces between words are optional ("flip8", "edge70")."""
-    tokens = normalize_title(query).split()
-    core = tokens[1:] if len(tokens) >= 3 else tokens
-    return r"\s*".join(re.escape(t) for t in core)
-
-
-def classify_titles(query, titles):
-    """Share of titles that name the exact model, a sibling model, or neither."""
-    phrase = model_phrase(query)
-    exact = re.compile(rf"\b{phrase}\b(?!\s+(?:{'|'.join(sorted(VARIANT_WORDS))})\b)")
-    any_mention = re.compile(rf"\b{phrase}\b")
-    counts = {"on_target": 0, "sibling": 0, "off_topic": 0}
-    for title in titles:
-        t = normalize_title(title)
-        if exact.search(t):
-            counts["on_target"] += 1
-        elif any_mention.search(t):
-            counts["sibling"] += 1
-        else:
-            counts["off_topic"] += 1
-    total = max(len(titles), 1)
-    return {k: v / total for k, v in counts.items()}
+def compare_query_versions(videos, pilot):
+    """On-target share per query version, for products collected with more than one query."""
+    if videos.empty or "query_version" not in videos:
+        return []
+    queries = dict(zip(pilot["product_id"], pilot["trends_query"]))
+    rows = []
+    for (pid, qv), group in videos[videos["product_id"].isin(queries)].groupby(["product_id", "query_version"]):
+        if videos[videos["product_id"] == pid]["query_version"].nunique() < 2:
+            continue
+        snap = group["snapshot_date"].max()
+        titles = group[group["snapshot_date"] == snap]["title"].tolist()
+        shares = classify_titles(queries[pid], titles)
+        rows.append({"product_id": pid, "query_version": qv, "snapshot_date": snap, "videos": len(titles), **shares})
+    return rows
 
 
 def duplicate_count(df, keys):
@@ -95,26 +86,33 @@ def build_report(paths=config.PATHS):
     videos = read_csv(paths.videos_snapshot_csv)
     comments = read_csv(paths.comments_snapshot_csv)
     daily = read_csv(paths.product_daily_csv)
+    recent = read_csv(paths.recent_window_csv)
     quota = read_csv(paths.quota_usage_csv)
     log = read_csv(paths.collection_log_csv)
+    active_qv = {p["product_id"]: p["query_version"]
+                 for p in resolve_products(pilot.to_dict("records"), paths)}
 
-    report = {"products": [], "warnings": [], "files": {}}
+    report = {"products": [], "warnings": [], "files": {},
+              "query_versions": compare_query_versions(videos, pilot), "active_query_version": active_qv}
     for name, df, path in [("trends_long", trends, paths.trends_long_csv),
                            ("videos_snapshot", videos, paths.videos_snapshot_csv),
                            ("comments_snapshot", comments, paths.comments_snapshot_csv),
                            ("product_daily", daily, paths.product_daily_csv),
+                           ("recent_window_daily", recent, paths.recent_window_csv),
                            ("quota_usage", quota, paths.quota_usage_csv)]:
         report["files"][name] = "missing" if df.empty and not path.exists() else f"{len(df)} rows"
 
-    latest_snapshot = daily["snapshot_date"].max() if not daily.empty else None
+    videos, comments, daily, recent = (active_rows(df, active_qv) for df in (videos, comments, daily, recent))
     for _, p in pilot.sort_values("product_id").iterrows():
         pid = p["product_id"]
         t = trends_latest[trends_latest["product_id"] == pid] if not trends_latest.empty else trends_latest
-        v = videos[(videos["product_id"] == pid) & (videos["snapshot_date"] == latest_snapshot)] \
-            if not videos.empty else videos
-        c = comments[(comments["product_id"] == pid) & (comments["snapshot_date"] == latest_snapshot)] \
-            if not comments.empty else comments
         d = daily[daily["product_id"] == pid] if not daily.empty else daily
+        snap = d["snapshot_date"].max() if not d.empty else None
+        v = videos[(videos["product_id"] == pid) & (videos["snapshot_date"] == snap)] \
+            if not videos.empty else videos
+        c = comments[(comments["product_id"] == pid) & (comments["snapshot_date"] == snap)] \
+            if not comments.empty else comments
+        r = recent[recent["product_id"] == pid].sort_values("snapshot_date") if not recent.empty else recent
         row = {
             "product_id": pid,
             "product_type": p["product_type"],
@@ -124,6 +122,9 @@ def build_report(paths=config.PATHS):
             "youtube_snapshots": int(d["snapshot_date"].nunique()) if not d.empty else 0,
             "videos": int(v["video_id"].nunique()) if not v.empty else 0,
             "comments": int(c["comment_id"].nunique()) if not c.empty else 0,
+            "query_version": active_qv.get(pid, "v1"),
+            "videos_7d": (r.iloc[-1]["videos_published_7d"] + ("+" if r.iloc[-1]["cap_hit"] == "true" else ""))
+                         if not r.empty else "",
             "on_target_share": None,
             "missing": [],
         }
@@ -259,13 +260,23 @@ def format_report(report):
     lines.append("")
     lines.append("Files: " + ", ".join(f"{k} {s}" for k, s in report["files"].items()))
     lines.append("")
-    lines.append(f"{'product':<8}{'type':<10}{'trends days':<13}{'yt snaps':<10}{'videos':<8}"
-                 f"{'comments':<10}{'on-target':<11}missing")
+    lines.append(f"{'product':<8}{'type':<10}{'query':<6}{'trends days':<13}{'yt snaps':<10}{'videos':<8}"
+                 f"{'comments':<10}{'on-target':<11}{'videos 7d':<11}missing")
     for r in report["products"]:
         share = f"{r['on_target_share']:.0%}" if r["on_target_share"] is not None else "-"
-        lines.append(f"{r['product_id']:<8}{r['product_type']:<10}{r['trends_days']:<13}{r['youtube_snapshots']:<10}"
-                     f"{r['videos']:<8}{r['comments']:<10}{share:<11}{', '.join(r['missing']) or '-'}")
-    lines.append("(on-target = share of video titles naming the exact model rather than a sibling or nothing)")
+        lines.append(f"{r['product_id']:<8}{r['product_type']:<10}{r['query_version']:<6}{r['trends_days']:<13}"
+                     f"{r['youtube_snapshots']:<10}{r['videos']:<8}{r['comments']:<10}{share:<11}"
+                     f"{r['videos_7d'] or '-':<11}{', '.join(r['missing']) or '-'}")
+    lines.append("(query = active youtube_query version; on-target = share of video titles naming the exact model "
+                 "rather than a sibling or nothing; videos 7d = uploads in the last 7 days from the recent pass, "
+                 "'+' = 50-result cap hit)")
+    if report["query_versions"]:
+        lines += ["", "Query versions compared (latest snapshot of each version)"]
+        for q in report["query_versions"]:
+            active = " (active)" if report["active_query_version"].get(q["product_id"]) == q["query_version"] else ""
+            lines.append(f"  {q['product_id']} {q['query_version']}{active}, {q['snapshot_date']}, "
+                         f"{q['videos']} videos: on-target {q['on_target']:.0%}, sibling {q['sibling']:.0%}, "
+                         f"neither {q['off_topic']:.0%}")
 
     j = report["join"]
     lines += ["", "Join check (product_id + date): Trends daily rows vs YouTube product_daily rows",
@@ -292,6 +303,8 @@ def format_report(report):
         f"daily snapshots: {q['per_snapshot_units']:g} units/day ({q['daily_units_per_week']:g}/week)",
         f"  Binding limit: at most {q['max_products_per_day']} products/day "
         f"(search.list call cap {q['budget_search_calls']}/day, unit budget {q['budget_units']}/day)",
+        "  The recent pass adds 1 unit + 1 search.list call per product; "
+        "`python3 src/collect_youtube.py --plan` shows combined schedules.",
     ]
 
     lines += ["", "Warnings"]

@@ -19,12 +19,17 @@ def paths(tmp_path):
     """A throwaway repo layout with a two-product registry and an empty collection log."""
     p = config.Paths.from_root(tmp_path)
     p.data_dir.mkdir()
-    with open(p.products_csv, "w", newline="", encoding="utf-8") as f:
-        writer = csv.DictWriter(f, fieldnames=list(PRODUCTS[0]))
-        writer.writeheader()
-        writer.writerows(PRODUCTS)
+    for version in config.REGISTRY_FILES:  # identical registry versions unless a test changes one
+        write_products(p.registry_csv(version), PRODUCTS)
     p.collection_log_csv.touch()
     return p
+
+
+def write_products(path, rows):
+    with open(path, "w", newline="", encoding="utf-8") as f:
+        writer = csv.DictWriter(f, fieldnames=list(PRODUCTS[0]))
+        writer.writeheader()
+        writer.writerows(rows)
 
 
 @pytest.fixture

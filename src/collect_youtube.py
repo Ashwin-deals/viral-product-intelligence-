@@ -1,15 +1,27 @@
-"""Pilot YouTube collector (YouTube Data API v3).
+"""YouTube collector (YouTube Data API v3).
 
-For each product: search.list -> videos.list -> commentThreads.list (top-N videos by views).
-Original API responses are saved untouched under raw/youtube/ (one file per product, date and
-step, never overwritten; an existing file is reused as a cache). Flat extracts are appended,
-without duplicates, to data/youtube/. Every product attempt is logged to data/collection_log.csv.
+Main pass, per product: search.list -> videos.list -> commentThreads.list (top-N videos by views).
+Recent pass (optional, --pass recent|both): one search.list with order=date and
+publishedAfter=<run time - 7 days>, counting videos uploaded in the last 7 days (cap-aware).
+
+Product fields come from the active registry (config.ACTIVE_REGISTRY); a products CSV passed
+with --products only selects product_ids. Each product carries a query_version: the oldest
+registry version with the same youtube_query. Raw files for query versions other than v1 get
+a "_q<version>" tag, so re-collections with a new query never collide with earlier originals.
+
+Original API responses are saved untouched under raw/youtube/ (one file per product, date,
+query version and step, never overwritten; an existing file is reused as a cache). Flat
+extracts are appended, without duplicates, to data/youtube/. Every attempt is logged to
+data/collection_log.csv.
 
 Usage (from the repo root):
     python src/collect_youtube.py --dry-run       # plan + quota estimate, no API calls
     python src/collect_youtube.py --smoke-test    # one search to check the key, writes only a log row
     python src/collect_youtube.py                 # collect data/pilot_products.csv
-    python src/collect_youtube.py --all           # every product in data/products.csv, resumable
+    python src/collect_youtube.py --all           # every product in the active registry, resumable
+    python src/collect_youtube.py --pass recent   # only the 7-day recent-window pass
+    python src/collect_youtube.py --only P044,P057
+    python src/collect_youtube.py --plan          # quota scenarios for all products, no API calls
 """
 
 import argparse
@@ -19,37 +31,51 @@ import math
 import os
 import sys
 import time
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 import config
 from common import (
     append_rows,
     append_rows_dedup,
+    ensure_schema,
     log_collection,
     now_utc_iso,
     read_products,
     redact,
     today_in,
 )
+from title_match import title_classifier
 
 SOURCE = "youtube"
+SOURCE_RECENT = "youtube_recent"
+PASSES = {"main": ("main",), "recent": ("recent",), "both": ("main", "recent")}
+RECENT_STEP = f"recent{config.YOUTUBE_RECENT_WINDOW_DAYS}d"
 
 VIDEOS_HEADER = [
-    "snapshot_date", "product_id", "video_id", "title", "channel_id",
+    "snapshot_date", "product_id", "query_version", "video_id", "title", "channel_id",
     "published_at", "view_count", "like_count", "comment_count",
 ]
 COMMENTS_HEADER = [
-    "snapshot_date", "product_id", "video_id", "comment_id", "text", "like_count", "published_at",
+    "snapshot_date", "product_id", "query_version", "video_id", "comment_id", "text", "like_count",
+    "published_at",
 ]
 PRODUCT_DAILY_HEADER = [
-    "snapshot_date", "product_id", "video_result_count", "video_views_total", "video_comments_total",
+    "snapshot_date", "product_id", "query_version", "video_result_count", "video_views_total",
+    "video_comments_total", "search_total_results_approx", "result_cap_hit",
+]
+RECENT_HEADER = [
+    "snapshot_date", "product_id", "query_version", "window_days", "published_after",
+    "videos_published_7d", "videos_7d_on_target", "cap_hit", "search_total_results_approx",
 ]
 QUOTA_HEADER = ["date", "units", "search_calls", "method", "run_timestamp"]
 
-# A video id appears once per product per day; the same video can belong to several products.
-VIDEOS_KEY = ("snapshot_date", "product_id", "video_id")
-COMMENTS_KEY = ("snapshot_date", "product_id", "comment_id")
-PRODUCT_DAILY_KEY = ("snapshot_date", "product_id")
+# A video id appears once per product, query version and day; the same video can belong to
+# several products.
+VIDEOS_KEY = ("snapshot_date", "product_id", "query_version", "video_id")
+COMMENTS_KEY = ("snapshot_date", "product_id", "query_version", "comment_id")
+PRODUCT_DAILY_KEY = ("snapshot_date", "product_id", "query_version")
+RECENT_KEY = ("snapshot_date", "product_id", "query_version")
 
 QUOTA_REASONS = {"quotaExceeded", "dailyLimitExceeded", "RATE_LIMIT_EXCEEDED"}
 FATAL_REASONS = {"keyInvalid", "API_KEY_INVALID", "accessNotConfigured", "SERVICE_DISABLED", "keyExpired"}
@@ -233,12 +259,61 @@ def estimate_product_cost(max_videos, comment_videos, comments_per_video, cached
     return units, search_calls
 
 
-def raw_path(paths, product_id, snapshot_date, step):
-    return paths.raw_youtube_dir / f"{product_id}_{snapshot_date}_{step}.json"
+def count_recent(response, trends_query):
+    """(videos returned, videos whose title names the exact model) for a recent-pass response.
+    order=date returns loose matches, so the title-matched count is the cleaner signal."""
+    classify = title_classifier(trends_query)
+    videos = [item for item in response.get("items", []) if item.get("id", {}).get("videoId")]
+    return len(videos), sum(classify(item.get("snippet", {}).get("title", "")) == "on_target" for item in videos)
 
 
-def cached_steps(paths, product_id, snapshot_date):
-    return {s for s in ("search", "videos", "comments") if raw_path(paths, product_id, snapshot_date, s).exists()}
+def recent_cost(cached=False):
+    """(units, search_calls) for the recent-window pass: one search.list page."""
+    return (0, 0) if cached else (config.QUOTA_COST_SEARCH_LIST, 1)
+
+
+def raw_path(paths, product_id, snapshot_date, step, query_version="v1"):
+    tag = "" if query_version == "v1" else f"_q{query_version}"
+    return paths.raw_youtube_dir / f"{product_id}_{snapshot_date}{tag}_{step}.json"
+
+
+def cached_steps(paths, product_id, snapshot_date, query_version="v1"):
+    return {s for s in ("search", "videos", "comments")
+            if raw_path(paths, product_id, snapshot_date, s, query_version).exists()}
+
+
+def load_registries(paths):
+    """{version: {product_id: row}} for every registry version file that exists, oldest first."""
+    return {
+        version: {p["product_id"]: p for p in read_products(paths.registry_csv(version))}
+        for version in config.REGISTRY_FILES
+        if paths.registry_csv(version).exists()
+    }
+
+
+def query_version(product_id, youtube_query, registries):
+    """The oldest registry version whose youtube_query for this product equals youtube_query."""
+    for version, products in registries.items():
+        if product_id in products and products[product_id]["youtube_query"] == youtube_query:
+            return version
+    raise ValueError(f"{product_id}: youtube_query {youtube_query!r} is not in any registry version")
+
+
+def resolve_products(rows, paths):
+    """Take product_ids from rows, fields from the active registry, and attach query_version."""
+    registries = load_registries(paths)
+    if config.ACTIVE_REGISTRY not in registries:
+        raise SystemExit(f"active registry {paths.active_registry_csv} is missing")
+    active = registries[config.ACTIVE_REGISTRY]
+    resolved = []
+    for row in rows:
+        pid = row["product_id"]
+        if pid not in active:
+            raise SystemExit(f"{pid} is not in the active registry {paths.active_registry_csv.name}")
+        product = dict(active[pid])
+        product["query_version"] = query_version(pid, product["youtube_query"], registries)
+        resolved.append(product)
+    return resolved
 
 
 def write_raw(path, document):
@@ -277,13 +352,15 @@ class YouTubeCollector:
             "source": "YouTube Data API v3",
             "method": method,
             "product_id": product["product_id"],
+            "query_version": product.get("query_version", "v1"),
             "snapshot_date": self.snapshot_date,
             "retrieved_at": now_utc_iso(),
             "request_params": params,
         }
 
     def _load_or_fetch(self, product, step, fetch):
-        path = raw_path(self.paths, product["product_id"], self.snapshot_date, step)
+        path = raw_path(self.paths, product["product_id"], self.snapshot_date, step,
+                        product.get("query_version", "v1"))
         if path.exists():
             return read_raw(path), True
         document = fetch(product)
@@ -353,10 +430,48 @@ class YouTubeCollector:
             return dict(self._envelope(product, "commentThreads.list", params), videos=videos)
         return fetch
 
+    def _fetch_recent(self, product):
+        published_after = (datetime.now(timezone.utc) - timedelta(days=config.YOUTUBE_RECENT_WINDOW_DAYS))
+        params = {
+            "part": "snippet",
+            "q": product["youtube_query"],
+            "type": "video",
+            "regionCode": config.YOUTUBE_REGION_CODE,
+            "order": "date",
+            "publishedAfter": published_after.replace(microsecond=0).strftime("%Y-%m-%dT%H:%M:%SZ"),
+            "maxResults": config.YOUTUBE_RECENT_MAX_RESULTS,
+        }
+        response = self.api.search(**params)
+        return dict(self._envelope(product, "search.list", params), responses=[response])
+
+    def collect_recent(self, product):
+        """Recent-window pass for one product. Returns (status, videos_counted, message)."""
+        pid, qv = product["product_id"], product.get("query_version", "v1")
+        cached = raw_path(self.paths, pid, self.snapshot_date, RECENT_STEP, qv).exists()
+        units, search_calls = recent_cost(cached)
+        self.tracker.require(units, search_calls, what=f"{pid} recent pass")
+        doc, cached = self._load_or_fetch(product, RECENT_STEP, self._fetch_recent)
+        response = doc["responses"][0]
+        count, on_target = count_recent(response, product["trends_query"])
+        cap_hit = count >= doc["request_params"]["maxResults"] and bool(response.get("nextPageToken"))
+        append_rows_dedup(self.paths.recent_window_csv, RECENT_HEADER, [{
+            "snapshot_date": self.snapshot_date,
+            "product_id": pid,
+            "query_version": qv,
+            "window_days": config.YOUTUBE_RECENT_WINDOW_DAYS,
+            "published_after": doc["request_params"]["publishedAfter"],
+            "videos_published_7d": count,
+            "videos_7d_on_target": on_target,
+            "cap_hit": "true" if cap_hit else "false",
+            "search_total_results_approx": response.get("pageInfo", {}).get("totalResults", ""),
+        }], RECENT_KEY)
+        message = f"{config.YOUTUBE_RECENT_MAX_RESULTS}-result cap hit; true count is higher" if cap_hit else ""
+        return ("skipped_cached" if cached else "success"), count, message
+
     def collect_product(self, product):
         """Collect one product. Returns (status, records_added, message). Raises on failure."""
         pid = product["product_id"]
-        cached = cached_steps(self.paths, pid, self.snapshot_date)
+        cached = cached_steps(self.paths, pid, self.snapshot_date, product.get("query_version", "v1"))
         units, search_calls = estimate_product_cost(
             self.max_videos, self.comment_videos, self.comments_per_video, cached)
         self.tracker.require(units, search_calls, what=f"{pid} (estimated)")
@@ -377,7 +492,16 @@ class YouTubeCollector:
         ]
         comments_doc, _ = self._load_or_fetch(product, "comments", self._fetch_comments(top_ids))
 
-        added = self._write_extracts(pid, video_items, comments_doc)
+        last_search = search_doc["responses"][-1] if search_doc["responses"] else {}
+        search_info = {
+            "search_total_results_approx":
+                (search_doc["responses"][0].get("pageInfo", {}).get("totalResults", "")
+                 if search_doc["responses"] else ""),
+            # more results existed beyond the ones fetched (the search stopped at --max-videos)
+            "result_cap_hit": "true" if last_search.get("nextPageToken") else "false",
+        }
+        added = self._write_extracts(pid, video_items, comments_doc,
+                                     product.get("query_version", "v1"), search_info)
         disabled = [v["video_id"] for v in comments_doc["videos"] if v["status"] == "comments_disabled"]
         unavailable = [v["video_id"] for v in comments_doc["videos"] if v["status"] == "unavailable"]
         notes = []
@@ -393,13 +517,14 @@ class YouTubeCollector:
             status = "success"
         return status, added, "; ".join(notes)
 
-    def _write_extracts(self, product_id, video_items, comments_doc):
+    def _write_extracts(self, product_id, video_items, comments_doc, query_version="v1", search_info=None):
         video_rows = []
         for item in video_items:
             snippet, stats = item.get("snippet", {}), item.get("statistics", {})
             video_rows.append({
                 "snapshot_date": self.snapshot_date,
                 "product_id": product_id,
+                "query_version": query_version,
                 "video_id": item["id"],
                 "title": snippet.get("title", ""),
                 "channel_id": snippet.get("channelId", ""),
@@ -417,6 +542,7 @@ class YouTubeCollector:
                     comment_rows.append({
                         "snapshot_date": self.snapshot_date,
                         "product_id": product_id,
+                        "query_version": query_version,
                         "video_id": thread["snippet"].get("videoId", video["video_id"]),
                         "comment_id": top["id"],
                         "text": snippet.get("textOriginal", snippet.get("textDisplay", "")),
@@ -426,9 +552,11 @@ class YouTubeCollector:
         daily_row = {
             "snapshot_date": self.snapshot_date,
             "product_id": product_id,
+            "query_version": query_version,
             "video_result_count": len(video_rows),
             "video_views_total": sum(_int(r["view_count"]) for r in video_rows),
             "video_comments_total": sum(_int(r["comment_count"]) for r in video_rows),
+            **(search_info or {"search_total_results_approx": "", "result_cap_hit": ""}),
         }
         added = append_rows_dedup(self.paths.videos_snapshot_csv, VIDEOS_HEADER, video_rows, VIDEOS_KEY)
         added += append_rows_dedup(self.paths.comments_snapshot_csv, COMMENTS_HEADER, comment_rows, COMMENTS_KEY)
@@ -436,32 +564,77 @@ class YouTubeCollector:
         return added
 
 
-def run_collection(collector, products, paths):
-    """Collect every product, logging each attempt. Stops cleanly on budget or quota exhaustion."""
+def run_collection(collector, products, paths, passes=("main",)):
+    """Run the selected passes for every product, logging each attempt (one row per product and
+    pass). Stops cleanly on budget or quota exhaustion and on fatal API errors."""
     tracker = collector.tracker
+    steps = {"main": (SOURCE, collector.collect_product), "recent": (SOURCE_RECENT, collector.collect_recent)}
     counts = {}
     for product in products:
         pid = product["product_id"]
-        units_before = tracker.run_units
         stop = False
-        try:
-            status, records, message = collector.collect_product(product)
-        except BudgetExhausted as error:
-            status, records, message, stop = "aborted_budget", 0, str(error), True
-        except QuotaExceededError as error:
-            status, records, message, stop = "quota_exceeded", 0, str(error), True
-        except FatalApiError as error:
-            status, records, message, stop = "failed", 0, str(error), True
-        except Exception as error:  # log and move on to the next product
-            status, records, message = "failed", 0, f"{type(error).__name__}: {error}"
-        units = tracker.run_units - units_before
-        log_collection(paths, SOURCE, pid, records, status, message, units)
-        counts[status] = counts.get(status, 0) + 1
-        print(f"  {pid}  {status:<17} records={records:<5} units={units:<4} {redact(message)}")
+        for name in passes:
+            source, collect = steps[name]
+            units_before = tracker.run_units
+            try:
+                status, records, message = collect(product)
+            except BudgetExhausted as error:
+                status, records, message, stop = "aborted_budget", 0, str(error), True
+            except QuotaExceededError as error:
+                status, records, message, stop = "quota_exceeded", 0, str(error), True
+            except FatalApiError as error:
+                status, records, message, stop = "failed", 0, str(error), True
+            except Exception as error:  # log and move on
+                status, records, message = "failed", 0, f"{type(error).__name__}: {error}"
+            qv = product.get("query_version", "v1")
+            if qv != "v1":
+                message = "; ".join(m for m in (f"query {qv}: {product['youtube_query']}", message) if m)
+            units = tracker.run_units - units_before
+            log_collection(paths, source, pid, records, status, message, units)
+            key = status if len(passes) == 1 else f"{name}:{status}"
+            counts[key] = counts.get(key, 0) + 1
+            print(f"  {pid}  {name:<6} {status:<17} records={records:<5} units={units:<4} {redact(message)}")
+            if stop:
+                break
         if stop:
             print("Stopping run early.")
             break
     return counts
+
+
+def migrate_extracts(paths):
+    """Bring local extracts written before query versions to the current schema. Old rows are
+    query version v1; product_daily's search fields are filled from the raw search files."""
+    def fill_daily(row):
+        search = raw_path(paths, row["product_id"], row["snapshot_date"], "search")
+        info = {"query_version": "v1", "search_total_results_approx": "", "result_cap_hit": ""}
+        if search.exists():
+            responses = read_raw(search)["responses"]
+            if responses:
+                info["search_total_results_approx"] = responses[0].get("pageInfo", {}).get("totalResults", "")
+                info["result_cap_hit"] = "true" if responses[-1].get("nextPageToken") else "false"
+        return info
+
+    trends_queries = {pid: p["trends_query"] for products in load_registries(paths).values()
+                      for pid, p in products.items()}
+
+    def fill_recent(row):
+        raw = raw_path(paths, row["product_id"], row["snapshot_date"], RECENT_STEP, row["query_version"])
+        query = trends_queries.get(row["product_id"])
+        if raw.exists() and query:
+            return {"videos_7d_on_target": count_recent(read_raw(raw)["responses"][0], query)[1]}
+        return {"videos_7d_on_target": ""}
+
+    changed = []
+    for path, header, fill in [
+        (paths.recent_window_csv, RECENT_HEADER, fill_recent),
+        (paths.videos_snapshot_csv, VIDEOS_HEADER, lambda row: {"query_version": "v1"}),
+        (paths.comments_snapshot_csv, COMMENTS_HEADER, lambda row: {"query_version": "v1"}),
+        (paths.product_daily_csv, PRODUCT_DAILY_HEADER, fill_daily),
+    ]:
+        if ensure_schema(path, header, fill):
+            changed.append(path.name)
+    return changed
 
 
 def load_api_key():
@@ -488,23 +661,47 @@ def print_quota_summary(tracker):
     )
 
 
-def dry_run(products, paths, snapshot_date, tracker, args):
-    print(f"DRY RUN for snapshot {snapshot_date}: no API calls, nothing written.\n")
+def product_cost(paths, product, snapshot_date, args, passes):
+    """Upper-bound (units, search_calls, cache note) for the selected passes of one product."""
+    pid, qv = product["product_id"], product.get("query_version", "v1")
+    units = search_calls = 0
+    notes = []
+    if "main" in passes:
+        cached = cached_steps(paths, pid, snapshot_date, qv)
+        u, c = estimate_product_cost(args.max_videos, args.comment_videos, args.comments_per_video, cached)
+        units, search_calls = units + u, search_calls + c
+        if cached:
+            notes.append(f"main cached: {','.join(sorted(cached))}")
+    if "recent" in passes:
+        cached = raw_path(paths, pid, snapshot_date, RECENT_STEP, qv).exists()
+        u, c = recent_cost(cached)
+        units, search_calls = units + u, search_calls + c
+        if cached:
+            notes.append("recent cached")
+    return units, search_calls, "; ".join(notes)
+
+
+def dry_run(products, paths, snapshot_date, tracker, args, passes):
+    print(f"DRY RUN for snapshot {snapshot_date}, passes: {', '.join(passes)}. No API calls, nothing written.\n")
     total_units = total_search = fitting = 0
     for p in products:
-        cached = cached_steps(paths, p["product_id"], snapshot_date)
-        units, search_calls = estimate_product_cost(
-            args.max_videos, args.comment_videos, args.comments_per_video, cached)
+        units, search_calls, note = product_cost(paths, p, snapshot_date, args, passes)
         total_units += units
         total_search += search_calls
         if tracker.can_afford(total_units, total_search):
             fitting += 1
-        note = f"cached: {','.join(sorted(cached))}" if cached else ""
-        print(f"  {p['product_id']}  q={p['youtube_query']!r:<36} units<={units:<4} search_calls<={search_calls} {note}")
+        print(f"  {p['product_id']} {p['query_version']}  q={p['youtube_query']!r:<46} units<={units:<4} "
+              f"search_calls<={search_calls} {note}")
+    described = []
+    if "main" in passes:
+        described.append(
+            f"main: search.list up to {args.max_videos} videos, videos.list for those ids, commentThreads.list "
+            f"for the top {args.comment_videos} videos by views (up to {args.comments_per_video} comments each)")
+    if "recent" in passes:
+        described.append(f"recent: one search.list, order=date, published in the last "
+                         f"{config.YOUTUBE_RECENT_WINDOW_DAYS} days, up to {config.YOUTUBE_RECENT_MAX_RESULTS}")
     print(
-        f"\nPer product: search.list up to {args.max_videos} videos, videos.list for those ids, "
-        f"commentThreads.list for the top {args.comment_videos} videos by views "
-        f"(up to {args.comments_per_video} comments each)."
+        "\nPer product: " + "; ".join(described) + "."
         f"\nEstimated quota (upper bound): {total_units} units, {total_search} search.list calls."
         f"\nAlready used today (Pacific {tracker.quota_date}): {tracker.used_units} units, "
         f"{tracker.used_search_calls} search.list calls."
@@ -546,10 +743,47 @@ def resume_order(products, paths, snapshot_date):
 
     def key(product):
         pid = product["product_id"]
-        done_today = cached_steps(paths, pid, snapshot_date) == {"search", "videos", "comments"}
+        steps = cached_steps(paths, pid, snapshot_date, product.get("query_version", "v1"))
+        done_today = steps == {"search", "videos", "comments"}
         return (done_today, last.get(pid, ""), pid)
 
     return sorted(products, key=key)
+
+
+def plan_scenarios(n_products, main_cost, recent_cost_, unit_budget, search_budget):
+    """Quota needed for common schedules. Costs are (units, search_calls) per product."""
+    (mu, ms), (ru, rs) = main_cost, recent_cost_
+    lines = [f"Quota plan for {n_products} products (budget {unit_budget} units, {search_budget} search.list "
+             f"calls per day; main pass {mu} units + {ms} search call(s), recent pass {ru} unit(s) + {rs} "
+             f"search call(s) per product)", ""]
+
+    def fits(units, calls):
+        return "fits" if units <= unit_budget and calls <= search_budget else "EXCEEDS the daily budget"
+
+    main_day = (n_products * mu, n_products * ms)
+    recent_day = (n_products * ru, n_products * rs)
+    both_day = (main_day[0] + recent_day[0], main_day[1] + recent_day[1])
+    lines.append(f"  A. Main weekly only: {main_day[0]} units, {main_day[1]} search calls on the run day "
+                 f"({fits(*main_day)}); {main_day[0]} units/week.")
+    lines.append(f"  B. Recent daily only: {recent_day[0]} units, {recent_day[1]} search calls/day "
+                 f"({fits(*recent_day)}); {recent_day[0] * 7} units/week.")
+    week_units = main_day[0] + recent_day[0] * 7
+    week_calls = main_day[1] + recent_day[1] * 7
+    lines.append(f"  C. Main weekly + recent daily: {week_units} units and {week_calls} search calls per week. "
+                 f"On the day both run: {both_day[0]} units, {both_day[1]} search calls ({fits(*both_day)}).")
+    spare = search_budget - recent_day[1]
+    if both_day[1] > search_budget and spare > 0 and ms:
+        per_day = spare // ms
+        days = -(-n_products // per_day)
+        lines.append(f"     -> spread the main pass over {days} days (at most {per_day} products/day next to the "
+                     f"daily recent pass): run `--all --pass recent` first, then `--all --pass main` on {days} "
+                     f"consecutive days; the main run stops at the cap and the next run resumes stalest-first.")
+    elif both_day[1] > search_budget:
+        lines.append("     -> the recent pass alone uses the whole search budget; the main pass cannot run.")
+    max_both = min(unit_budget // (mu + ru), search_budget // (ms + rs)) if (ms + rs) else n_products
+    lines.append(f"  D. Both passes daily: {both_day[0]} units, {both_day[1]} search calls/day "
+                 f"({fits(*both_day)}); at most {max_both} products/day can get both passes.")
+    return lines
 
 
 def parse_args(argv=None):
@@ -566,9 +800,15 @@ def parse_args(argv=None):
                         help="max quota units to use per (Pacific) day, across runs")
     parser.add_argument("--search-call-budget", type=int, default=config.DEFAULT_DAILY_SEARCH_CALL_BUDGET,
                         help="max search.list calls per (Pacific) day, across runs")
+    parser.add_argument("--pass", dest="pass_", choices=sorted(PASSES), default="main",
+                        help="main (default): search+videos+comments; recent: 7-day upload count; both")
+    parser.add_argument("--only", help="comma-separated product_ids to restrict the run to, e.g. P044,P057")
     mode = parser.add_mutually_exclusive_group()
     mode.add_argument("--dry-run", action="store_true")
     mode.add_argument("--smoke-test", action="store_true")
+    mode.add_argument("--plan", action="store_true", help="print quota scenarios for all products and exit")
+    mode.add_argument("--migrate", action="store_true",
+                      help="bring local extracts to the current schema (from raw files) and exit; no API calls")
     args = parser.parse_args(argv)
     for name in ("max_videos", "comment_videos", "comments_per_video", "daily_budget", "search_call_budget"):
         if getattr(args, name) < 0:
@@ -583,8 +823,24 @@ def parse_args(argv=None):
 
 def main(argv=None, paths=config.PATHS):
     args = parse_args(argv)
-    products_csv = paths.products_csv if args.all else (args.products or paths.pilot_products_csv)
-    products = read_products(products_csv)
+    passes = PASSES[args.pass_]
+    if args.plan:
+        n = len(read_products(paths.active_registry_csv))
+        main_cost = estimate_product_cost(args.max_videos, args.comment_videos, args.comments_per_video)
+        print("\n".join(plan_scenarios(n, main_cost, recent_cost(), args.daily_budget, args.search_call_budget)))
+        return 0
+    if args.migrate:
+        migrated = migrate_extracts(paths)
+        print(f"Migrated: {', '.join(migrated)}" if migrated else "All extracts already use the current schema.")
+        return 0
+    products_csv = paths.active_registry_csv if args.all else (args.products or paths.pilot_products_csv)
+    products = resolve_products(read_products(products_csv), paths)
+    if args.only:
+        wanted = [pid.strip().upper() for pid in args.only.split(",") if pid.strip()]
+        unknown = set(wanted) - {p["product_id"] for p in products}
+        if unknown:
+            raise SystemExit(f"--only: {', '.join(sorted(unknown))} not in {products_csv.name}")
+        products = [p for p in products if p["product_id"] in wanted]
     if not products:
         raise SystemExit(f"no products in {products_csv}")
     snapshot_date = today_in(config.SNAPSHOT_TIMEZONE)
@@ -597,7 +853,7 @@ def main(argv=None, paths=config.PATHS):
     )
 
     if args.dry_run:
-        dry_run(products, paths, snapshot_date, tracker, args)
+        dry_run(products, paths, snapshot_date, tracker, args, passes)
         return 0
 
     api_key = load_api_key()
@@ -610,15 +866,20 @@ def main(argv=None, paths=config.PATHS):
         service = build_service(api_key)
     except Exception as error:
         raise SystemExit(redact(f"could not build YouTube client: {error}")) from None
+    migrated = migrate_extracts(paths)
+    if migrated:
+        print(f"Migrated to the current schema: {', '.join(migrated)}")
     collector = YouTubeCollector(
         YouTubeApi(service, tracker), tracker, paths, snapshot_date,
         args.max_videos, args.comment_videos, args.comments_per_video,
     )
-    print(f"Collecting {len(products)} products for snapshot {snapshot_date}:")
-    counts = run_collection(collector, products, paths)
+    print(f"Collecting {len(products)} products for snapshot {snapshot_date} "
+          f"(registry {config.ACTIVE_REGISTRY}, passes: {', '.join(passes)}):")
+    counts = run_collection(collector, products, paths, passes)
     print("\nStatus counts: " + ", ".join(f"{k}={v}" for k, v in sorted(counts.items())))
     print_quota_summary(tracker)
-    return 0 if not ({"failed", "quota_exceeded", "aborted_budget"} & counts.keys()) else 1
+    failures = {"failed", "quota_exceeded", "aborted_budget"}
+    return 1 if any(k.split(":")[-1] in failures for k in counts) else 0
 
 
 if __name__ == "__main__":

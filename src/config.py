@@ -32,7 +32,15 @@ class Paths:
 
     @property
     def products_csv(self):
+        """Registry v1 working copy (also read by the validator, pilot selection and checklist)."""
         return self.data_dir / "products.csv"
+
+    def registry_csv(self, version):
+        return self.data_dir / REGISTRY_FILES[version]
+
+    @property
+    def active_registry_csv(self):
+        return self.registry_csv(ACTIVE_REGISTRY)
 
     @property
     def pilot_products_csv(self):
@@ -67,6 +75,18 @@ class Paths:
         return self.youtube_data_dir / "quota_usage.csv"
 
     @property
+    def recent_window_csv(self):
+        return self.youtube_data_dir / "recent_window_daily.csv"
+
+    @property
+    def processed_dir(self):
+        return self.data_dir / "processed"
+
+    @property
+    def backups_dir(self):
+        return self.root / "backups"
+
+    @property
     def raw_trends_dir(self):
         return self.raw_dir / "trends"
 
@@ -78,6 +98,13 @@ class Paths:
     def trends_checklist_csv(self):
         return self.data_dir / "trends_export_checklist.csv"
 
+
+# --- Product registry versions -------------------------------------------------
+# Every registry version keeps the same columns and product_ids; versions differ only in
+# documented changes (see docs/registry_changelog.md). The collectors read ACTIVE_REGISTRY.
+# trends_query is identical across versions; only youtube_query may change.
+REGISTRY_FILES = {"v1": "products.csv", "v2": "products_v2.csv"}  # oldest first
+ACTIVE_REGISTRY = "v2"
 
 PATHS = Paths.from_root(ROOT)
 
@@ -119,6 +146,11 @@ YOUTUBE_VIDEOS_BATCH_SIZE = 50  # API maximum ids per videos.list call
 YOUTUBE_COMMENT_VIDEOS = 5  # top-N videos (by view count) to fetch comments for
 YOUTUBE_COMMENTS_PER_VIDEO = 100  # comment threads per video; 100 per page is the API maximum
 YOUTUBE_COMMENTS_PAGE_SIZE = 100
+
+# Optional second pass (--pass recent|both): newest videos uploaded in the last N days.
+# search.list with order=date and publishedAfter=<run time - N days>, one page of up to 50.
+YOUTUBE_RECENT_WINDOW_DAYS = 7
+YOUTUBE_RECENT_MAX_RESULTS = 50
 
 # Request pacing and retries (429 and 5xx are retried with exponential backoff).
 REQUEST_PAUSE_SECONDS = 0.5
