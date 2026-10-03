@@ -8,7 +8,7 @@ Google Trends data for this project is downloaded **by hand** from the Google Tr
 |---------|-------|
 | Search term | the product's `trends_query` from `data/products.csv`, typed exactly (lowercase, no quotes) |
 | Location | India |
-| Time range | Past 12 months |
+| Time range | **Custom time range of exactly 269 days** (daily data), the **same start and end dates for every product** |
 | Category | All categories |
 | Search type | Web Search |
 | Terms per export | **one** (do not use "+ Compare") |
@@ -16,16 +16,19 @@ Google Trends data for this project is downloaded **by hand** from the Google Tr
 Why these matter:
 
 - Google Trends scales every export so that its own peak is 100. Values are therefore relative within one file, not comparable across products in absolute terms. Keep the settings identical so every file is scaled the same way.
-- "Past 12 months" gives weekly data. A range of 90 days or less gives daily data. If the team switches to a different window, change it for **every** product and record the change in `data/source_log.csv`. The loader reads the granularity from the file and stores it in the `granularity` column.
+- **Team decision (2026-10-03): past ~9 months, daily data.** Google Trends returns daily points only for ranges of 269 days or less; longer ranges (such as "Past 12 months") switch to weekly. The 269-day limit comes from secondary sources, not official Google docs, so check that the downloaded file has one row per day.
+- Use a **custom** range with fixed dates rather than a relative preset. Downloads made on different days then still cover identical dates. `python3 src/make_trends_checklist.py` prints the range for today's batch: the end date is today and the start date is 268 days earlier, inclusive. Write the dates down and use them for every product in the batch, even if downloading takes several days.
+- The loader rejects weekly or monthly files (`--allow-weekly` accepts weekly if the team ever needs it). It also rejects the batch if the latest exports of different products cover different date ranges.
 - An export that compares several terms has more than one value column and is rejected by the loader.
 
 ## Steps
 
+0. Run `python3 src/make_trends_checklist.py` to get the checklist, the expected file names and the date range for this batch.
 1. Open https://trends.google.com/trends/explore
 2. Enter the product's `trends_query` as the search term. If Google suggests a "topic" (for example "iPhone 18 Pro – Smartphone"), choose the plain **search term** instead, because the loader checks that the column name matches `trends_query`.
-3. Set Location = India, time range = Past 12 months, category = All categories, search type = Web Search.
+3. Set Location = India, category = All categories, search type = Web Search. Open the time range menu, choose **Custom time range**, and enter the batch's start and end dates (269 days, inclusive).
 4. In the "Interest over time" chart, click the download (down-arrow) icon. The browser saves a CSV, usually named `multiTimeline.csv`.
-5. Rename the file to `<product_id>_<YYYY-MM-DD>.csv`, where the date is **the day you downloaded it**, e.g. `P001_2026-10-03.csv`.
+5. Rename the file to `<product_id>_<YYYY-MM-DD>.csv`, where the date is **the day you downloaded it**, e.g. `P001_2026-10-03.csv`. `data/trends_export_checklist.csv` lists the expected name for every product; mark `done` there as you go.
 6. Move it into `raw/trends/`. Do not open and re-save it in Excel or Sheets, because that can change the format. If a file with that name already exists, do not overwrite it; it is an earlier original.
 7. Run the loader from the repo root:
 
@@ -42,9 +45,9 @@ A typical export looks like this:
 ```
 Category: All categories
 
-Week,iphone 18 pro: (India)
-2026-08-30,12
-2026-09-06,<1
+Day,iphone 18 pro: (India)
+2026-01-08,12
+2026-01-09,<1
 ```
 
 - Lines before the header row (such as `Category: ...`) and blank lines are skipped. The header row starts with `Day`, `Week`, `Month` or `Time`. For `Time`, the granularity is inferred from the spacing between dates.

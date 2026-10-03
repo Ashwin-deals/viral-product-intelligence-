@@ -74,6 +74,10 @@ class Paths:
     def trends_long_csv(self):
         return self.data_dir / "trends_long.csv"
 
+    @property
+    def trends_checklist_csv(self):
+        return self.data_dir / "trends_export_checklist.csv"
+
 
 PATHS = Paths.from_root(ROOT)
 
@@ -95,6 +99,16 @@ QUOTA_TIMEZONE = "America/Los_Angeles"
 # --- Pilot selection ---------------------------------------------------------
 PILOT_SEED = 42
 PILOT_COUNTS = {"RISING": 4, "STABLE": 4, "DECLINING": 2}
+
+# --- Google Trends -------------------------------------------------------------
+# Team decision (2026-10-03): India, past ~9 months, daily data. Google Trends only returns
+# daily points for ranges of 269 days or less (longer ranges switch to weekly); this limit
+# comes from secondary sources (Glimpse, pytrends-based packages), not official Google docs.
+# Exports use a custom range of exactly TRENDS_WINDOW_DAYS days, identical for every product.
+TRENDS_GEO = "India"
+TRENDS_WINDOW_DAYS = 269
+TRENDS_EXPECTED_GRANULARITY = "daily"
+TRENDS_ALLOW_WEEKLY = False  # override per run with: python src/load_trends.py --allow-weekly
 
 # --- YouTube settings --------------------------------------------------------
 YOUTUBE_REGION_CODE = "IN"

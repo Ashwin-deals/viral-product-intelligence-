@@ -8,9 +8,15 @@ rebuilt from all of them on every run. See docs/trends_export_guide.md for the e
 scale. We store search_interest = 0.5 (midpoint of the open interval 0..1) and set
 is_below_threshold = true so analyses can treat these points separately.
 
-Usage: python src/load_trends.py
+Checks (any failure stops the run, logs it and writes nothing):
+- every file must have daily granularity (config.TRENDS_EXPECTED_GRANULARITY); pass
+  --allow-weekly to also accept weekly files; monthly and hourly files always fail;
+- the latest export of every product must cover the same date range, so products are comparable.
+
+Usage: python src/load_trends.py [--allow-weekly]
 """
 
+import argparse
 import csv
 import io
 import re
@@ -141,7 +147,44 @@ def load_file(path, products_by_id):
     ]
 
 
-def main(paths=config.PATHS):
+def check_granularity(rows, allow_weekly):
+    granularity = rows[0]["granularity"]
+    allowed = {config.TRENDS_EXPECTED_GRANULARITY} | ({"weekly"} if allow_weekly else set())
+    if granularity not in allowed:
+        hint = "" if allow_weekly or granularity != "weekly" else " (use --allow-weekly to accept weekly data)"
+        raise TrendsFileError(
+            f"{granularity} data, expected {' or '.join(sorted(allowed))}{hint}. Re-export with a custom "
+            f"range of {config.TRENDS_WINDOW_DAYS} days or less (see docs/trends_export_guide.md)")
+
+
+def check_date_ranges(loaded):
+    """All products' latest exports must cover the same date range. Returns {file name: error}."""
+    latest = {}
+    for name, rows in loaded.items():
+        pid, collection_date = rows[0]["product_id"], rows[0]["collection_date"]
+        if pid not in latest or collection_date > latest[pid][0]:
+            latest[pid] = (collection_date, name)
+    ranges = {}
+    for _, name in latest.values():
+        dates = [r["date"] for r in loaded[name]]
+        ranges.setdefault((min(dates), max(dates)), []).append(name)
+    if len(ranges) <= 1:
+        return {}
+    summary = "; ".join(f"{a} to {b}: {len(names)} file(s)" for (a, b), names in sorted(ranges.items()))
+    majority = max(ranges, key=lambda r: len(ranges[r]))
+    return {
+        name: f"date range {a} to {b} differs from {majority[0]} to {majority[1]} (ranges found: {summary})"
+        for (a, b), names in ranges.items() if (a, b) != majority
+        for name in names
+    }
+
+
+def main(argv=None, paths=config.PATHS):
+    parser = argparse.ArgumentParser(description="Load Google Trends exports into data/trends_long.csv")
+    parser.add_argument("--allow-weekly", action="store_true", default=config.TRENDS_ALLOW_WEEKLY,
+                        help="accept weekly files as well as daily ones")
+    args = parser.parse_args(argv)
+
     files = sorted(p for p in paths.raw_trends_dir.glob("*") if p.is_file() and not p.name.startswith("."))
     if not files:
         print(f"No exports found in {paths.raw_trends_dir}. See docs/trends_export_guide.md.")
@@ -162,20 +205,37 @@ def main(paths=config.PATHS):
         return 1
 
     products_by_id = {p["product_id"]: p for p in read_products(paths.products_csv)}
-    output, failures = [], 0
+    loaded, errors = {}, {}
     for path in files:
-        product_id = parse_filename(path.name)[0]
         try:
             rows = load_file(path, products_by_id)
+            check_granularity(rows, args.allow_weekly)
+            loaded[path.name] = rows
         except (TrendsFileError, UnicodeDecodeError) as error:
-            failures += 1
-            log_collection(paths, SOURCE, product_id, 0, "failed", f"{path.name}: {error}")
-            print(f"ERROR {path.name}: {error}", file=sys.stderr)
-            continue
+            errors[path.name] = str(error)
+    errors.update(check_date_ranges(loaded))
+
+    if errors:
+        for path in files:
+            pid = parse_filename(path.name)[0]
+            if path.name in errors:
+                log_collection(paths, SOURCE, pid, 0, "failed", f"{path.name}: {errors[path.name]}")
+                print(f"ERROR {path.name}: {errors[path.name]}", file=sys.stderr)
+            else:
+                log_collection(paths, SOURCE, pid, 0, "not_loaded",
+                               f"{path.name}: valid, but other files failed validation")
+        print(f"\nFAILED: {len(errors)} of {len(files)} file(s) failed validation; "
+              f"{paths.trends_long_csv.name} was not written.", file=sys.stderr)
+        return 1
+
+    output = []
+    for path in files:
+        rows = loaded[path.name]
         output.extend(rows)
-        log_collection(paths, SOURCE, product_id, len(rows), "success")
+        log_collection(paths, SOURCE, rows[0]["product_id"], len(rows), "success")
         below = sum(r["is_below_threshold"] == "true" for r in rows)
-        print(f"  {path.name}: {len(rows)} rows ({rows[0]['granularity']}, {below} '<1' values)")
+        print(f"  {path.name}: {len(rows)} rows, {rows[0]['granularity']}, "
+              f"{rows[0]['date']} to {rows[-1]['date']}, {below} '<1' values")
 
     with open(paths.trends_long_csv, "w", newline="", encoding="utf-8") as f:
         writer = csv.DictWriter(f, fieldnames=OUTPUT_HEADER)
@@ -183,9 +243,6 @@ def main(paths=config.PATHS):
         writer.writerows(output)
     print(f"\nWrote {len(output)} rows to {paths.trends_long_csv}.")
     print(f'Note: "<1" values are stored as search_interest={BELOW_THRESHOLD_VALUE} with is_below_threshold=true.')
-    if failures:
-        print(f"FAILED: {failures} file(s) could not be loaded (see errors above).", file=sys.stderr)
-        return 1
     return 0
 
 
