@@ -19,3 +19,6 @@ run_timestamp,source,product_id,records_collected,status,error_message,quota_uni
 2026-10-03T16:43:39Z,youtube_recent,P043,18,success,,1
 2026-10-03T16:43:40Z,youtube_recent,P046,34,success,,1
 2026-10-03T16:43:41Z,youtube_recent,P059,37,success,,1
+2026-10-03T16:59:17Z,youtube_recent,P018,50,success,50-result cap hit; true count is higher,1
+2026-10-03T16:59:18Z,youtube_recent,P044,50,success,50-result cap hit; true count is higher,1
+2026-10-03T16:59:18Z,youtube_recent,P057,12,success,query v2: pixel 9 review -pro -xl -fold -9a,1
