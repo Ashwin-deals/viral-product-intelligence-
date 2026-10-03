@@ -6,7 +6,9 @@ __pycache__/
 *.pyc
 .pytest_cache/
 .venv/
+*.tmp
 venv/
+*.tmp
 
 # OS
 .DS_Store
@@ -17,3 +19,9 @@ venv/
 raw/youtube/*.json
 data/youtube/videos_snapshot.csv
 data/youtube/comments_snapshot.csv
+# cleaned versions of the two files above (same content, so same rule)
+data/processed/youtube_videos_clean.csv
+data/processed/youtube_comments_clean.csv
+
+# Local backups of the git-ignored data (src/backup_local_data.py)
+backups/
