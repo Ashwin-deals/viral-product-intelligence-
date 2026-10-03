@@ -1,0 +1,6 @@
+google-api-python-client
+python-dotenv
+pandas
+pytest
+# Optional, not used by the pipeline (Google Trends data comes from manual exports):
+# pytrends
