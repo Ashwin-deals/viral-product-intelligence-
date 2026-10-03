@@ -3,11 +3,12 @@ videos,load,,600,600,0,,,rows read from the input file
 videos,normalize_column_names,,600,600,0,,,already snake_case
 videos,normalize_product_id,,600,600,0,,,dropped: product_id not like P001
 videos,standardize_dates,,600,600,0,,,snapshot_date -> YYYY-MM-DD (unparseable rows dropped); published_at -> ISO 8601 UTC (unparseable -> missing)
-videos,drop_exact_duplicates,,600,600,0,,,identical rows; keep first seen
-videos,drop_key_duplicates,,600,600,0,,,"key (snapshot_date, product_id, query_version, video_id); keep first seen"
-videos,types_zero_vs_missing,,600,600,0,,,"counts -> integers; empty, non-numeric or negative -> missing (not 0)"
-videos,clean_title,,600,600,0,,,"38 value(s) changed: HTML entities decoded, tags stripped, whitespace collapsed"
-videos,output,,600,600,0,,,outliers kept; rows sorted by key
+videos,select_active_query,,600,500,100,,,excluded rows not collected with the active registry's query: P044 v2: 50 (active is v1); P057 v1: 50 (active is v2)
+videos,drop_exact_duplicates,,500,500,0,,,identical rows; keep first seen
+videos,drop_key_duplicates,,500,500,0,,,"key (snapshot_date, product_id, query_version, video_id); keep first seen"
+videos,types_zero_vs_missing,,500,500,0,,,"counts -> integers; empty, non-numeric or negative -> missing (not 0)"
+videos,clean_title,,500,500,0,,,"36 value(s) changed: HTML entities decoded, tags stripped, whitespace collapsed"
+videos,output,,600,500,100,,,outliers kept; rows sorted by key
 videos,missing_values,snapshot_date,,,,0,0,
 videos,missing_values,product_id,,,,0,0,
 videos,missing_values,query_version,,,,0,0,
@@ -16,19 +17,20 @@ videos,missing_values,title,,,,0,0,
 videos,missing_values,channel_id,,,,0,0,
 videos,missing_values,published_at,,,,0,0,
 videos,missing_values,view_count,,,,0,0,
-videos,missing_values,like_count,,,,16,16,
+videos,missing_values,like_count,,,,16,15,
 videos,missing_values,comment_count,,,,0,0,
 comments,load,,5639,5639,0,,,rows read from the input file
 comments,normalize_column_names,,5639,5639,0,,,already snake_case
 comments,normalize_product_id,,5639,5639,0,,,dropped: product_id not like P001
 comments,standardize_dates,,5639,5639,0,,,snapshot_date -> YYYY-MM-DD (unparseable rows dropped); published_at -> ISO 8601 UTC (unparseable -> missing)
-comments,drop_exact_duplicates,,5639,5639,0,,,identical rows; keep first seen
-comments,drop_key_duplicates,,5639,5639,0,,,"key (snapshot_date, product_id, query_version, comment_id); keep first seen"
-comments,types_zero_vs_missing,,5639,5639,0,,,"counts -> integers; empty, non-numeric or negative -> missing (not 0)"
-comments,clean_text,,5639,5639,0,,,"617 value(s) changed: HTML entities decoded, tags stripped, whitespace collapsed"
-comments,drop_empty_text,,5639,5639,0,,,comments empty after text cleaning
-comments,flag_language,,5639,5639,0,,,"flagged, not dropped: is_emoji_only=64, likely_non_english=136"
-comments,output,,5639,5639,0,,,outliers kept; rows sorted by key
+comments,select_active_query,,5639,4639,1000,,,excluded rows not collected with the active registry's query: P044 v2: 500 (active is v1); P057 v1: 500 (active is v2)
+comments,drop_exact_duplicates,,4639,4639,0,,,identical rows; keep first seen
+comments,drop_key_duplicates,,4639,4639,0,,,"key (snapshot_date, product_id, query_version, comment_id); keep first seen"
+comments,types_zero_vs_missing,,4639,4639,0,,,"counts -> integers; empty, non-numeric or negative -> missing (not 0)"
+comments,clean_text,,4639,4639,0,,,"504 value(s) changed: HTML entities decoded, tags stripped, whitespace collapsed"
+comments,drop_empty_text,,4639,4639,0,,,comments empty after text cleaning
+comments,flag_language,,4639,4639,0,,,"flagged, not dropped: is_emoji_only=54, likely_non_english=123"
+comments,output,,5639,4639,1000,,,outliers kept; rows sorted by key
 comments,missing_values,snapshot_date,,,,0,0,
 comments,missing_values,product_id,,,,0,0,
 comments,missing_values,query_version,,,,0,0,
@@ -41,10 +43,11 @@ product_daily,load,,12,12,0,,,rows read from the input file
 product_daily,normalize_column_names,,12,12,0,,,already snake_case
 product_daily,normalize_product_id,,12,12,0,,,dropped: product_id not like P001
 product_daily,standardize_dates,,12,12,0,,,snapshot_date -> YYYY-MM-DD (unparseable rows dropped); no timestamp columns
-product_daily,drop_exact_duplicates,,12,12,0,,,identical rows; keep first seen
-product_daily,drop_key_duplicates,,12,12,0,,,"key (snapshot_date, product_id, query_version); keep first seen"
-product_daily,types_zero_vs_missing,,12,12,0,,,"counts -> integers; empty, non-numeric or negative -> missing (not 0)"
-product_daily,output,,12,12,0,,,outliers kept; rows sorted by key
+product_daily,select_active_query,,12,10,2,,,excluded rows not collected with the active registry's query: P044 v2: 1 (active is v1); P057 v1: 1 (active is v2)
+product_daily,drop_exact_duplicates,,10,10,0,,,identical rows; keep first seen
+product_daily,drop_key_duplicates,,10,10,0,,,"key (snapshot_date, product_id, query_version); keep first seen"
+product_daily,types_zero_vs_missing,,10,10,0,,,"counts -> integers; empty, non-numeric or negative -> missing (not 0)"
+product_daily,output,,12,10,2,,,outliers kept; rows sorted by key
 product_daily,missing_values,snapshot_date,,,,0,0,
 product_daily,missing_values,product_id,,,,0,0,
 product_daily,missing_values,query_version,,,,0,0,
@@ -53,3 +56,22 @@ product_daily,missing_values,video_views_total,,,,0,0,
 product_daily,missing_values,video_comments_total,,,,0,0,
 product_daily,missing_values,search_total_results_approx,,,,0,0,
 product_daily,missing_values,result_cap_hit,,,,0,0,
+product_daily,add_on_target_metrics,,10,10,0,,,exact-model titles only (src/title_match.py); share < 60% flagged: P044 2026-10-03 (56%); no matching videos: 0 row(s)
+recent_window,load,,10,10,0,,,rows read from the input file
+recent_window,normalize_column_names,,10,10,0,,,already snake_case
+recent_window,normalize_product_id,,10,10,0,,,dropped: product_id not like P001
+recent_window,standardize_dates,,10,10,0,,,snapshot_date -> YYYY-MM-DD (unparseable rows dropped); published_after -> ISO 8601 UTC (unparseable -> missing)
+recent_window,select_active_query,,10,10,0,,,excluded rows not collected with the active registry's query: none
+recent_window,drop_exact_duplicates,,10,10,0,,,identical rows; keep first seen
+recent_window,drop_key_duplicates,,10,10,0,,,"key (snapshot_date, product_id, query_version); keep first seen"
+recent_window,types_zero_vs_missing,,10,10,0,,,"counts -> integers; empty, non-numeric or negative -> missing (not 0)"
+recent_window,output,,10,10,0,,,outliers kept; rows sorted by key
+recent_window,missing_values,snapshot_date,,,,0,0,
+recent_window,missing_values,product_id,,,,0,0,
+recent_window,missing_values,query_version,,,,0,0,
+recent_window,missing_values,window_days,,,,0,0,
+recent_window,missing_values,published_after,,,,0,0,
+recent_window,missing_values,videos_published_7d,,,,0,0,
+recent_window,missing_values,videos_7d_on_target,,,,0,0,
+recent_window,missing_values,cap_hit,,,,0,0,
+recent_window,missing_values,search_total_results_approx,,,,0,0,

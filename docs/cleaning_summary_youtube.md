@@ -5,17 +5,18 @@ The inputs in `data/youtube/` are never modified. The numbers below come from `d
 
 ## Rows
 
-| table | input rows | output rows | dropped | exact duplicates | key duplicates | other drops |
-|---|---:|---:|---:|---:|---:|---:|
-| videos | 600 | 600 | 0 | 0 | 0 | 0 |
-| comments | 5639 | 5639 | 0 | 0 | 0 | 0 |
-| product_daily | 12 | 12 | 0 | 0 | 0 | 0 |
+| table | input rows | output rows | dropped | not active query | exact duplicates | key duplicates | other drops |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| videos | 600 | 500 | 100 | 100 | 0 | 0 | 0 |
+| comments | 5639 | 4639 | 1000 | 1000 | 0 | 0 | 0 |
+| product_daily | 12 | 10 | 2 | 2 | 0 | 0 | 0 |
+| recent_window | 10 | 10 | 0 | 0 | 0 | 0 | 0 |
 
 ## Missing values (before -> after)
 
-- **videos**: like_count 16 -> 16
+- **videos**: like_count 16 -> 15
 
-Comment flags (kept, not dropped): is_emoji_only=64, likely_non_english=136.
+Comment flags (kept, not dropped): is_emoji_only=54, likely_non_english=123.
 
 ## Rules
 
@@ -25,12 +26,25 @@ Comment flags (kept, not dropped): is_emoji_only=64, likely_non_english=136.
 - Comment text is cleaned: HTML entities are decoded, markup tags and zero-width characters removed, and whitespace collapsed. Comments that end up empty are dropped. `is_emoji_only` (no letter or digit) and `likely_non_english` (fewer than half the letters are Latin a-z) are flags only; those rows are kept.
 - `likely_non_english` judges the script, not the language. Hindi or Tamil typed in Latin letters counts as English.
 - **Outliers are never removed.** Demand surges are what the project studies.
-- `is_active_query` marks rows collected with the product's active `youtube_query` (see `docs/registry_changelog.md`). Use only those rows for one consistent series per product.
+- Only rows collected with the **active registry's query** (`v3`) are kept, so each product has one consistent series. Rows from other query versions are excluded, and the `select_active_query` rows of the report list them per product. The excluded rows stay in `data/youtube/` and `raw/`.
+
+## Exact-model (on-target) metrics: use these for modelling
+
+The main search returns videos about sibling models too, e.g. Edge 70 Fusion for an Edge 70 query. `youtube_product_daily_clean.csv` therefore keeps the all-video totals (`video_result_count`, `video_views_total`, `video_comments_total`) and adds exact-model versions computed only from videos whose title names the exact model (`src/title_match.py`):
+- `videos_on_target`
+- `views_on_target_total`
+- `comments_on_target_total`
+- `on_target_share`
+
+`low_on_target_share` flags products below 60%. **YouTube features for modelling should use the on-target versions.** Treat flagged products with care, or replace their query.
+
+This run: exact-model titles only (src/title_match.py); share < 60% flagged: P044 2026-10-03 (56%); no matching videos: 0 row(s).
 
 ## Outputs
 
-- `data/processed/youtube_videos_clean.csv`: 600 rows (git-ignored: titles)
-- `data/processed/youtube_comments_clean.csv`: 5639 rows (git-ignored: comment text)
-- `data/processed/youtube_product_daily_clean.csv`: 12 rows
+- `data/processed/youtube_videos_clean.csv`: 500 rows (git-ignored: titles)
+- `data/processed/youtube_comments_clean.csv`: 4639 rows (git-ignored: comment text)
+- `data/processed/youtube_product_daily_clean.csv`: 10 rows
+- `data/processed/youtube_recent_window_clean.csv`: 10 rows
 
-Google Trends cleaning is not done yet; see the TODO in `src/clean_trends.py`.
+Google Trends cleaning is done separately by `src/clean_trends.py`.

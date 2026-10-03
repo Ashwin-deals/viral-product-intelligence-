@@ -1,9 +1,10 @@
 """Clean the local YouTube tables into data/processed/. Inputs are read, never modified.
 
-Inputs  (data/youtube/):  videos_snapshot.csv, comments_snapshot.csv, product_daily.csv
+Inputs  (data/youtube/):  videos_snapshot.csv, comments_snapshot.csv, product_daily.csv,
+         recent_window_daily.csv (optional)
 Outputs (data/processed/): youtube_videos_clean.csv, youtube_comments_clean.csv (both git-ignored:
          they hold titles and comment text), youtube_product_daily_clean.csv,
-         cleaning_report_youtube.csv (before/after evidence)
+         youtube_recent_window_clean.csv, cleaning_report_youtube.csv (before/after evidence)
 Summary: docs/cleaning_summary_youtube.md
 
 Rules (also in docs/cleaning_summary_youtube.md):
@@ -23,7 +24,13 @@ Rules (also in docs/cleaning_summary_youtube.md):
   script) and likely_non_english (fewer than half of the letters are Latin a-z; a script-based
   heuristic, so romanised Hindi or Tamil counts as Latin).
 - Outliers are never removed: surges are what the project studies.
-- query_version is kept; is_active_query marks rows collected with the product's active query.
+- Active query only: rows whose query_version is not the product's query version in the active
+  registry (config.ACTIVE_REGISTRY) are excluded, so each product has one consistent series. The
+  report lists the excluded rows per product and version.
+- On-target metrics (daily table): from the cleaned videos, videos_on_target, views_on_target_total,
+  comments_on_target_total and on_target_share use only videos whose title names the exact model
+  (src/title_match.py). The all-video totals are kept alongside. low_on_target_share flags
+  shares below config.ON_TARGET_MIN_SHARE. Model YouTube features on the on-target versions.
 
 The output depends only on the inputs, so re-running gives identical files.
 
@@ -38,10 +45,12 @@ import pandas as pd
 
 import config
 from collect_youtube import load_registries, query_version
+from title_match import title_classifier
 
 VIDEOS_OUT = "youtube_videos_clean.csv"
 COMMENTS_OUT = "youtube_comments_clean.csv"
 DAILY_OUT = "youtube_product_daily_clean.csv"
+RECENT_OUT = "youtube_recent_window_clean.csv"
 REPORT_OUT = "cleaning_report_youtube.csv"
 SUMMARY_DOC = "cleaning_summary_youtube.md"
 REPORT_HEADER = ["table", "step", "column", "rows_before", "rows_after", "rows_dropped",
@@ -67,7 +76,15 @@ TABLES = {
                    "search_total_results_approx"],
         "booleans": ["result_cap_hit"],
     },
+    "recent_window": {
+        "key": ["snapshot_date", "product_id", "query_version"],
+        "timestamps": ["published_after"],
+        "counts": ["window_days", "videos_published_7d", "videos_7d_on_target", "search_total_results_approx"],
+        "booleans": ["cap_hit"],
+    },
 }
+ON_TARGET_COLUMNS = ["videos_on_target", "views_on_target_total", "comments_on_target_total",
+                     "on_target_share", "low_on_target_share"]
 
 TAG_PATTERN = re.compile(r"</?[A-Za-z][^>]*>")  # tags only: "I <3 it" is left alone
 # zero-width space, word joiner, BOM; the zero-width joiner (U+200D) is kept: emoji sequences use it
@@ -181,6 +198,17 @@ def clean_table(name, raw, active_versions, report):
                    if spec["timestamps"] else "no timestamp columns"))
 
     before = len(df)
+    active = df["product_id"].map(active_versions)
+    excluded = df[df["query_version"] != active]
+    df = df[df["query_version"] == active]
+    reasons = excluded.groupby(["product_id", "query_version"], sort=True).size()
+    detail = "; ".join(
+        f"{pid} {qv}: {n} (active is {active_versions.get(pid, 'none: not in active registry')})"
+        for (pid, qv), n in reasons.items())
+    report.step(name, "select_active_query", before, len(df),
+                f"excluded rows not collected with the active registry's query: {detail or 'none'}")
+
+    before = len(df)
     df = df[~df.duplicated(keep="first")]
     report.step(name, "drop_exact_duplicates", before, len(df), "identical rows; keep first seen")
     before = len(df)
@@ -211,13 +239,52 @@ def clean_table(name, raw, active_versions, report):
                     f"flagged, not dropped: is_emoji_only={int(df['is_emoji_only'].sum())}, "
                     f"likely_non_english={int(df['likely_non_english'].sum())}")
 
-    df["is_active_query"] = df["query_version"] == df["product_id"].map(active_versions)
     df = df.sort_values(spec["key"], kind="stable").reset_index(drop=True)
     report.step(name, "output", len(raw), len(df), "outliers kept; rows sorted by key")
     for col in df.columns:
         if col in missing_before or col in raw.columns:
             report.missing(name, col, missing_before.get(col, ""), int(missing_mask(df, col).sum()))
     return df
+
+
+def add_on_target_metrics(daily, videos, trends_queries, report):
+    """Exact-model metrics per daily row, from the cleaned videos of the same snapshot and
+    query version. All-video totals are kept. Sums skip missing counts; a sum over on-target
+    videos whose counts are all missing is missing, and a product with no on-target videos has 0."""
+    key = ["snapshot_date", "product_id", "query_version"]
+    if videos.empty:
+        for col in ON_TARGET_COLUMNS:
+            daily[col] = pd.NA
+        report.step("product_daily", "add_on_target_metrics", len(daily), len(daily),
+                    "no cleaned videos available: on-target metrics missing")
+        return daily
+    classify = {pid: title_classifier(q) for pid, q in trends_queries.items()}
+    v = videos.copy()
+    v["on_target"] = [classify[pid](title) == "on_target" if pid in classify else False
+                      for pid, title in zip(v["product_id"], v["title"])]
+    on = v[v["on_target"]]
+    totals = v.groupby(key).size().rename("videos_in_snapshot")
+    metrics = pd.concat([
+        totals,
+        on.groupby(key).size().rename("videos_on_target"),
+        on.groupby(key)["view_count"].sum(min_count=1).rename("views_on_target_total"),
+        on.groupby(key)["comment_count"].sum(min_count=1).rename("comments_on_target_total"),
+    ], axis=1).reset_index()
+    out = daily.merge(metrics, on=key, how="left")
+    has_videos = out["videos_in_snapshot"].notna()
+    none_on_target = has_videos & out["videos_on_target"].isna()
+    for col in ("videos_on_target", "views_on_target_total", "comments_on_target_total"):
+        out[col] = out[col].astype("Float64").mask(none_on_target, 0).round().astype("Int64")
+    out["on_target_share"] = (out["videos_on_target"] / out["videos_in_snapshot"]).astype("Float64").round(4)
+    out["low_on_target_share"] = (out["on_target_share"] < config.ON_TARGET_MIN_SHARE).astype("boolean")
+    out = out.drop(columns="videos_in_snapshot")
+    low = out[out["low_on_target_share"].fillna(False)]
+    report.step("product_daily", "add_on_target_metrics", len(daily), len(out),
+                f"exact-model titles only (src/title_match.py); share < {config.ON_TARGET_MIN_SHARE:.0%} flagged: "
+                + (", ".join(f"{r.product_id} {r.snapshot_date} ({r.on_target_share:.0%})" for r in low.itertuples())
+                   or "none")
+                + f"; no matching videos: {int((~has_videos).sum())} row(s)")
+    return out
 
 
 def active_query_versions(paths):
@@ -240,18 +307,19 @@ def write_summary(paths, report_rows, outputs):
         "",
         "## Rows",
         "",
-        "| table | input rows | output rows | dropped | exact duplicates | key duplicates | other drops |",
-        "|---|---:|---:|---:|---:|---:|---:|",
+        "| table | input rows | output rows | dropped | not active query | exact duplicates | key duplicates | other drops |",
+        "|---|---:|---:|---:|---:|---:|---:|---:|",
     ]
     for table in TABLES:
         steps = {r["step"]: r for r in report_rows if r["table"] == table and r["column"] == ""}
         if "output" not in steps:
             continue
+        inactive = steps["select_active_query"]["rows_dropped"]
         exact = steps["drop_exact_duplicates"]["rows_dropped"]
         key = steps["drop_key_duplicates"]["rows_dropped"]
         total = steps["output"]["rows_dropped"]
         lines.append(f"| {table} | {steps['load']['rows_before']} | {steps['output']['rows_after']} | {total} "
-                     f"| {exact} | {key} | {total - exact - key} |")
+                     f"| {inactive} | {exact} | {key} | {total - inactive - exact - key} |")
     lines += ["", "## Missing values (before -> after)", ""]
     for table in TABLES:
         changes = [r for r in report_rows if r["table"] == table and r["step"] == "missing_values"
@@ -274,13 +342,32 @@ def write_summary(paths, report_rows, outputs):
         "- Comment text is cleaned: HTML entities are decoded, markup tags and zero-width characters removed, and whitespace collapsed. Comments that end up empty are dropped. `is_emoji_only` (no letter or digit) and `likely_non_english` (fewer than half the letters are Latin a-z) are flags only; those rows are kept.",
         "- `likely_non_english` judges the script, not the language. Hindi or Tamil typed in Latin letters counts as English.",
         "- **Outliers are never removed.** Demand surges are what the project studies.",
-        "- `is_active_query` marks rows collected with the product's active `youtube_query` (see `docs/registry_changelog.md`). Use only those rows for one consistent series per product.",
+        f"- Only rows collected with the **active registry's query** (`{config.ACTIVE_REGISTRY}`) are kept, so each product has one consistent series. Rows from other query versions are excluded, and the `select_active_query` rows of the report list them per product. The excluded rows stay in `data/youtube/` and `raw/`.",
         "",
+        "## Exact-model (on-target) metrics: use these for modelling",
+        "",
+        "The main search returns videos about sibling models too, e.g. Edge 70 Fusion for an Edge 70 query. "
+        "`youtube_product_daily_clean.csv` therefore keeps the all-video totals (`video_result_count`, `video_views_total`, "
+        "`video_comments_total`) and adds exact-model versions computed only from videos whose title names the exact model "
+        "(`src/title_match.py`):",
+        "- `videos_on_target`",
+        "- `views_on_target_total`",
+        "- `comments_on_target_total`",
+        "- `on_target_share`",
+        "",
+        f"`low_on_target_share` flags products below {config.ON_TARGET_MIN_SHARE:.0%}. **YouTube features for modelling should use the on-target versions.** "
+        "Treat flagged products with care, or replace their query.",
+        "",
+    ]
+    shares = [r for r in report_rows if r["step"] == "add_on_target_metrics"]
+    if shares:
+        lines += [f"This run: {shares[0]['detail']}.", ""]
+    lines += [
         "## Outputs",
         "",
     ]
     lines += [f"- `data/processed/{name}`: {rows} rows{note}" for name, rows, note in outputs]
-    lines += ["", "Google Trends cleaning is not done yet; see the TODO in `src/clean_trends.py`.", ""]
+    lines += ["", "Google Trends cleaning is done separately by `src/clean_trends.py`.", ""]
     (paths.root / "docs" / SUMMARY_DOC).write_text("\n".join(lines), encoding="utf-8")
 
 
@@ -289,18 +376,27 @@ def main(paths=config.PATHS):
         "videos": (paths.videos_snapshot_csv, VIDEOS_OUT, " (git-ignored: titles)"),
         "comments": (paths.comments_snapshot_csv, COMMENTS_OUT, " (git-ignored: comment text)"),
         "product_daily": (paths.product_daily_csv, DAILY_OUT, ""),
+        "recent_window": (paths.recent_window_csv, RECENT_OUT, ""),
     }
-    missing = [str(p) for p, _, _ in inputs.values() if not p.exists()]
+    missing = [str(p) for name, (p, _, _) in inputs.items() if not p.exists() and name != "recent_window"]
     if missing:
         print(f"Missing input(s): {', '.join(missing)}. Run the collector first.", file=sys.stderr)
         return 1
 
     active = active_query_versions(paths)
+    registries = load_registries(paths)
+    trends_queries = {pid: p["trends_query"] for pid, p in registries.get(config.ACTIVE_REGISTRY, {}).items()}
     report = Report()
     outputs = []
+    cleaned_tables = {}
     paths.processed_dir.mkdir(parents=True, exist_ok=True)
     for name, (in_path, out_name, note) in inputs.items():
+        if not in_path.exists():
+            continue  # recent_window is optional (the recent pass may never have run)
         cleaned = clean_table(name, read_input(in_path), active, report)
+        if name == "product_daily":
+            cleaned = add_on_target_metrics(cleaned, cleaned_tables["videos"], trends_queries, report)
+        cleaned_tables[name] = cleaned
         cleaned.to_csv(paths.processed_dir / out_name, index=False, lineterminator="\n")
         outputs.append((out_name, len(cleaned), note))
 

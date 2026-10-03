@@ -17,7 +17,7 @@ from title_match import classify_titles  # noqa: F401  (re-exported for tests)
 
 MIN_VIDEOS = 10
 FLAT_SHARE = 0.5  # warn when at least half of a product's Trends days are 0 or "<1"
-ON_TARGET_MIN_SHARE = 0.5  # warn when fewer than half of the video titles name the exact model
+ON_TARGET_MIN_SHARE = config.ON_TARGET_MIN_SHARE  # same threshold as the cleaned low_on_target_share flag
 SIBLING_MAX_SHARE = 0.25  # warn when a quarter or more of the titles name a sibling model instead
 YOUTUBE_FAILURE_STATUSES = {"failed", "quota_exceeded", "aborted_budget"}
 
