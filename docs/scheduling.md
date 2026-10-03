@@ -1,17 +1,31 @@
 # Scheduling the YouTube collection
 
-This guide explains how to run `src/collect_youtube.py --all` automatically. **Nothing here is installed by the repo.** A team member sets it up by hand on the one machine that holds the `.env` file.
+This guide explains how to run the YouTube collector automatically. **Nothing here is installed by the repo.** A team member sets it up by hand on the one machine that holds the `.env` file.
 
-## What the scheduled job does
+## What the scheduled jobs do
 
-```
-python3 src/collect_youtube.py --all
-```
+There are two passes:
 
-- It collects every product in `data/products.csv`. Products never collected come first, then the stalest; products already collected today go last.
+| Pass | Command | Cost per product | Measures |
+|------|---------|------------------|----------|
+| main | `python3 src/collect_youtube.py --all --pass main` | 7 units, 1 search call | cumulative views, likes and comments of the top-50 relevance-ranked videos, plus top comments |
+| recent | `python3 src/collect_youtube.py --all --pass recent` | 1 unit, 1 search call | uploads in the last 7 days (`videos_published_7d`, `videos_7d_on_target`) |
+
+`python3 src/collect_youtube.py --plan` prints the quota for each schedule. For 60 products:
+- **Recent daily:** 60 search calls/day, which fits.
+- **Main weekly:** 60 search calls on its day, which fits on its own.
+- **Both on the same day:** 120 search calls, which **exceeds the 90-call budget**. At most 45 products/day can get both passes.
+
+**Recommended schedule:**
+- **Daily at 14:00:** the recent pass.
+- **Mondays and Tuesdays at 14:15:** the main pass. On Monday it stops cleanly at the cap after about 30 products (60 + 30 = 90 search calls). On Tuesday it continues with the other 30, stalest first.
+- **Result:** every product gets a daily recent count and a weekly main snapshot.
+
+Each job:
+- It collects every product in the active registry (`ACTIVE_REGISTRY` in `src/config.py`). Products never collected come first, then the stalest; products already collected today go last.
 - Before each product it checks both the unit budget (default 9,000 of the API's 10,000 units/day) and the `search.list` call budget (default 90 of the API's 100 calls/day). It stops cleanly if the next product would not fit, and logs `aborted_budget`. The next run continues with the products that were not collected.
 - Running it twice on the same day costs no quota. Products with raw files for today are served from the cache and logged `skipped_cached`.
-- The pilot measured 7 units and 1 `search.list` call per product, about 6 seconds each. All 60 products take about 420 units, 60 search calls and 6 minutes, so **daily snapshots fit within one day's quota**. The search-call cap (90/day) is the binding limit, at about 90 products/day.
+- The pilot measured about 6 seconds per product for the main pass and under 1 second for the recent pass. The search-call cap (90/day), not the unit budget, is the binding limit.
 
 ## When to run it
 
@@ -36,7 +50,7 @@ PY=/usr/local/bin/python3
 
 launchd catches up after sleep. If the Mac is asleep at the scheduled time, the job runs when it wakes, and several missed runs are combined into one.
 
-Create `~/Library/LaunchAgents/com.vpi.collect-youtube.plist`:
+Create one plist per pass. Recent pass, daily: `~/Library/LaunchAgents/com.vpi.collect-youtube.plist`.
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -52,8 +66,10 @@ Create `~/Library/LaunchAgents/com.vpi.collect-youtube.plist`:
     <string>/usr/local/bin/python3</string>
     <string>src/collect_youtube.py</string>
     <string>--all</string>
+    <string>--pass</string>
+    <string>recent</string>
   </array>
-  <!-- daily at 14:00 local time; for weekly add <key>Weekday</key><integer>1</integer> (Monday) -->
+  <!-- daily at 14:00 local time -->
   <key>StartCalendarInterval</key>
   <dict>
     <key>Hour</key>
@@ -69,7 +85,17 @@ Create `~/Library/LaunchAgents/com.vpi.collect-youtube.plist`:
 </plist>
 ```
 
-Manage it:
+Main pass, Mondays and Tuesdays: copy the file to `com.vpi.collect-youtube-main.plist`. Set its `Label` to `com.vpi.collect-youtube-main`, change `recent` to `main`, and replace `StartCalendarInterval` with an array of two dates:
+
+```xml
+  <key>StartCalendarInterval</key>
+  <array>
+    <dict><key>Weekday</key><integer>1</integer><key>Hour</key><integer>14</integer><key>Minute</key><integer>15</integer></dict>
+    <dict><key>Weekday</key><integer>2</integer><key>Hour</key><integer>14</integer><key>Minute</key><integer>15</integer></dict>
+  </array>
+```
+
+Manage them (repeat for `com.vpi.collect-youtube-main`):
 
 ```
 launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/com.vpi.collect-youtube.plist   # enable
@@ -85,10 +111,10 @@ cron runs in the system time zone (check it with `date`). It does **not** make u
 `crontab -e`, then add one line:
 
 ```
-# daily at 14:00
-0 14 * * * cd /Users/ashwin/Documents/viral-product-intelligence- && /usr/local/bin/python3 src/collect_youtube.py --all >> $HOME/Library/Logs/vpi-collect-youtube.log 2>&1
-# or weekly, Mondays at 14:00
-# 0 14 * * 1 cd /Users/ashwin/Documents/viral-product-intelligence- && /usr/local/bin/python3 src/collect_youtube.py --all >> $HOME/Library/Logs/vpi-collect-youtube.log 2>&1
+# recent pass, daily at 14:00
+0 14 * * * cd /Users/ashwin/Documents/viral-product-intelligence- && /usr/local/bin/python3 src/collect_youtube.py --all --pass recent >> $HOME/Library/Logs/vpi-collect-youtube.log 2>&1
+# main pass, Mondays and Tuesdays at 14:15 (stops at the search cap on Monday, resumes on Tuesday)
+15 14 * * 1,2 cd /Users/ashwin/Documents/viral-product-intelligence- && /usr/local/bin/python3 src/collect_youtube.py --all --pass main >> $HOME/Library/Logs/vpi-collect-youtube.log 2>&1
 ```
 
 ## macOS privacy permissions
@@ -106,7 +132,7 @@ Description=Viral Product Intelligence: YouTube collection
 [Service]
 Type=oneshot
 WorkingDirectory=/home/USER/viral-product-intelligence-
-ExecStart=/usr/bin/python3 src/collect_youtube.py --all
+ExecStart=/usr/bin/python3 src/collect_youtube.py --all --pass recent
 StandardOutput=append:/home/USER/.local/state/vpi-collect-youtube.log
 StandardError=append:/home/USER/.local/state/vpi-collect-youtube.log
 ```
@@ -118,7 +144,7 @@ StandardError=append:/home/USER/.local/state/vpi-collect-youtube.log
 Description=Run the YouTube collection daily after the quota reset
 
 [Timer]
-# daily 14:00 IST; for weekly use: OnCalendar=Mon *-*-* 14:00:00 Asia/Kolkata
+# recent pass daily at 14:00 IST
 OnCalendar=*-*-* 14:00:00 Asia/Kolkata
 # run at the next boot if the machine was off at the scheduled time
 Persistent=true
@@ -135,6 +161,8 @@ systemctl --user list-timers                      # check the next run
 loginctl enable-linger "$USER"                    # keep user timers running while logged out
 ```
 
+For the main pass, add `vpi-collect-youtube-main.service` with `--pass main` in place of `--pass recent`, and a matching `.timer` with `OnCalendar=Mon,Tue *-*-* 14:15:00 Asia/Kolkata`.
+
 A time zone inside `OnCalendar` needs systemd 235 or newer. On older systems, drop `Asia/Kolkata` and use the machine's local time.
 
 ## Linux option 2: cron
@@ -142,14 +170,17 @@ A time zone inside `OnCalendar` needs systemd 235 or newer. On older systems, dr
 ```
 # crontab -e
 CRON_TZ=Asia/Kolkata
-0 14 * * * cd /home/USER/viral-product-intelligence- && flock -n /tmp/vpi-collect.lock /usr/bin/python3 src/collect_youtube.py --all >> $HOME/.local/state/vpi-collect-youtube.log 2>&1
+0 14 * * * cd /home/USER/viral-product-intelligence- && flock /tmp/vpi-collect.lock /usr/bin/python3 src/collect_youtube.py --all --pass recent >> $HOME/.local/state/vpi-collect-youtube.log 2>&1
+15 14 * * 1,2 cd /home/USER/viral-product-intelligence- && flock /tmp/vpi-collect.lock /usr/bin/python3 src/collect_youtube.py --all --pass main >> $HOME/.local/state/vpi-collect-youtube.log 2>&1
 ```
 
-`CRON_TZ` works with cronie (Fedora, RHEL, Arch). On Debian and Ubuntu cron, it may be ignored, so use the server's local time instead. `flock -n` skips a run if the previous one is still going.
+`CRON_TZ` works with cronie (Fedora, RHEL, Arch). On Debian and Ubuntu cron, it may be ignored, so use the server's local time instead. `flock` makes the main job wait until the recent job has finished, so the two never run at once.
 
 ## After each run
 
 - The log file and `data/collection_log.csv` show one row per product (`success`, `skipped_cached`, `aborted_budget`, `failed`, ...).
 - `python3 src/pilot_report.py` summarizes the pilot products, joins and quota.
+- `python3 src/clean_youtube.py` refreshes the cleaned tables in `data/processed/`.
+- `python3 src/backup_local_data.py` archives the local-only data into `backups/`.
 - The job does not commit or push anything. Data stays on the collecting machine until someone commits the shareable files (see README, "What is committed").
 - If you see `quota_exceeded`, or `failed` with a key error, the job stops on its own. Fix the cause before the next scheduled run; do not loop retries.
