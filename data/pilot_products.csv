@@ -1,0 +1,11 @@
+product_id,product_name,brand,category,trends_query,youtube_query,launch_period,product_type,notes
+P003,Apple iPhone Duo,Apple,Smartphones,iphone duo,iphone duo review,2026-09,RISING,Apple foldable; name and India pricing confirmed by only two secondary sources; India sale reported from 2026-10-23; verify
+P006,Samsung Galaxy Z Flip 8,Samsung,Smartphones,galaxy z flip 8,galaxy z flip 8 review,2026-07,RISING,India general sale from 2026-08-08
+P016,Poco X8 Power,Poco,Smartphones,poco x8 power,poco x8 power review,2026-09,RISING,India launch 2026-09-04; verify Trends volume
+P018,Vivo T5 5G,Vivo,Smartphones,vivo t5,vivo t5 review,2026-09,RISING,Trends query also matches T5 Lite and other T5 variants
+P035,OnePlus 15R,OnePlus,Smartphones,oneplus 15r,oneplus 15r review,2025-12,STABLE,India launch 2025-12-17
+P043,Realme GT 8 Pro,Realme,Smartphones,realme gt 8 pro,realme gt 8 pro review,2025-11,STABLE,India launch 2025-11-20
+P044,Motorola Edge 70,Motorola,Smartphones,motorola edge 70,motorola edge 70 review,2025-12,STABLE,Trends query also matches all Edge 70 variants (Fusion / Pro / Max / Neo); high ambiguity
+P046,Oppo Reno 15,Oppo,Smartphones,oppo reno 15,oppo reno 15 review,2026-01,STABLE,Trends query also matches Reno 15 Pro / Pro Mini searches
+P057,Google Pixel 9,Google,Smartphones,pixel 9,pixel 9 review,established,DECLINING,Trends query also matches Pixel 9 Pro / 9a searches; high ambiguity
+P059,Redmi Note 14 Pro Plus,Redmi,Smartphones,redmi note 14 pro plus,redmi note 14 pro plus review,established,DECLINING,Official name is Redmi Note 14 Pro+
