@@ -351,3 +351,63 @@ run_timestamp,source,product_id,records_collected,status,error_message,quota_uni
 2026-10-04T05:14:38Z,google_trends,P058,269,success,,0
 2026-10-04T05:14:38Z,google_trends,P059,269,success,,0
 2026-10-04T05:14:38Z,google_trends,P060,269,success,,0
+2026-10-04T07:03:13Z,youtube_recent,P001,50,success,50-result cap hit; true count is higher,1
+2026-10-04T07:03:14Z,youtube_recent,P002,50,success,50-result cap hit; true count is higher,1
+2026-10-04T07:03:15Z,youtube_recent,P003,50,success,50-result cap hit; true count is higher,1
+2026-10-04T07:03:16Z,youtube_recent,P004,50,success,50-result cap hit; true count is higher,1
+2026-10-04T07:03:17Z,youtube_recent,P005,50,success,50-result cap hit; true count is higher,1
+2026-10-04T07:03:18Z,youtube_recent,P006,50,success,50-result cap hit; true count is higher,1
+2026-10-04T07:03:18Z,youtube_recent,P007,50,success,50-result cap hit; true count is higher,1
+2026-10-04T07:03:19Z,youtube_recent,P008,50,success,50-result cap hit; true count is higher,1
+2026-10-04T07:03:21Z,youtube_recent,P009,50,success,50-result cap hit; true count is higher,1
+2026-10-04T07:03:21Z,youtube_recent,P010,50,success,50-result cap hit; true count is higher,1
+2026-10-04T07:03:22Z,youtube_recent,P011,50,success,50-result cap hit; true count is higher,1
+2026-10-04T07:03:23Z,youtube_recent,P012,50,success,50-result cap hit; true count is higher,1
+2026-10-04T07:03:25Z,youtube_recent,P013,50,success,50-result cap hit; true count is higher,1
+2026-10-04T07:03:25Z,youtube_recent,P014,50,success,50-result cap hit; true count is higher,1
+2026-10-04T07:03:26Z,youtube_recent,P015,50,success,50-result cap hit; true count is higher,1
+2026-10-04T07:03:27Z,youtube_recent,P016,50,success,50-result cap hit; true count is higher,1
+2026-10-04T07:03:28Z,youtube_recent,P017,50,success,50-result cap hit; true count is higher,1
+2026-10-04T07:03:29Z,youtube_recent,P018,50,success,50-result cap hit; true count is higher,1
+2026-10-04T07:03:30Z,youtube_recent,P019,31,success,,1
+2026-10-04T07:03:31Z,youtube_recent,P020,50,success,50-result cap hit; true count is higher,1
+2026-10-04T07:03:31Z,youtube_recent,P021,50,success,50-result cap hit; true count is higher,1
+2026-10-04T07:03:32Z,youtube_recent,P022,46,success,,1
+2026-10-04T07:03:33Z,youtube_recent,P023,49,success,,1
+2026-10-04T07:03:34Z,youtube_recent,P024,50,success,50-result cap hit; true count is higher,1
+2026-10-04T07:03:35Z,youtube_recent,P025,50,success,50-result cap hit; true count is higher,1
+2026-10-04T07:03:36Z,youtube_recent,P026,50,success,50-result cap hit; true count is higher,1
+2026-10-04T07:03:37Z,youtube_recent,P027,50,success,50-result cap hit; true count is higher,1
+2026-10-04T07:03:38Z,youtube_recent,P028,50,success,50-result cap hit; true count is higher,1
+2026-10-04T07:03:39Z,youtube_recent,P029,50,success,50-result cap hit; true count is higher,1
+2026-10-04T07:03:40Z,youtube_recent,P030,50,success,50-result cap hit; true count is higher,1
+2026-10-04T07:03:41Z,youtube_recent,P031,48,success,,1
+2026-10-04T07:03:42Z,youtube_recent,P032,47,success,,1
+2026-10-04T07:03:43Z,youtube_recent,P033,50,success,50-result cap hit; true count is higher,1
+2026-10-04T07:03:44Z,youtube_recent,P034,50,success,50-result cap hit; true count is higher,1
+2026-10-04T07:03:45Z,youtube_recent,P035,45,success,,1
+2026-10-04T07:03:46Z,youtube_recent,P036,39,success,,1
+2026-10-04T07:03:47Z,youtube_recent,P037,50,success,50-result cap hit; true count is higher,1
+2026-10-04T07:03:47Z,youtube_recent,P038,27,success,,1
+2026-10-04T07:03:48Z,youtube_recent,P039,50,success,50-result cap hit; true count is higher,1
+2026-10-04T07:03:49Z,youtube_recent,P040,50,success,50-result cap hit; true count is higher,1
+2026-10-04T07:03:50Z,youtube_recent,P041,50,success,50-result cap hit; true count is higher,1
+2026-10-04T07:03:51Z,youtube_recent,P042,26,success,,1
+2026-10-04T07:03:52Z,youtube_recent,P043,19,success,,1
+2026-10-04T07:03:53Z,youtube_recent,P044,50,success,50-result cap hit; true count is higher,1
+2026-10-04T07:03:54Z,youtube_recent,P045,50,success,50-result cap hit; true count is higher,1
+2026-10-04T07:03:55Z,youtube_recent,P046,41,success,,1
+2026-10-04T07:03:56Z,youtube_recent,P047,35,success,,1
+2026-10-04T07:03:57Z,youtube_recent,P048,45,success,,1
+2026-10-04T07:03:58Z,youtube_recent,P049,50,success,50-result cap hit; true count is higher,1
+2026-10-04T07:03:59Z,youtube_recent,P050,50,success,50-result cap hit; true count is higher,1
+2026-10-04T07:04:00Z,youtube_recent,P051,50,success,50-result cap hit; true count is higher,1
+2026-10-04T07:04:01Z,youtube_recent,P052,50,success,50-result cap hit; true count is higher,1
+2026-10-04T07:04:02Z,youtube_recent,P053,50,success,50-result cap hit; true count is higher,1
+2026-10-04T07:04:03Z,youtube_recent,P054,50,success,50-result cap hit; true count is higher,1
+2026-10-04T07:04:04Z,youtube_recent,P055,50,success,50-result cap hit; true count is higher,1
+2026-10-04T07:04:05Z,youtube_recent,P056,50,success,50-result cap hit; true count is higher,1
+2026-10-04T07:04:06Z,youtube_recent,P057,13,success,query v2: pixel 9 review -pro -xl -fold -9a,1
+2026-10-04T07:04:07Z,youtube_recent,P058,31,success,,1
+2026-10-04T07:04:08Z,youtube_recent,P059,35,success,,1
+2026-10-04T07:04:09Z,youtube_recent,P060,22,success,,1

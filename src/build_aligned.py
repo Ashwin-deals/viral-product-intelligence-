@@ -15,6 +15,13 @@ Rules:
   interpolated; a date without a snapshot has missing YouTube values.
 - trends_observed / youtube_observed / youtube_recent_observed say whether that source has a value
   on that date.
+- is_provisional is true on each product's last Trends date (2026-10-03 for the current batch):
+  Google marks its latest day as partial (isPartial), so that value may still change. It applies
+  to every product, also those collected after Google stopped flagging the day, so the same date
+  is treated the same way everywhere.
+- zero_share_product = share of the product's days with search_interest exactly 0, among days
+  that have a value (missing days are neither zero nor counted). low_signal_product is true when
+  that share is above config.LOW_SIGNAL_ZERO_SHARE (50%). Rows are flagged, never dropped.
 - No features or labels (growth, acceleration, surge labels) are computed here.
 
 If the cleaned Trends data does not exist yet, the script says so and exits cleanly without
@@ -37,6 +44,7 @@ REPORT_OUT = "alignment_report.csv"
 
 REGISTRY_FIELDS = ["product_name", "brand", "category", "product_type"]
 TRENDS_FIELDS = ["search_interest", "is_below_threshold", "is_zero"]
+TRENDS_FLAGS = ["is_provisional", "zero_share_product", "low_signal_product"]
 YOUTUBE_FIELDS = ["query_version", "video_result_count", "video_views_total", "video_comments_total",
                   "videos_on_target", "views_on_target_total", "comments_on_target_total",
                   "on_target_share", "low_on_target_share", "result_cap_hit"]
@@ -72,6 +80,12 @@ def coverage(matched, days):
 def build(trends, daily, recent, registry):
     spine = trends[["product_id", "date"] + TRENDS_FIELDS].copy()
     spine["trends_observed"] = spine["search_interest"].str.strip() != ""
+    values = pd.to_numeric(spine["search_interest"].str.strip().replace("", None), errors="coerce")
+    spine["is_provisional"] = spine["date"] == spine.groupby("product_id")["date"].transform("max")
+    zero_days = (values == 0).groupby(spine["product_id"]).transform("sum")
+    valued_days = values.notna().groupby(spine["product_id"]).transform("sum")
+    spine["zero_share_product"] = (zero_days / valued_days.where(valued_days > 0)).round(4)
+    spine["low_signal_product"] = spine["zero_share_product"] > config.LOW_SIGNAL_ZERO_SHARE
 
     yt = source_frame(daily, YOUTUBE_FIELDS, {"query_version": "youtube_query_version"})
     yt["youtube_observed"] = True
@@ -86,7 +100,7 @@ def build(trends, daily, recent, registry):
         [{"product_id": pid, **{f: p[f] for f in REGISTRY_FIELDS}} for pid, p in registry.items()],
         columns=["product_id"] + REGISTRY_FIELDS)
     aligned = aligned.merge(reg, on="product_id", how="left")
-    order = (["product_id", "date"] + REGISTRY_FIELDS + ["trends_observed"] + TRENDS_FIELDS
+    order = (["product_id", "date"] + REGISTRY_FIELDS + ["trends_observed"] + TRENDS_FIELDS + TRENDS_FLAGS
              + ["youtube_observed", "youtube_query_version"] + YOUTUBE_FIELDS[1:]
              + ["youtube_recent_observed", "videos_published_7d", "videos_7d_on_target", "recent_cap_hit"])
     aligned = aligned[order].sort_values(["product_id", "date"], kind="stable").reset_index(drop=True)

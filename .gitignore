@@ -15,8 +15,38 @@ venv/
 
 # YouTube API content stays on the collecting machine (the repo is public): raw responses
 # include commenter names and channel ids, and the extracts hold titles and comment text.
-# Aggregates (product_daily.csv, quota_usage.csv) are committed.
+# The data/youtube/*.csv extracts are tracked (titles and comment text, no author names).
 raw/youtube/*.json  
 
 # Local backups of the git-ignored data (src/backup_local_data.py)
 backups/
+
+# Other local secret files (.env above stays ignored; the example file is meant to be shared)
+.env.*
+!.env.example
+
+# ---------------------------------------------------------------------------------------
+# Not needed in git (stay on disk). Each can be rebuilt from tracked files:
+#   data/trends_export_checklist.csv       <- python3 src/make_trends_checklist.py
+#   data/trends_long.csv                   <- python3 src/load_trends.py (from raw/trends/)
+#   data/processed/alignment_report.csv    <- python3 src/build_aligned.py
+#   data/processed/youtube_product_daily_clean.csv, youtube_recent_window_clean.csv
+#                                          <- python3 src/clean_youtube.py (from data/youtube/)
+# Kept tracked on purpose: data/youtube/ (inputs of clean_youtube.py, not rebuildable from git),
+# data/pilot_products.csv (default product list of several scripts) and the registry versions
+# data/products.csv / products_v2.csv / products_v3.csv (query-version history).
+data/trends_export_checklist.csv
+data/trends_long.csv
+data/processed/alignment_report.csv
+data/processed/youtube_product_daily_clean.csv
+data/processed/youtube_recent_window_clean.csv
+
+# Teammates pull the data straight from git, so the handoff zip is not committed
+data/handoff/
+
+# Pilot EDA (superseded by notebooks/04_eda_full.ipynb and docs/figures/eda_full_*.png)
+docs/figures/eda_[abcd]_*.png
+notebooks/03_eda_pilot.ipynb
+
+# Editors and notebooks
+.ipynb_checkpoints/

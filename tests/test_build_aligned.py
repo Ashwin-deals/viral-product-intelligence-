@@ -114,3 +114,31 @@ def test_end_to_end_from_trends_export(paths):
     assert [r["date"] for r in rows] == ["2026-09-28", "2026-09-29", "2026-09-30", "2026-10-01", "2026-10-02"]
     assert [r["youtube_observed"] for r in rows] == ["False"] * 4 + ["True"]
     assert rows[1]["search_interest"] == "0.5" and rows[1]["is_below_threshold"] == "True"
+
+
+def test_provisional_and_low_signal_flags(paths):
+    trends = [TRENDS[0],
+              ["P002", "2026-10-01", "0.0", "False", "True", "daily", "f", "2026-10-03"],
+              ["P002", "2026-10-02", "0.0", "False", "True", "daily", "f", "2026-10-03"],
+              ["P002", "2026-10-03", "5.0", "False", "False", "daily", "f", "2026-10-03"]] + TRENDS[1:5]
+    write(paths.processed_dir / ba.TRENDS_IN, trends)
+    write(paths.processed_dir / ba.DAILY_IN, DAILY)
+    write(paths.processed_dir / ba.RECENT_IN, RECENT)
+
+    assert ba.main(paths) == 0
+    rows = read_csv(paths.processed_dir / ba.ALIGNED_OUT)
+    by = {(r["product_id"], r["date"]): r for r in rows}
+
+    assert len(rows) == 7  # nothing dropped
+    assert sorted((p, d) for (p, d), r in by.items() if r["is_provisional"] == "True") == [
+        ("P001", "2026-10-04"), ("P002", "2026-10-03")]
+    assert by[("P001", "2026-10-04")]["is_provisional"] == "True"  # each product's own last date
+    assert by[("P002", "2026-10-03")]["is_provisional"] == "True"
+    assert by[("P001", "2026-10-01")]["is_provisional"] == "False"
+    # P002: 2 zeros of 3 valued days -> low signal; P001: 0 zeros of 3 valued days (1 missing day not counted)
+    assert by[("P002", "2026-10-01")]["zero_share_product"] == "0.6667"
+    assert by[("P002", "2026-10-01")]["low_signal_product"] == "True"
+    assert by[("P001", "2026-10-01")]["zero_share_product"] == "0.0"
+    assert by[("P001", "2026-10-02")]["search_interest"] == ""  # missing stays missing, not 0
+    assert by[("P001", "2026-10-03")]["videos_published_7d"] == "50"  # recent-window columns carried through
+    assert by[("P001", "2026-10-03")]["videos_7d_on_target"] == "20"

@@ -60,6 +60,9 @@ python3 src/check_query_versions.py                # raw files + table rows vs r
 python3 src/clean_youtube.py                       # data/youtube -> data/processed (+ cleaning report)
 python3 src/clean_trends.py                        # data/trends_long.csv -> data/processed/trends_clean.csv
 python3 src/build_aligned.py                       # Trends index + same-day YouTube -> aligned_daily.csv
+python3 src/full_report.py                         # all 60 products -> data/processed/full_report.csv + docs/full_report.md
+python3 src/build_handoff.py                       # data/handoff/task1_handoff.zip (deterministic)
+./run_after_reset.sh                               # after the quota reset: recent pass --all + rebuild everything + tests
 python3 src/backup_local_data.py                   # archive all of raw/, data/, docs/ (not .env) into backups/
 ```
 
@@ -108,7 +111,9 @@ Docs:
   - It upserts `data/trends_collection_manifest.csv` and logs source `google_trends_pytrends`.
   - pytrends 4.9.2 + urllib3 2.x: keep `retries=0`/`backoff_factor=0`, because its Retry call uses the removed `method_whitelist`.
 - `src/clean_trends.py`: keeps each product's latest export, deduplicates on `(product_id, date)`, and reports gaps without filling them.
-- `src/build_aligned.py`: a left join on the Trends daily index, with observed flags and no forward fill.
+- `src/build_aligned.py`: a left join on the Trends daily index, with observed flags and no forward fill. It adds `is_provisional` (each product's last Trends day), `zero_share_product` and `low_signal_product` (zero share > `config.LOW_SIGNAL_ZERO_SHARE`).
+- `src/full_report.py`: one row per registry product and an issues list. `usable` means Trends is not low-signal and YouTube on-target share is at least 60%.
+- `run_after_reset.sh`: stops at the first failing step. Step b0 refuses to call the API if the dry run says today's quota cannot cover the recent pass.
 - Both Trends-side scripts exit 0 and write nothing when their input is missing.
 
 ## Data conventions

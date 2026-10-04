@@ -153,6 +153,14 @@ All three read their inputs without changing them, and re-running gives identica
 - **Trends cleaning** keeps each product's latest export. It removes exact and `(product_id, date)` duplicates, keeps the `<1` rule (0.5 with `is_below_threshold`), keeps zero apart from missing, and reports gaps in the daily index without filling them. With no exports yet, it exits cleanly and writes nothing.
 - **Alignment** is a left join on the Trends daily index. It adds `trends_observed`, `youtube_observed` and `youtube_recent_observed`, with no forward fill and no features or labels. Without Trends data it exits cleanly.
 
-Handoff for teammates: [docs/handoff_task1.md](docs/handoff_task1.md).
+Handoff for teammates: [docs/handoff_task1.md](docs/handoff_task1.md), bundled as `data/handoff/task1_handoff.zip` (`python3 src/build_handoff.py`).
+
+All-product status: `python3 src/full_report.py` writes `data/processed/full_report.csv` and [docs/full_report.md](docs/full_report.md). The all-product EDA is `notebooks/04_eda_full.ipynb`, with charts in `docs/figures/eda_full_*.png`.
+
+After the YouTube quota resets (12:30 IST), `caffeinate -i ./run_after_reset.sh` runs the whole refresh:
+1. the recent pass for all products, guarded by a dry run;
+2. cleaning, alignment and the full report;
+3. the EDA notebook, the handoff zip and a backup;
+4. the tests.
 
 Note: cleaned outputs go to `data/processed/`. The top-level `processed/` folder is an unused placeholder.

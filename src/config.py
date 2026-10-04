@@ -181,6 +181,9 @@ YOUTUBE_COMMENTS_PAGE_SIZE = 100
 # Title-based exact-model filter (src/title_match.py): products whose share of on-target video
 # titles is below this are flagged (low_on_target_share) in the cleaned daily table.
 ON_TARGET_MIN_SHARE = 0.60
+# A product whose Google Trends series is more than this share of zero days (among days with a
+# value) is flagged low_signal_product in the aligned table and the full report.
+LOW_SIGNAL_ZERO_SHARE = 0.50
 YOUTUBE_RECENT_WINDOW_DAYS = 7
 YOUTUBE_RECENT_MAX_RESULTS = 50
 
