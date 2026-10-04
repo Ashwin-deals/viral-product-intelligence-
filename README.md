@@ -136,12 +136,16 @@ Exploratory analysis of the pilot: `notebooks/03_eda_pilot.ipynb`, with charts i
 ### Cleaning and alignment
 
 ```
-python3 src/clean_youtube.py     # data/youtube -> data/processed (+ cleaning_report_youtube.csv)
-python3 src/clean_trends.py      # data/trends_long.csv -> data/processed/trends_clean.csv (+ report)
-python3 src/build_aligned.py     # Trends daily index + same-day YouTube -> aligned_daily.csv (+ report)
+python3 src/consolidate_pipeline.py  # End-to-end consolidated preprocessing (SCRUM-19)
+# Or run individual stages:
+python3 src/clean_youtube.py         # data/youtube -> data/processed (+ cleaning_report_youtube.csv)
+python3 src/clean_trends.py          # data/trends_long.csv -> data/processed/trends_clean.csv (+ report)
+python3 src/build_aligned.py         # Trends daily index + same-day YouTube -> aligned_daily.csv (+ report)
 ```
 
-All three read their inputs without changing them, and re-running gives identical files.
+The consolidated pipeline (`src/consolidate_pipeline.py`) orchestrates validation, Trends cleaning, YouTube cleaning, temporal alignment, full 60-product reporting, and handoff bundling into a single, cross-platform workflow (detailed in [docs/pipeline_consolidation.md](docs/pipeline_consolidation.md)).
+
+All steps read their inputs without changing them, and re-running gives identical files.
 - **YouTube cleaning** (rules in [docs/cleaning_summary_youtube.md](docs/cleaning_summary_youtube.md)):
   - Only rows from each product's **active query version** are kept, and the report lists the excluded ones.
   - Timestamps are standardized to ISO 8601 UTC.
@@ -152,6 +156,11 @@ All three read their inputs without changing them, and re-running gives identica
   - **Exact-model metrics** are added next to the all-video totals. Use the `*_on_target` columns for modelling, and treat products with `low_on_target_share` (below 60%) with care.
 - **Trends cleaning** keeps each product's latest export. It removes exact and `(product_id, date)` duplicates, keeps the `<1` rule (0.5 with `is_below_threshold`), keeps zero apart from missing, and reports gaps in the daily index without filling them. With no exports yet, it exits cleanly and writes nothing.
 - **Alignment** is a left join on the Trends daily index. It adds `trends_observed`, `youtube_observed` and `youtube_recent_observed`, with no forward fill and no features or labels. Without Trends data it exits cleanly.
+
+### Review 1 & Dataset Documentation
+- **Formal Dataset Documentation:** [docs/dataset_documentation.md](docs/dataset_documentation.md) (SCRUM-10) — formal compilation of collection methods, query designs, rate limits, schema definitions, and source constraints.
+- **Dataset Description Slide Draft:** [docs/dataset_description_slide.md](docs/dataset_description_slide.md) (SCRUM-14) — Review 1 presentation slide drafts, volume breakdown, and talking points with visual figures in `docs/figures/`.
+- **Pipeline Consolidation Architecture:** [docs/pipeline_consolidation.md](docs/pipeline_consolidation.md) (SCRUM-19) — technical architecture, stage invariants, and execution guide.
 
 Handoff for teammates: [docs/handoff_task1.md](docs/handoff_task1.md), bundled as `data/handoff/task1_handoff.zip` (`python3 src/build_handoff.py`).
 
