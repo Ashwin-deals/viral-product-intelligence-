@@ -57,15 +57,15 @@ product_daily,missing_values,video_comments_total,,,,0,0,
 product_daily,missing_values,search_total_results_approx,,,,0,0,
 product_daily,missing_values,result_cap_hit,,,,0,0,
 product_daily,add_on_target_metrics,,70,70,0,,,"exact-model titles only (src/title_match.py); share < 60% flagged: P044 2026-10-03 (56%), P009 2026-10-04 (50%), P012 2026-10-04 (56%), P015 2026-10-04 (48%), P028 2026-10-04 (56%); no matching videos: 0 row(s)"
-recent_window,load,,70,70,0,,,rows read from the input file
-recent_window,normalize_column_names,,70,70,0,,,already snake_case
-recent_window,normalize_product_id,,70,70,0,,,dropped: product_id not like P001
-recent_window,standardize_dates,,70,70,0,,,snapshot_date -> YYYY-MM-DD (unparseable rows dropped); published_after -> ISO 8601 UTC (unparseable -> missing)
-recent_window,select_active_query,,70,70,0,,,excluded rows not collected with the active registry's query: none
-recent_window,drop_exact_duplicates,,70,70,0,,,identical rows; keep first seen
-recent_window,drop_key_duplicates,,70,70,0,,,"key (snapshot_date, product_id, query_version); keep first seen"
-recent_window,types_zero_vs_missing,,70,70,0,,,"counts -> integers; empty, non-numeric or negative -> missing (not 0)"
-recent_window,output,,70,70,0,,,outliers kept; rows sorted by key
+recent_window,load,,10,10,0,,,rows read from the input file
+recent_window,normalize_column_names,,10,10,0,,,already snake_case
+recent_window,normalize_product_id,,10,10,0,,,dropped: product_id not like P001
+recent_window,standardize_dates,,10,10,0,,,snapshot_date -> YYYY-MM-DD (unparseable rows dropped); published_after -> ISO 8601 UTC (unparseable -> missing)
+recent_window,select_active_query,,10,10,0,,,excluded rows not collected with the active registry's query: none
+recent_window,drop_exact_duplicates,,10,10,0,,,identical rows; keep first seen
+recent_window,drop_key_duplicates,,10,10,0,,,"key (snapshot_date, product_id, query_version); keep first seen"
+recent_window,types_zero_vs_missing,,10,10,0,,,"counts -> integers; empty, non-numeric or negative -> missing (not 0)"
+recent_window,output,,10,10,0,,,outliers kept; rows sorted by key
 recent_window,missing_values,snapshot_date,,,,0,0,
 recent_window,missing_values,product_id,,,,0,0,
 recent_window,missing_values,query_version,,,,0,0,

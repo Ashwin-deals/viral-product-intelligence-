@@ -160,7 +160,7 @@ def likely_non_english(text):
 def missing_mask(df, column):
     """Missing = empty string in the raw input, NA after cleaning."""
     values = df[column]
-    if values.dtype == object:
+    if values.dtype == object or pd.api.types.is_string_dtype(values):
         return values.isna() | (values.astype(str).str.strip() == "")
     return values.isna()
 
