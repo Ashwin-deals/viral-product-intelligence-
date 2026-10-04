@@ -1,0 +1,22 @@
+# Secrets
+.env
+
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+*.tmp
+venv/
+*.tmp
+
+# OS
+.DS_Store
+
+# YouTube API content stays on the collecting machine (the repo is public): raw responses
+# include commenter names and channel ids, and the extracts hold titles and comment text.
+# Aggregates (product_daily.csv, quota_usage.csv) are committed.
+raw/youtube/*.json  
+
+# Local backups of the git-ignored data (src/backup_local_data.py)
+backups/

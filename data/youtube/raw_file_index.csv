@@ -1,0 +1,62 @@
+file,product_id,snapshot_date,step,query_version,version_source,envelope_query_version,query,registry_query,status
+P003_2026-10-03_comments.json,P003,2026-10-03,comments,v1,untagged_v1_convention,,,,ok
+P003_2026-10-03_recent7d.json,P003,2026-10-03,recent7d,v1,untagged_v1_convention,v1,iphone duo review,iphone duo review,ok
+P003_2026-10-03_search.json,P003,2026-10-03,search,v1,untagged_v1_convention,,iphone duo review,iphone duo review,ok
+P003_2026-10-03_videos.json,P003,2026-10-03,videos,v1,untagged_v1_convention,,,,ok
+P006_2026-10-03_comments.json,P006,2026-10-03,comments,v1,untagged_v1_convention,,,,ok
+P006_2026-10-03_recent7d.json,P006,2026-10-03,recent7d,v1,untagged_v1_convention,v1,galaxy z flip 8 review,galaxy z flip 8 review,ok
+P006_2026-10-03_search.json,P006,2026-10-03,search,v1,untagged_v1_convention,,galaxy z flip 8 review,galaxy z flip 8 review,ok
+P006_2026-10-03_videos.json,P006,2026-10-03,videos,v1,untagged_v1_convention,,,,ok
+P016_2026-10-03_comments.json,P016,2026-10-03,comments,v1,untagged_v1_convention,,,,ok
+P016_2026-10-03_recent7d.json,P016,2026-10-03,recent7d,v1,untagged_v1_convention,v1,poco x8 power review,poco x8 power review,ok
+P016_2026-10-03_search.json,P016,2026-10-03,search,v1,untagged_v1_convention,,poco x8 power review,poco x8 power review,ok
+P016_2026-10-03_videos.json,P016,2026-10-03,videos,v1,untagged_v1_convention,,,,ok
+P018_2026-10-03_comments.json,P018,2026-10-03,comments,v1,untagged_v1_convention,,,,ok
+P018_2026-10-03_recent7d.json,P018,2026-10-03,recent7d,v1,untagged_v1_convention,v1,vivo t5 review,vivo t5 review,ok
+P018_2026-10-03_search.json,P018,2026-10-03,search,v1,untagged_v1_convention,,vivo t5 review,vivo t5 review,ok
+P018_2026-10-03_videos.json,P018,2026-10-03,videos,v1,untagged_v1_convention,,,,ok
+P026_2026-10-04_comments.json,P026,2026-10-04,comments,v1,untagged_v1_convention,v1,,,ok
+P026_2026-10-04_search.json,P026,2026-10-04,search,v1,untagged_v1_convention,v1,iphone 17e review,iphone 17e review,ok
+P026_2026-10-04_videos.json,P026,2026-10-04,videos,v1,untagged_v1_convention,v1,,,ok
+P027_2026-10-04_comments.json,P027,2026-10-04,comments,v1,untagged_v1_convention,v1,,,ok
+P027_2026-10-04_search.json,P027,2026-10-04,search,v1,untagged_v1_convention,v1,galaxy s26 ultra review,galaxy s26 ultra review,ok
+P027_2026-10-04_videos.json,P027,2026-10-04,videos,v1,untagged_v1_convention,v1,,,ok
+P033_2026-10-04_comments.json,P033,2026-10-04,comments,v1,untagged_v1_convention,v1,,,ok
+P033_2026-10-04_search.json,P033,2026-10-04,search,v1,untagged_v1_convention,v1,pixel 10a review,pixel 10a review,ok
+P033_2026-10-04_videos.json,P033,2026-10-04,videos,v1,untagged_v1_convention,v1,,,ok
+P035_2026-10-03_comments.json,P035,2026-10-03,comments,v1,untagged_v1_convention,,,,ok
+P035_2026-10-03_recent7d.json,P035,2026-10-03,recent7d,v1,untagged_v1_convention,v1,oneplus 15r review,oneplus 15r review,ok
+P035_2026-10-03_search.json,P035,2026-10-03,search,v1,untagged_v1_convention,,oneplus 15r review,oneplus 15r review,ok
+P035_2026-10-03_videos.json,P035,2026-10-03,videos,v1,untagged_v1_convention,,,,ok
+P039_2026-10-04_comments.json,P039,2026-10-04,comments,v1,untagged_v1_convention,v1,,,ok
+P039_2026-10-04_search.json,P039,2026-10-04,search,v1,untagged_v1_convention,v1,vivo x300 pro review,vivo x300 pro review,ok
+P039_2026-10-04_videos.json,P039,2026-10-04,videos,v1,untagged_v1_convention,v1,,,ok
+P043_2026-10-03_comments.json,P043,2026-10-03,comments,v1,untagged_v1_convention,,,,ok
+P043_2026-10-03_recent7d.json,P043,2026-10-03,recent7d,v1,untagged_v1_convention,v1,realme gt 8 pro review,realme gt 8 pro review,ok
+P043_2026-10-03_search.json,P043,2026-10-03,search,v1,untagged_v1_convention,,realme gt 8 pro review,realme gt 8 pro review,ok
+P043_2026-10-03_videos.json,P043,2026-10-03,videos,v1,untagged_v1_convention,,,,ok
+P044_2026-10-03_comments.json,P044,2026-10-03,comments,v1,untagged_v1_convention,,,,ok
+P044_2026-10-03_qv2_comments.json,P044,2026-10-03,comments,v2,filename_tag,v2,,,ok
+P044_2026-10-03_qv2_search.json,P044,2026-10-03,search,v2,filename_tag,v2,motorola edge 70 review -fusion -pro -max -neo,motorola edge 70 review -fusion -pro -max -neo,ok
+P044_2026-10-03_qv2_videos.json,P044,2026-10-03,videos,v2,filename_tag,v2,,,ok
+P044_2026-10-03_recent7d.json,P044,2026-10-03,recent7d,v1,untagged_v1_convention,v1,motorola edge 70 review,motorola edge 70 review,ok
+P044_2026-10-03_search.json,P044,2026-10-03,search,v1,untagged_v1_convention,,motorola edge 70 review,motorola edge 70 review,ok
+P044_2026-10-03_videos.json,P044,2026-10-03,videos,v1,untagged_v1_convention,,,,ok
+P045_2026-10-04_comments.json,P045,2026-10-04,comments,v1,untagged_v1_convention,v1,,,ok
+P045_2026-10-04_search.json,P045,2026-10-04,search,v1,untagged_v1_convention,v1,oppo find x9 pro review,oppo find x9 pro review,ok
+P045_2026-10-04_videos.json,P045,2026-10-04,videos,v1,untagged_v1_convention,v1,,,ok
+P046_2026-10-03_comments.json,P046,2026-10-03,comments,v1,untagged_v1_convention,,,,ok
+P046_2026-10-03_recent7d.json,P046,2026-10-03,recent7d,v1,untagged_v1_convention,v1,oppo reno 15 review,oppo reno 15 review,ok
+P046_2026-10-03_search.json,P046,2026-10-03,search,v1,untagged_v1_convention,,oppo reno 15 review,oppo reno 15 review,ok
+P046_2026-10-03_videos.json,P046,2026-10-03,videos,v1,untagged_v1_convention,,,,ok
+P057_2026-10-03_comments.json,P057,2026-10-03,comments,v1,untagged_v1_convention,,,,ok
+P057_2026-10-03_qv2_comments.json,P057,2026-10-03,comments,v2,filename_tag,v2,,,ok
+P057_2026-10-03_qv2_recent7d.json,P057,2026-10-03,recent7d,v2,filename_tag,v2,pixel 9 review -pro -xl -fold -9a,pixel 9 review -pro -xl -fold -9a,ok
+P057_2026-10-03_qv2_search.json,P057,2026-10-03,search,v2,filename_tag,v2,pixel 9 review -pro -xl -fold -9a,pixel 9 review -pro -xl -fold -9a,ok
+P057_2026-10-03_qv2_videos.json,P057,2026-10-03,videos,v2,filename_tag,v2,,,ok
+P057_2026-10-03_search.json,P057,2026-10-03,search,v1,untagged_v1_convention,,pixel 9 review,pixel 9 review,ok
+P057_2026-10-03_videos.json,P057,2026-10-03,videos,v1,untagged_v1_convention,,,,ok
+P059_2026-10-03_comments.json,P059,2026-10-03,comments,v1,untagged_v1_convention,,,,ok
+P059_2026-10-03_recent7d.json,P059,2026-10-03,recent7d,v1,untagged_v1_convention,v1,redmi note 14 pro plus review,redmi note 14 pro plus review,ok
+P059_2026-10-03_search.json,P059,2026-10-03,search,v1,untagged_v1_convention,,redmi note 14 pro plus review,redmi note 14 pro plus review,ok
+P059_2026-10-03_videos.json,P059,2026-10-03,videos,v1,untagged_v1_convention,,,,ok

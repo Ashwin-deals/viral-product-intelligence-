@@ -1,0 +1,76 @@
+table,step,column,rows_before,rows_after,rows_dropped,missing_before,missing_after,detail
+trends,load,,16140,16140,0,,,rows read from data/trends_long.csv
+trends,normalize_product_id,,16140,16140,0,,,dropped: product_id not like P001
+trends,standardize_dates,,16140,16140,0,,,date and collection_date -> YYYY-MM-DD; rows with an unparseable date dropped
+trends,select_latest_export,,16140,16140,0,,,rows from older exports excluded (each export has its own 0-100 scale): none
+trends,drop_exact_duplicates,,16140,16140,0,,,identical rows; keep first seen
+trends,drop_key_duplicates,,16140,16140,0,,,"key (product_id, date); keep first seen"
+trends,types_zero_vs_missing,,16140,16140,0,,,"search_interest -> number; missing/non-numeric -> missing (not 0); 0 out-of-range value(s) -> missing; '<1' rows = 0.5 with is_below_threshold (0 row(s), 0 corrected); reported zeros = 3628"
+trends,output,,16140,16140,0,,,"outliers kept; gaps reported, not filled; rows sorted by key"
+trends,product_summary,P001,,269,,,0,2026-01-08..2026-10-03; days=269; zero=5; below_threshold=0; missing=0; gap_days=0
+trends,product_summary,P002,,269,,,0,2026-01-08..2026-10-03; days=269; zero=0; below_threshold=0; missing=0; gap_days=0
+trends,product_summary,P003,,269,,,0,2026-01-08..2026-10-03; days=269; zero=244; below_threshold=0; missing=0; gap_days=0
+trends,product_summary,P004,,269,,,0,2026-01-08..2026-10-03; days=269; zero=144; below_threshold=0; missing=0; gap_days=0
+trends,product_summary,P005,,269,,,0,2026-01-08..2026-10-03; days=269; zero=203; below_threshold=0; missing=0; gap_days=0
+trends,product_summary,P006,,269,,,0,2026-01-08..2026-10-03; days=269; zero=231; below_threshold=0; missing=0; gap_days=0
+trends,product_summary,P007,,269,,,0,2026-01-08..2026-10-03; days=269; zero=197; below_threshold=0; missing=0; gap_days=0
+trends,product_summary,P008,,269,,,0,2026-01-08..2026-10-03; days=269; zero=1; below_threshold=0; missing=0; gap_days=0
+trends,product_summary,P009,,269,,,0,2026-01-08..2026-10-03; days=269; zero=109; below_threshold=0; missing=0; gap_days=0
+trends,product_summary,P010,,269,,,0,2026-01-08..2026-10-03; days=269; zero=206; below_threshold=0; missing=0; gap_days=0
+trends,product_summary,P011,,269,,,0,2026-01-08..2026-10-03; days=269; zero=1; below_threshold=0; missing=0; gap_days=0
+trends,product_summary,P012,,269,,,0,2026-01-08..2026-10-03; days=269; zero=145; below_threshold=0; missing=0; gap_days=0
+trends,product_summary,P013,,269,,,0,2026-01-08..2026-10-03; days=269; zero=204; below_threshold=0; missing=0; gap_days=0
+trends,product_summary,P014,,269,,,0,2026-01-08..2026-10-03; days=269; zero=254; below_threshold=0; missing=0; gap_days=0
+trends,product_summary,P015,,269,,,0,2026-01-08..2026-10-03; days=269; zero=18; below_threshold=0; missing=0; gap_days=0
+trends,product_summary,P016,,269,,,0,2026-01-08..2026-10-03; days=269; zero=231; below_threshold=0; missing=0; gap_days=0
+trends,product_summary,P017,,269,,,0,2026-01-08..2026-10-03; days=269; zero=134; below_threshold=0; missing=0; gap_days=0
+trends,product_summary,P018,,269,,,0,2026-01-08..2026-10-03; days=269; zero=11; below_threshold=0; missing=0; gap_days=0
+trends,product_summary,P019,,269,,,0,2026-01-08..2026-10-03; days=269; zero=8; below_threshold=0; missing=0; gap_days=0
+trends,product_summary,P020,,269,,,0,2026-01-08..2026-10-03; days=269; zero=2; below_threshold=0; missing=0; gap_days=0
+trends,product_summary,P021,,269,,,0,2026-01-08..2026-10-03; days=269; zero=253; below_threshold=0; missing=0; gap_days=0
+trends,product_summary,P022,,269,,,0,2026-01-08..2026-10-03; days=269; zero=184; below_threshold=0; missing=0; gap_days=0
+trends,product_summary,P023,,269,,,0,2026-01-08..2026-10-03; days=269; zero=166; below_threshold=0; missing=0; gap_days=0
+trends,product_summary,P024,,269,,,0,2026-01-08..2026-10-03; days=269; zero=217; below_threshold=0; missing=0; gap_days=0
+trends,product_summary,P025,,269,,,0,2026-01-08..2026-10-03; days=269; zero=0; below_threshold=0; missing=0; gap_days=0
+trends,product_summary,P026,,269,,,0,2026-01-08..2026-10-03; days=269; zero=20; below_threshold=0; missing=0; gap_days=0
+trends,product_summary,P027,,269,,,0,2026-01-08..2026-10-03; days=269; zero=0; below_threshold=0; missing=0; gap_days=0
+trends,product_summary,P028,,269,,,0,2026-01-08..2026-10-03; days=269; zero=0; below_threshold=0; missing=0; gap_days=0
+trends,product_summary,P029,,269,,,0,2026-01-08..2026-10-03; days=269; zero=222; below_threshold=0; missing=0; gap_days=0
+trends,product_summary,P030,,269,,,0,2026-01-08..2026-10-03; days=269; zero=41; below_threshold=0; missing=0; gap_days=0
+trends,product_summary,P031,,269,,,0,2026-01-08..2026-10-03; days=269; zero=71; below_threshold=0; missing=0; gap_days=0
+trends,product_summary,P032,,269,,,0,2026-01-08..2026-10-03; days=269; zero=1; below_threshold=0; missing=0; gap_days=0
+trends,product_summary,P033,,269,,,0,2026-01-08..2026-10-03; days=269; zero=5; below_threshold=0; missing=0; gap_days=0
+trends,product_summary,P034,,269,,,0,2026-01-08..2026-10-03; days=269; zero=0; below_threshold=0; missing=0; gap_days=0
+trends,product_summary,P035,,269,,,0,2026-01-08..2026-10-03; days=269; zero=0; below_threshold=0; missing=0; gap_days=0
+trends,product_summary,P036,,269,,,0,2026-01-08..2026-10-03; days=269; zero=0; below_threshold=0; missing=0; gap_days=0
+trends,product_summary,P037,,269,,,0,2026-01-08..2026-10-03; days=269; zero=19; below_threshold=0; missing=0; gap_days=0
+trends,product_summary,P038,,269,,,0,2026-01-08..2026-10-03; days=269; zero=2; below_threshold=0; missing=0; gap_days=0
+trends,product_summary,P039,,269,,,0,2026-01-08..2026-10-03; days=269; zero=0; below_threshold=0; missing=0; gap_days=0
+trends,product_summary,P040,,269,,,0,2026-01-08..2026-10-03; days=269; zero=0; below_threshold=0; missing=0; gap_days=0
+trends,product_summary,P041,,269,,,0,2026-01-08..2026-10-03; days=269; zero=0; below_threshold=0; missing=0; gap_days=0
+trends,product_summary,P042,,269,,,0,2026-01-08..2026-10-03; days=269; zero=2; below_threshold=0; missing=0; gap_days=0
+trends,product_summary,P043,,269,,,0,2026-01-08..2026-10-03; days=269; zero=27; below_threshold=0; missing=0; gap_days=0
+trends,product_summary,P044,,269,,,0,2026-01-08..2026-10-03; days=269; zero=0; below_threshold=0; missing=0; gap_days=0
+trends,product_summary,P045,,269,,,0,2026-01-08..2026-10-03; days=269; zero=2; below_threshold=0; missing=0; gap_days=0
+trends,product_summary,P046,,269,,,0,2026-01-08..2026-10-03; days=269; zero=0; below_threshold=0; missing=0; gap_days=0
+trends,product_summary,P047,,269,,,0,2026-01-08..2026-10-03; days=269; zero=4; below_threshold=0; missing=0; gap_days=0
+trends,product_summary,P048,,269,,,0,2026-01-08..2026-10-03; days=269; zero=0; below_threshold=0; missing=0; gap_days=0
+trends,product_summary,P049,,269,,,0,2026-01-08..2026-10-03; days=269; zero=0; below_threshold=0; missing=0; gap_days=0
+trends,product_summary,P050,,269,,,0,2026-01-08..2026-10-03; days=269; zero=0; below_threshold=0; missing=0; gap_days=0
+trends,product_summary,P051,,269,,,0,2026-01-08..2026-10-03; days=269; zero=0; below_threshold=0; missing=0; gap_days=0
+trends,product_summary,P052,,269,,,0,2026-01-08..2026-10-03; days=269; zero=0; below_threshold=0; missing=0; gap_days=0
+trends,product_summary,P053,,269,,,0,2026-01-08..2026-10-03; days=269; zero=0; below_threshold=0; missing=0; gap_days=0
+trends,product_summary,P054,,269,,,0,2026-01-08..2026-10-03; days=269; zero=1; below_threshold=0; missing=0; gap_days=0
+trends,product_summary,P055,,269,,,0,2026-01-08..2026-10-03; days=269; zero=32; below_threshold=0; missing=0; gap_days=0
+trends,product_summary,P056,,269,,,0,2026-01-08..2026-10-03; days=269; zero=1; below_threshold=0; missing=0; gap_days=0
+trends,product_summary,P057,,269,,,0,2026-01-08..2026-10-03; days=269; zero=0; below_threshold=0; missing=0; gap_days=0
+trends,product_summary,P058,,269,,,0,2026-01-08..2026-10-03; days=269; zero=0; below_threshold=0; missing=0; gap_days=0
+trends,product_summary,P059,,269,,,0,2026-01-08..2026-10-03; days=269; zero=8; below_threshold=0; missing=0; gap_days=0
+trends,product_summary,P060,,269,,,0,2026-01-08..2026-10-03; days=269; zero=2; below_threshold=0; missing=0; gap_days=0
+trends,missing_values,product_id,,,,0,0,
+trends,missing_values,date,,,,0,0,
+trends,missing_values,search_interest,,,,0,0,
+trends,missing_values,is_below_threshold,,,,0,0,
+trends,missing_values,granularity,,,,0,0,
+trends,missing_values,source_file,,,,0,0,
+trends,missing_values,collection_date,,,,0,0,

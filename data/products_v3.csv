@@ -1,0 +1,61 @@
+product_id,product_name,brand,category,trends_query,youtube_query,launch_period,product_type,notes
+P001,Apple iPhone 18 Pro,Apple,Smartphones,iphone 18 pro,iphone 18 pro review,2026-09,RISING,Trends query also matches iphone 18 pro max searches; India sale from 2026-09-18
+P002,Apple iPhone 18 Pro Max,Apple,Smartphones,iphone 18 pro max,iphone 18 pro max review,2026-09,RISING,India sale from 2026-09-18
+P003,Apple iPhone Duo,Apple,Smartphones,iphone duo,iphone duo review,2026-09,RISING,Apple foldable; name and India pricing confirmed by only two secondary sources; India sale reported from 2026-10-23; verify
+P004,Samsung Galaxy Z Fold 8,Samsung,Smartphones,galaxy z fold 8,galaxy z fold 8 review,2026-07,RISING,Trends query also matches galaxy z fold 8 ultra searches
+P005,Samsung Galaxy Z Fold 8 Ultra,Samsung,Smartphones,galaxy z fold 8 ultra,galaxy z fold 8 ultra review,2026-07,RISING,verify Trends volume; may be too low to separate from Z Fold 8
+P006,Samsung Galaxy Z Flip 8,Samsung,Smartphones,galaxy z flip 8,galaxy z flip 8 review,2026-07,RISING,India general sale from 2026-08-08
+P007,Samsung Galaxy S26 FE,Samsung,Smartphones,galaxy s26 fe,galaxy s26 fe review,2026-09,RISING,India launch 2026-09-14
+P008,Google Pixel 11,Google,Smartphones,pixel 11,pixel 11 review,2026-08,RISING,Trends query also matches Pixel 11 Pro / Pro XL / Pro Fold searches
+P009,Google Pixel 11 Pro,Google,Smartphones,pixel 11 pro,pixel 11 pro review,2026-08,RISING,Trends query also matches Pixel 11 Pro XL and Pro Fold searches
+P010,Google Pixel 11 Pro XL,Google,Smartphones,pixel 11 pro xl,pixel 11 pro xl review,2026-08,RISING,verify Trends volume
+P011,OnePlus 16,OnePlus,Smartphones,oneplus 16,oneplus 16 review,unverified,RISING,Upcoming; China launch reported for 2026-10-12; India launch date not confirmed
+P012,Redmi Note 17 Pro,Redmi,Smartphones,redmi note 17 pro,redmi note 17 pro review,2026-09,RISING,Trends query also matches Note 17 Pro Max searches; one source dated the Note 17 series to 2026-08 (likely the base Note 17); verify
+P013,Redmi Note 17 Pro Max,Redmi,Smartphones,redmi note 17 pro max,redmi note 17 pro max review,2026-09,RISING,India launch 2026-09-15; Redmi is a Xiaomi sub-brand
+P014,Redmi 17C 5G,Redmi,Smartphones,redmi 17c,redmi 17c review,2026-10,RISING,India launch 2026-10-01; verify Trends volume
+P015,Poco X8,Poco,Smartphones,poco x8,poco x8 review,2026-09,RISING,Trends query also matches poco x8 power searches; Poco is a Xiaomi sub-brand
+P016,Poco X8 Power,Poco,Smartphones,poco x8 power,poco x8 power review,2026-09,RISING,India launch 2026-09-04; verify Trends volume
+P017,Vivo V80,Vivo,Smartphones,vivo v80,vivo v80 review,2026-10,RISING,Upcoming; India launch announced for 2026-10-06
+P018,Vivo T5 5G,Vivo,Smartphones,vivo t5,vivo t5 review,2026-09,RISING,Trends query also matches T5 Lite and other T5 variants
+P019,iQOO Z11,iQOO,Smartphones,iqoo z11,iqoo z11 review,2026-08,RISING,Trends query also matches Z11x / Z11xa searches; iQOO is a vivo sub-brand
+P020,Oppo Reno 16,Oppo,Smartphones,oppo reno 16,oppo reno 16 review,2026-07,RISING,Trends query also matches Reno 16C searches
+P021,Oppo F35 Pro,Oppo,Smartphones,oppo f35 pro,oppo f35 pro review,2026-10,RISING,Upcoming; India launch announced for 2026-10-05; verify Trends volume
+P022,Motorola Edge 70 Max,Motorola,Smartphones,motorola edge 70 max,motorola edge 70 max review,2026-07,RISING,India launch 2026-07-15; verify Trends volume
+P023,Nothing Phone (4b),Nothing,Smartphones,nothing phone 4b,nothing phone 4b review,2026-07,RISING,India launch 2026-07-07
+P024,Infinix Hot 70 Pro 5G,Infinix,Smartphones,infinix hot 70 pro,infinix hot 70 pro review,2026-09,RISING,verify Trends volume
+P025,Apple iPhone 17,Apple,Smartphones,iphone 17,iphone 17 review,established,STABLE,Trends query also matches iphone 17 pro / pro max / 17e searches; high ambiguity
+P026,Apple iPhone 17e,Apple,Smartphones,iphone 17e,iphone 17e review,2026-03,STABLE,India launch 2026-03-02
+P027,Samsung Galaxy S26 Ultra,Samsung,Smartphones,galaxy s26 ultra,galaxy s26 ultra review,2026-02,STABLE,Announced 2026-02-25; India sales from 2026-03
+P028,Samsung Galaxy S26,Samsung,Smartphones,galaxy s26,galaxy s26 review,2026-02,STABLE,Trends query also matches S26 Ultra / S26 FE / S26 Plus searches; high ambiguity
+P029,Samsung Galaxy S26 Plus,Samsung,Smartphones,galaxy s26 plus,galaxy s26 plus review,2026-02,STABLE,Official name is Galaxy S26+; many users search s26+ which Trends may not merge; verify Trends volume
+P030,Samsung Galaxy A57 5G,Samsung,Smartphones,galaxy a57,galaxy a57 review,2026-04,STABLE,India sale from 2026-04-10; announcement date not checked
+P031,Samsung Galaxy A37 5G,Samsung,Smartphones,galaxy a37,galaxy a37 review,2026-04,STABLE,India sale from 2026-04-10; announcement date not checked
+P032,Samsung Galaxy A17 5G,Samsung,Smartphones,galaxy a17,galaxy a17 review,established,STABLE,India launch reported as 2025-08-29
+P033,Google Pixel 10a,Google,Smartphones,pixel 10a,pixel 10a review,2026-02,STABLE,India launch 2026-02-18
+P034,OnePlus 15,OnePlus,Smartphones,oneplus 15,oneplus 15 review,2025-11,STABLE,Trends query also matches oneplus 15r searches
+P035,OnePlus 15R,OnePlus,Smartphones,oneplus 15r,oneplus 15r review,2025-12,STABLE,India launch 2025-12-17
+P036,OnePlus Nord 6,OnePlus,Smartphones,oneplus nord 6,oneplus nord 6 review,2026-04,STABLE,India launch 2026-04-07
+P037,Nothing Phone (4a),Nothing,Smartphones,nothing phone 4a,nothing phone 4a review,2026-03,STABLE,Trends query also matches Phone (4a) Pro searches
+P038,Nothing Phone (3),Nothing,Smartphones,nothing phone 3,nothing phone 3 review,established,STABLE,Trends query also matches nothing phone 3a searches; India launch month not re-checked
+P039,Vivo X300 Pro,Vivo,Smartphones,vivo x300 pro,vivo x300 pro review,2025-12,STABLE,India launch 2025-12-02
+P040,Vivo X300,Vivo,Smartphones,vivo x300,vivo x300 review,2025-12,STABLE,Trends query also matches vivo x300 pro searches
+P041,iQOO 15,iQOO,Smartphones,iqoo 15,iqoo 15 review,2025-11,STABLE,Trends query may also match iqoo 15r searches; India launch 2025-11-26
+P042,Realme 16 Pro Plus,Realme,Smartphones,realme 16 pro plus,realme 16 pro plus review,2026-01,STABLE,Official name is Realme 16 Pro+; users also search 16 pro+
+P043,Realme GT 8 Pro,Realme,Smartphones,realme gt 8 pro,realme gt 8 pro review,2025-11,STABLE,India launch 2025-11-20
+P044,Motorola Edge 70,Motorola,Smartphones,motorola edge 70,motorola edge 70 review,2025-12,STABLE,Trends query also matches all Edge 70 variants (Fusion / Pro / Max / Neo); high ambiguity
+P045,Oppo Find X9 Pro,Oppo,Smartphones,oppo find x9 pro,oppo find x9 pro review,2025-11,STABLE,India launch 2025-11-18
+P046,Oppo Reno 15,Oppo,Smartphones,oppo reno 15,oppo reno 15 review,2026-01,STABLE,Trends query also matches Reno 15 Pro / Pro Mini searches
+P047,Redmi Note 15 Pro Plus,Redmi,Smartphones,redmi note 15 pro plus,redmi note 15 pro plus review,2026-02,STABLE,Official name is Redmi Note 15 Pro+; India launch 2026-02-04
+P048,Poco F7,Poco,Smartphones,poco f7,poco f7 review,established,STABLE,India launch 2025-06-24; no Poco F8 India launch confirmed
+P049,Apple iPhone 17 Pro,Apple,Smartphones,iphone 17 pro,iphone 17 pro review,established,DECLINING,Succeeded by iPhone 18 Pro; Trends query also matches iphone 17 pro max searches
+P050,Apple iPhone 17 Pro Max,Apple,Smartphones,iphone 17 pro max,iphone 17 pro max review,established,DECLINING,Succeeded by iPhone 18 Pro Max
+P051,Apple iPhone 16,Apple,Smartphones,iphone 16,iphone 16 review,established,DECLINING,Trends query also matches iphone 16 pro / plus / 16e searches
+P052,Apple iPhone 15,Apple,Smartphones,iphone 15,iphone 15 review,established,DECLINING,Trends query also matches iphone 15 pro / plus searches; current India availability not checked
+P053,Samsung Galaxy S25 Ultra,Samsung,Smartphones,galaxy s25 ultra,galaxy s25 ultra review,established,DECLINING,Succeeded by Galaxy S26 Ultra
+P054,Samsung Galaxy S24 Ultra,Samsung,Smartphones,galaxy s24 ultra,galaxy s24 ultra review,established,DECLINING,Two generations old; current India availability not checked
+P055,Samsung Galaxy Z Fold 7,Samsung,Smartphones,galaxy z fold 7,galaxy z fold 7 review,established,DECLINING,Succeeded by Galaxy Z Fold 8
+P056,Google Pixel 10 Pro,Google,Smartphones,pixel 10 pro,pixel 10 pro review,established,DECLINING,Succeeded by Pixel 11 Pro; Trends query also matches Pixel 10 Pro XL / Pro Fold searches
+P057,Google Pixel 9,Google,Smartphones,pixel 9,pixel 9 review -pro -xl -fold -9a,established,DECLINING,Trends query also matches Pixel 9 Pro / 9a searches; high ambiguity
+P058,OnePlus 13,OnePlus,Smartphones,oneplus 13,oneplus 13 review,established,DECLINING,Trends query also matches oneplus 13r / 13s searches
+P059,Redmi Note 14 Pro Plus,Redmi,Smartphones,redmi note 14 pro plus,redmi note 14 pro plus review,established,DECLINING,Official name is Redmi Note 14 Pro+
+P060,Vivo X200 Pro,Vivo,Smartphones,vivo x200 pro,vivo x200 pro review,established,DECLINING,Succeeded by Vivo X300 Pro

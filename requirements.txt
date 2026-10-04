@@ -1,0 +1,7 @@
+google-api-python-client
+python-dotenv
+pandas
+pytest
+# Google Trends via Google's unofficial web endpoints (src/collect_trends_pytrends.py).
+# 4.9.2 needs our own retries with urllib3 2.x; see PytrendsFetcher.
+pytrends==4.9.2

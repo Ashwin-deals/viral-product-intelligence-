@@ -1,0 +1,353 @@
+run_timestamp,source,product_id,records_collected,status,error_message,quota_units
+2026-10-03T16:17:57Z,youtube,P003,5,smoke_test_ok,,1
+2026-10-03T16:25:29Z,youtube,P003,550,success,,7
+2026-10-03T16:25:35Z,youtube,P006,550,success,,7
+2026-10-03T16:25:40Z,youtube,P016,550,success,,7
+2026-10-03T16:25:46Z,youtube,P018,376,success,,7
+2026-10-03T16:25:51Z,youtube,P035,502,success,,7
+2026-10-03T16:25:57Z,youtube,P043,550,success,,7
+2026-10-03T16:26:03Z,youtube,P044,475,success,,7
+2026-10-03T16:26:09Z,youtube,P046,550,success,,7
+2026-10-03T16:26:15Z,youtube,P057,550,success,,7
+2026-10-03T16:26:22Z,youtube,P059,544,success,,7
+2026-10-03T16:43:24Z,youtube,P044,550,success,query v2: motorola edge 70 review -fusion -pro -max -neo,7
+2026-10-03T16:43:30Z,youtube,P057,492,success,query v2: pixel 9 review -pro -xl -fold -9a,7
+2026-10-03T16:43:36Z,youtube_recent,P003,50,success,50-result cap hit; true count is higher,1
+2026-10-03T16:43:37Z,youtube_recent,P006,50,success,50-result cap hit; true count is higher,1
+2026-10-03T16:43:37Z,youtube_recent,P016,50,success,50-result cap hit; true count is higher,1
+2026-10-03T16:43:38Z,youtube_recent,P035,46,success,,1
+2026-10-03T16:43:39Z,youtube_recent,P043,18,success,,1
+2026-10-03T16:43:40Z,youtube_recent,P046,34,success,,1
+2026-10-03T16:43:41Z,youtube_recent,P059,37,success,,1
+2026-10-03T16:59:17Z,youtube_recent,P018,50,success,50-result cap hit; true count is higher,1
+2026-10-03T16:59:18Z,youtube_recent,P044,50,success,50-result cap hit; true count is higher,1
+2026-10-03T16:59:18Z,youtube_recent,P057,12,success,query v2: pixel 9 review -pro -xl -fold -9a,1
+2026-10-03T20:34:38Z,youtube,P026,550,success,,7
+2026-10-03T20:34:43Z,youtube,P027,539,success,,7
+2026-10-03T20:34:48Z,youtube,P033,550,success,,7
+2026-10-03T20:34:54Z,youtube,P039,550,success,,7
+2026-10-03T20:34:59Z,youtube,P045,550,success,,7
+2026-10-03T21:11:34Z,google_trends_pytrends,P003,269,success,1 isPartial row(s),0
+2026-10-03T21:11:47Z,google_trends_pytrends,P003,0,skipped_cached,P003_2026-10-03.csv,0
+2026-10-03T21:11:49Z,google_trends_pytrends,P006,269,success,1 isPartial row(s),0
+2026-10-03T21:13:04Z,google_trends_pytrends,P016,0,error,attempt 1/4 RateLimited: TooManyRequestsError: The request failed: Google returned a response with code 429,0
+2026-10-03T21:14:06Z,google_trends_pytrends,P016,269,success,1 isPartial row(s),0
+2026-10-03T21:15:16Z,google_trends_pytrends,P018,0,error,attempt 1/4 RateLimited: TooManyRequestsError: The request failed: Google returned a response with code 429,0
+2026-10-03T21:16:17Z,google_trends_pytrends,P018,269,success,1 isPartial row(s),0
+2026-10-03T21:17:29Z,google_trends_pytrends,P035,269,success,1 isPartial row(s),0
+2026-10-03T21:18:31Z,google_trends_pytrends,P043,269,success,1 isPartial row(s),0
+2026-10-03T21:19:08Z,google_trends_pytrends,P044,269,success,1 isPartial row(s),0
+2026-10-03T21:20:22Z,google_trends_pytrends,P046,269,success,1 isPartial row(s),0
+2026-10-03T21:21:28Z,google_trends_pytrends,P057,269,success,1 isPartial row(s),0
+2026-10-03T21:22:16Z,google_trends_pytrends,P059,269,success,1 isPartial row(s),0
+2026-10-03T21:22:44Z,google_trends,P003,269,success,,0
+2026-10-03T21:22:44Z,google_trends,P006,269,success,,0
+2026-10-03T21:22:44Z,google_trends,P016,269,success,,0
+2026-10-03T21:22:44Z,google_trends,P018,269,success,,0
+2026-10-03T21:22:44Z,google_trends,P035,269,success,,0
+2026-10-03T21:22:44Z,google_trends,P043,269,success,,0
+2026-10-03T21:22:44Z,google_trends,P044,269,success,,0
+2026-10-03T21:22:44Z,google_trends,P046,269,success,,0
+2026-10-03T21:22:44Z,google_trends,P057,269,success,,0
+2026-10-03T21:22:44Z,google_trends,P059,269,success,,0
+2026-10-03T21:29:24Z,google_trends_pytrends,P001,269,success,1 isPartial row(s),0
+2026-10-03T21:30:12Z,google_trends_pytrends,P002,269,success,1 isPartial row(s),0
+2026-10-03T21:30:12Z,google_trends_pytrends,P003,0,skipped_cached,P003_2026-10-03.csv,0
+2026-10-03T21:31:07Z,google_trends_pytrends,P004,269,success,1 isPartial row(s),0
+2026-10-03T21:31:55Z,google_trends_pytrends,P005,269,success,1 isPartial row(s),0
+2026-10-03T21:31:55Z,google_trends_pytrends,P006,0,skipped_cached,P006_2026-10-03.csv,0
+2026-10-03T21:32:46Z,google_trends_pytrends,P007,0,error,attempt 1/4 RateLimited: TooManyRequestsError: The request failed: Google returned a response with code 429,0
+2026-10-03T21:33:47Z,google_trends_pytrends,P007,269,success,1 isPartial row(s),0
+2026-10-03T21:34:59Z,google_trends_pytrends,P008,269,success,1 isPartial row(s),0
+2026-10-03T21:35:58Z,google_trends_pytrends,P009,269,success,1 isPartial row(s),0
+2026-10-03T21:37:04Z,google_trends_pytrends,P010,269,success,1 isPartial row(s),0
+2026-10-03T21:38:02Z,google_trends_pytrends,P011,269,success,1 isPartial row(s),0
+2026-10-03T21:38:57Z,google_trends_pytrends,P012,269,success,1 isPartial row(s),0
+2026-10-03T21:39:44Z,google_trends_pytrends,P013,269,success,1 isPartial row(s),0
+2026-10-03T21:40:41Z,google_trends_pytrends,P014,269,success,1 isPartial row(s),0
+2026-10-03T21:41:52Z,google_trends_pytrends,P015,269,success,1 isPartial row(s),0
+2026-10-03T21:41:52Z,google_trends_pytrends,P016,0,skipped_cached,P016_2026-10-03.csv,0
+2026-10-03T21:42:39Z,google_trends_pytrends,P017,269,success,1 isPartial row(s),0
+2026-10-03T21:42:39Z,google_trends_pytrends,P018,0,skipped_cached,P018_2026-10-03.csv,0
+2026-10-03T21:43:26Z,google_trends_pytrends,P019,269,success,1 isPartial row(s),0
+2026-10-03T21:43:26Z,google_trends_pytrends,P035,0,skipped_cached,P035_2026-10-03.csv,0
+2026-10-03T21:43:26Z,google_trends_pytrends,P043,0,skipped_cached,P043_2026-10-03.csv,0
+2026-10-03T21:43:26Z,google_trends_pytrends,P044,0,skipped_cached,P044_2026-10-03.csv,0
+2026-10-03T21:43:26Z,google_trends_pytrends,P046,0,skipped_cached,P046_2026-10-03.csv,0
+2026-10-03T21:43:26Z,google_trends_pytrends,P057,0,skipped_cached,P057_2026-10-03.csv,0
+2026-10-03T21:43:26Z,google_trends_pytrends,P059,0,skipped_cached,P059_2026-10-03.csv,0
+2026-10-03T21:44:37Z,youtube,P001,550,success,,7
+2026-10-03T21:44:42Z,youtube,P002,550,success,,7
+2026-10-03T21:44:48Z,youtube,P004,550,success,,7
+2026-10-03T21:44:53Z,youtube,P005,550,success,,7
+2026-10-03T21:44:58Z,youtube,P007,550,success,,7
+2026-10-03T21:45:04Z,youtube,P008,550,success,,7
+2026-10-03T21:45:09Z,youtube,P009,550,success,,7
+2026-10-03T21:45:15Z,youtube,P010,550,success,,7
+2026-10-03T21:45:20Z,youtube,P011,483,success,,7
+2026-10-03T21:45:26Z,youtube,P012,490,success,,7
+2026-10-03T21:45:31Z,youtube,P013,531,success,,7
+2026-10-03T21:45:37Z,youtube,P014,421,success,,7
+2026-10-03T21:45:42Z,youtube,P015,550,success,,7
+2026-10-03T21:45:47Z,youtube,P017,338,success,,7
+2026-10-03T21:45:52Z,youtube,P019,550,success,,7
+2026-10-03T21:45:58Z,youtube,P020,437,success,,7
+2026-10-03T21:46:03Z,youtube,P021,197,success,,7
+2026-10-03T21:46:08Z,youtube,P022,550,success,,7
+2026-10-03T21:46:14Z,youtube,P023,550,success,,7
+2026-10-03T21:46:19Z,youtube,P024,550,success,,7
+2026-10-03T21:46:24Z,youtube,P025,550,success,,7
+2026-10-03T21:46:30Z,youtube,P028,539,success,,7
+2026-10-03T21:46:35Z,youtube,P029,550,success,,7
+2026-10-03T21:46:41Z,youtube,P030,461,success,,7
+2026-10-03T21:46:46Z,youtube,P031,391,success,,7
+2026-10-03T21:46:52Z,youtube,P032,490,success,,7
+2026-10-03T21:46:57Z,youtube,P034,502,success,,7
+2026-10-03T21:47:03Z,youtube,P036,532,success,,7
+2026-10-03T21:47:08Z,youtube,P037,440,success,,7
+2026-10-03T21:47:14Z,youtube,P038,550,success,,7
+2026-10-03T21:47:19Z,youtube,P040,490,success,,7
+2026-10-03T21:47:24Z,youtube,P041,550,success,,7
+2026-10-03T21:47:30Z,youtube,P042,550,success,,7
+2026-10-03T21:47:35Z,youtube,P047,497,success,,7
+2026-10-03T21:47:41Z,youtube,P048,450,success,,7
+2026-10-03T21:47:47Z,youtube,P049,547,success,,7
+2026-10-03T21:47:52Z,youtube,P050,550,success,,7
+2026-10-03T21:47:57Z,youtube,P051,550,success,,7
+2026-10-03T21:48:03Z,youtube,P052,550,success,,7
+2026-10-03T21:48:09Z,youtube,P053,550,success,,7
+2026-10-03T21:48:15Z,youtube,P054,550,success,,7
+2026-10-03T21:48:21Z,youtube,P055,480,success,,7
+2026-10-03T21:48:26Z,youtube,P056,485,success,,7
+2026-10-03T21:48:31Z,youtube,P058,550,success,,7
+2026-10-03T21:48:37Z,youtube,P060,470,success,,7
+2026-10-03T21:48:42Z,youtube,P003,450,comments_disabled,comments disabled on 1 video(s): FUfGcZ092b0,7
+2026-10-03T21:48:48Z,youtube,P006,550,success,,7
+2026-10-03T21:48:53Z,youtube,P016,476,success,,7
+2026-10-03T21:48:59Z,youtube,P018,493,success,,7
+2026-10-03T21:49:04Z,youtube,P035,449,success,,7
+2026-10-03T21:49:09Z,youtube,P043,550,success,,7
+2026-10-03T21:49:15Z,youtube,P044,550,success,,7
+2026-10-03T21:49:20Z,youtube,P046,414,success,,7
+2026-10-03T21:49:26Z,youtube,P057,492,success,query v2: pixel 9 review -pro -xl -fold -9a,7
+2026-10-03T21:49:32Z,youtube,P059,544,success,,7
+2026-10-03T21:49:32Z,youtube,P026,0,skipped_cached,,0
+2026-10-03T21:49:32Z,youtube,P027,0,skipped_cached,,0
+2026-10-03T21:49:32Z,youtube,P033,0,skipped_cached,,0
+2026-10-03T21:49:32Z,youtube,P039,0,skipped_cached,,0
+2026-10-03T21:49:32Z,youtube,P045,0,skipped_cached,,0
+2026-10-03T21:50:04Z,google_trends_pytrends,P001,0,skipped_cached,P001_2026-10-03.csv,0
+2026-10-03T21:50:04Z,google_trends_pytrends,P002,0,skipped_cached,P002_2026-10-03.csv,0
+2026-10-03T21:50:04Z,google_trends_pytrends,P003,0,skipped_cached,P003_2026-10-03.csv,0
+2026-10-03T21:50:04Z,google_trends_pytrends,P004,0,skipped_cached,P004_2026-10-03.csv,0
+2026-10-03T21:50:04Z,google_trends_pytrends,P005,0,skipped_cached,P005_2026-10-03.csv,0
+2026-10-03T21:50:04Z,google_trends_pytrends,P006,0,skipped_cached,P006_2026-10-03.csv,0
+2026-10-03T21:50:04Z,google_trends_pytrends,P007,0,skipped_cached,P007_2026-10-03.csv,0
+2026-10-03T21:50:04Z,google_trends_pytrends,P008,0,skipped_cached,P008_2026-10-03.csv,0
+2026-10-03T21:50:04Z,google_trends_pytrends,P009,0,skipped_cached,P009_2026-10-03.csv,0
+2026-10-03T21:50:04Z,google_trends_pytrends,P010,0,skipped_cached,P010_2026-10-03.csv,0
+2026-10-03T21:50:04Z,google_trends_pytrends,P011,0,skipped_cached,P011_2026-10-03.csv,0
+2026-10-03T21:50:04Z,google_trends_pytrends,P012,0,skipped_cached,P012_2026-10-03.csv,0
+2026-10-03T21:50:04Z,google_trends_pytrends,P013,0,skipped_cached,P013_2026-10-03.csv,0
+2026-10-03T21:50:04Z,google_trends_pytrends,P014,0,skipped_cached,P014_2026-10-03.csv,0
+2026-10-03T21:50:04Z,google_trends_pytrends,P015,0,skipped_cached,P015_2026-10-03.csv,0
+2026-10-03T21:50:04Z,google_trends_pytrends,P016,0,skipped_cached,P016_2026-10-03.csv,0
+2026-10-03T21:50:04Z,google_trends_pytrends,P017,0,skipped_cached,P017_2026-10-03.csv,0
+2026-10-03T21:50:04Z,google_trends_pytrends,P018,0,skipped_cached,P018_2026-10-03.csv,0
+2026-10-03T21:50:04Z,google_trends_pytrends,P019,0,skipped_cached,P019_2026-10-03.csv,0
+2026-10-03T21:50:06Z,google_trends_pytrends,P020,269,success,1 isPartial row(s),0
+2026-10-03T21:50:59Z,google_trends_pytrends,P021,269,success,1 isPartial row(s),0
+2026-10-03T21:51:35Z,google_trends_pytrends,P022,269,success,1 isPartial row(s),0
+2026-10-03T21:52:42Z,google_trends_pytrends,P023,269,success,1 isPartial row(s),0
+2026-10-03T21:53:30Z,google_trends_pytrends,P024,269,success,1 isPartial row(s),0
+2026-10-03T21:54:44Z,google_trends_pytrends,P025,269,success,1 isPartial row(s),0
+2026-10-03T21:55:51Z,google_trends_pytrends,P026,269,success,1 isPartial row(s),0
+2026-10-03T21:56:32Z,google_trends_pytrends,P027,269,success,1 isPartial row(s),0
+2026-10-03T21:57:09Z,google_trends_pytrends,P028,269,success,1 isPartial row(s),0
+2026-10-03T21:57:48Z,google_trends_pytrends,P029,269,success,1 isPartial row(s),0
+2026-10-03T21:58:34Z,google_trends_pytrends,P030,269,success,1 isPartial row(s),0
+2026-10-03T21:59:49Z,google_trends_pytrends,P031,269,success,1 isPartial row(s),0
+2026-10-03T22:00:30Z,google_trends_pytrends,P032,269,success,1 isPartial row(s),0
+2026-10-03T22:01:19Z,google_trends_pytrends,P033,269,success,1 isPartial row(s),0
+2026-10-03T22:01:54Z,google_trends_pytrends,P034,269,success,1 isPartial row(s),0
+2026-10-03T22:01:54Z,google_trends_pytrends,P035,0,skipped_cached,P035_2026-10-03.csv,0
+2026-10-03T22:01:54Z,google_trends_pytrends,P043,0,skipped_cached,P043_2026-10-03.csv,0
+2026-10-03T22:01:54Z,google_trends_pytrends,P044,0,skipped_cached,P044_2026-10-03.csv,0
+2026-10-03T22:01:54Z,google_trends_pytrends,P046,0,skipped_cached,P046_2026-10-03.csv,0
+2026-10-03T22:01:54Z,google_trends_pytrends,P057,0,skipped_cached,P057_2026-10-03.csv,0
+2026-10-03T22:01:54Z,google_trends_pytrends,P059,0,skipped_cached,P059_2026-10-03.csv,0
+2026-10-04T04:52:24Z,google_trends_pytrends,P001,0,skipped_cached,P001_2026-10-03.csv,0
+2026-10-04T04:52:24Z,google_trends_pytrends,P002,0,skipped_cached,P002_2026-10-03.csv,0
+2026-10-04T04:52:24Z,google_trends_pytrends,P003,0,skipped_cached,P003_2026-10-03.csv,0
+2026-10-04T04:52:24Z,google_trends_pytrends,P004,0,skipped_cached,P004_2026-10-03.csv,0
+2026-10-04T04:52:24Z,google_trends_pytrends,P005,0,skipped_cached,P005_2026-10-03.csv,0
+2026-10-04T04:52:24Z,google_trends_pytrends,P006,0,skipped_cached,P006_2026-10-03.csv,0
+2026-10-04T04:52:24Z,google_trends_pytrends,P007,0,skipped_cached,P007_2026-10-03.csv,0
+2026-10-04T04:52:24Z,google_trends_pytrends,P008,0,skipped_cached,P008_2026-10-03.csv,0
+2026-10-04T04:52:24Z,google_trends_pytrends,P009,0,skipped_cached,P009_2026-10-03.csv,0
+2026-10-04T04:52:24Z,google_trends_pytrends,P010,0,skipped_cached,P010_2026-10-03.csv,0
+2026-10-04T04:52:24Z,google_trends_pytrends,P011,0,skipped_cached,P011_2026-10-03.csv,0
+2026-10-04T04:52:24Z,google_trends_pytrends,P012,0,skipped_cached,P012_2026-10-03.csv,0
+2026-10-04T04:52:24Z,google_trends_pytrends,P013,0,skipped_cached,P013_2026-10-03.csv,0
+2026-10-04T04:52:24Z,google_trends_pytrends,P014,0,skipped_cached,P014_2026-10-03.csv,0
+2026-10-04T04:52:24Z,google_trends_pytrends,P015,0,skipped_cached,P015_2026-10-03.csv,0
+2026-10-04T04:52:24Z,google_trends_pytrends,P016,0,skipped_cached,P016_2026-10-03.csv,0
+2026-10-04T04:52:24Z,google_trends_pytrends,P017,0,skipped_cached,P017_2026-10-03.csv,0
+2026-10-04T04:52:24Z,google_trends_pytrends,P018,0,skipped_cached,P018_2026-10-03.csv,0
+2026-10-04T04:52:24Z,google_trends_pytrends,P019,0,skipped_cached,P019_2026-10-03.csv,0
+2026-10-04T04:52:24Z,google_trends_pytrends,P020,0,skipped_cached,P020_2026-10-03.csv,0
+2026-10-04T04:52:24Z,google_trends_pytrends,P021,0,skipped_cached,P021_2026-10-03.csv,0
+2026-10-04T04:52:24Z,google_trends_pytrends,P022,0,skipped_cached,P022_2026-10-03.csv,0
+2026-10-04T04:52:24Z,google_trends_pytrends,P023,0,skipped_cached,P023_2026-10-03.csv,0
+2026-10-04T04:52:24Z,google_trends_pytrends,P024,0,skipped_cached,P024_2026-10-03.csv,0
+2026-10-04T04:52:24Z,google_trends_pytrends,P025,0,skipped_cached,P025_2026-10-03.csv,0
+2026-10-04T04:52:24Z,google_trends_pytrends,P026,0,skipped_cached,P026_2026-10-03.csv,0
+2026-10-04T04:52:24Z,google_trends_pytrends,P027,0,skipped_cached,P027_2026-10-03.csv,0
+2026-10-04T04:52:24Z,google_trends_pytrends,P028,0,skipped_cached,P028_2026-10-03.csv,0
+2026-10-04T04:52:24Z,google_trends_pytrends,P029,0,skipped_cached,P029_2026-10-03.csv,0
+2026-10-04T04:52:24Z,google_trends_pytrends,P030,0,skipped_cached,P030_2026-10-03.csv,0
+2026-10-04T04:52:24Z,google_trends_pytrends,P031,0,skipped_cached,P031_2026-10-03.csv,0
+2026-10-04T04:52:24Z,google_trends_pytrends,P032,0,skipped_cached,P032_2026-10-03.csv,0
+2026-10-04T04:52:24Z,google_trends_pytrends,P033,0,skipped_cached,P033_2026-10-03.csv,0
+2026-10-04T04:52:24Z,google_trends_pytrends,P034,0,skipped_cached,P034_2026-10-03.csv,0
+2026-10-04T04:52:24Z,google_trends_pytrends,P035,0,skipped_cached,P035_2026-10-03.csv,0
+2026-10-04T04:52:26Z,google_trends_pytrends,P036,269,success,,0
+2026-10-04T04:53:36Z,google_trends_pytrends,P037,269,success,,0
+2026-10-04T04:54:12Z,google_trends_pytrends,P038,269,success,,0
+2026-10-04T04:55:23Z,google_trends_pytrends,P039,269,success,,0
+2026-10-04T04:56:40Z,google_trends_pytrends,P040,269,success,,0
+2026-10-04T04:57:29Z,google_trends_pytrends,P041,269,success,,0
+2026-10-04T04:58:33Z,google_trends_pytrends,P042,269,success,,0
+2026-10-04T04:58:33Z,google_trends_pytrends,P043,0,skipped_cached,P043_2026-10-03.csv,0
+2026-10-04T04:58:33Z,google_trends_pytrends,P044,0,skipped_cached,P044_2026-10-03.csv,0
+2026-10-04T04:59:09Z,google_trends_pytrends,P045,269,success,,0
+2026-10-04T04:59:09Z,google_trends_pytrends,P046,0,skipped_cached,P046_2026-10-03.csv,0
+2026-10-04T04:59:55Z,google_trends_pytrends,P047,269,success,,0
+2026-10-04T05:01:01Z,google_trends_pytrends,P048,269,success,,0
+2026-10-04T05:02:13Z,google_trends_pytrends,P049,269,success,,0
+2026-10-04T05:02:51Z,google_trends_pytrends,P050,269,success,,0
+2026-10-04T05:03:35Z,google_trends_pytrends,P051,269,success,,0
+2026-10-04T05:04:39Z,google_trends_pytrends,P052,269,success,,0
+2026-10-04T05:05:55Z,google_trends_pytrends,P053,269,success,,0
+2026-10-04T05:05:55Z,google_trends_pytrends,P057,0,skipped_cached,P057_2026-10-03.csv,0
+2026-10-04T05:05:55Z,google_trends_pytrends,P059,0,skipped_cached,P059_2026-10-03.csv,0
+2026-10-04T05:07:34Z,google_trends_pytrends,P001,0,skipped_cached,P001_2026-10-03.csv,0
+2026-10-04T05:07:34Z,google_trends_pytrends,P002,0,skipped_cached,P002_2026-10-03.csv,0
+2026-10-04T05:07:34Z,google_trends_pytrends,P003,0,skipped_cached,P003_2026-10-03.csv,0
+2026-10-04T05:07:34Z,google_trends_pytrends,P004,0,skipped_cached,P004_2026-10-03.csv,0
+2026-10-04T05:07:34Z,google_trends_pytrends,P005,0,skipped_cached,P005_2026-10-03.csv,0
+2026-10-04T05:07:34Z,google_trends_pytrends,P006,0,skipped_cached,P006_2026-10-03.csv,0
+2026-10-04T05:07:34Z,google_trends_pytrends,P007,0,skipped_cached,P007_2026-10-03.csv,0
+2026-10-04T05:07:34Z,google_trends_pytrends,P008,0,skipped_cached,P008_2026-10-03.csv,0
+2026-10-04T05:07:34Z,google_trends_pytrends,P009,0,skipped_cached,P009_2026-10-03.csv,0
+2026-10-04T05:07:34Z,google_trends_pytrends,P010,0,skipped_cached,P010_2026-10-03.csv,0
+2026-10-04T05:07:34Z,google_trends_pytrends,P011,0,skipped_cached,P011_2026-10-03.csv,0
+2026-10-04T05:07:34Z,google_trends_pytrends,P012,0,skipped_cached,P012_2026-10-03.csv,0
+2026-10-04T05:07:34Z,google_trends_pytrends,P013,0,skipped_cached,P013_2026-10-03.csv,0
+2026-10-04T05:07:34Z,google_trends_pytrends,P014,0,skipped_cached,P014_2026-10-03.csv,0
+2026-10-04T05:07:34Z,google_trends_pytrends,P015,0,skipped_cached,P015_2026-10-03.csv,0
+2026-10-04T05:07:34Z,google_trends_pytrends,P016,0,skipped_cached,P016_2026-10-03.csv,0
+2026-10-04T05:07:34Z,google_trends_pytrends,P017,0,skipped_cached,P017_2026-10-03.csv,0
+2026-10-04T05:07:34Z,google_trends_pytrends,P018,0,skipped_cached,P018_2026-10-03.csv,0
+2026-10-04T05:07:34Z,google_trends_pytrends,P019,0,skipped_cached,P019_2026-10-03.csv,0
+2026-10-04T05:07:34Z,google_trends_pytrends,P020,0,skipped_cached,P020_2026-10-03.csv,0
+2026-10-04T05:07:34Z,google_trends_pytrends,P021,0,skipped_cached,P021_2026-10-03.csv,0
+2026-10-04T05:07:34Z,google_trends_pytrends,P022,0,skipped_cached,P022_2026-10-03.csv,0
+2026-10-04T05:07:34Z,google_trends_pytrends,P023,0,skipped_cached,P023_2026-10-03.csv,0
+2026-10-04T05:07:34Z,google_trends_pytrends,P024,0,skipped_cached,P024_2026-10-03.csv,0
+2026-10-04T05:07:34Z,google_trends_pytrends,P025,0,skipped_cached,P025_2026-10-03.csv,0
+2026-10-04T05:07:34Z,google_trends_pytrends,P026,0,skipped_cached,P026_2026-10-03.csv,0
+2026-10-04T05:07:34Z,google_trends_pytrends,P027,0,skipped_cached,P027_2026-10-03.csv,0
+2026-10-04T05:07:34Z,google_trends_pytrends,P028,0,skipped_cached,P028_2026-10-03.csv,0
+2026-10-04T05:07:34Z,google_trends_pytrends,P029,0,skipped_cached,P029_2026-10-03.csv,0
+2026-10-04T05:07:34Z,google_trends_pytrends,P030,0,skipped_cached,P030_2026-10-03.csv,0
+2026-10-04T05:07:34Z,google_trends_pytrends,P031,0,skipped_cached,P031_2026-10-03.csv,0
+2026-10-04T05:07:34Z,google_trends_pytrends,P032,0,skipped_cached,P032_2026-10-03.csv,0
+2026-10-04T05:07:34Z,google_trends_pytrends,P033,0,skipped_cached,P033_2026-10-03.csv,0
+2026-10-04T05:07:34Z,google_trends_pytrends,P034,0,skipped_cached,P034_2026-10-03.csv,0
+2026-10-04T05:07:34Z,google_trends_pytrends,P035,0,skipped_cached,P035_2026-10-03.csv,0
+2026-10-04T05:07:34Z,google_trends_pytrends,P036,0,skipped_cached,P036_2026-10-03.csv,0
+2026-10-04T05:07:34Z,google_trends_pytrends,P037,0,skipped_cached,P037_2026-10-03.csv,0
+2026-10-04T05:07:34Z,google_trends_pytrends,P038,0,skipped_cached,P038_2026-10-03.csv,0
+2026-10-04T05:07:34Z,google_trends_pytrends,P039,0,skipped_cached,P039_2026-10-03.csv,0
+2026-10-04T05:07:34Z,google_trends_pytrends,P040,0,skipped_cached,P040_2026-10-03.csv,0
+2026-10-04T05:07:34Z,google_trends_pytrends,P041,0,skipped_cached,P041_2026-10-03.csv,0
+2026-10-04T05:07:34Z,google_trends_pytrends,P042,0,skipped_cached,P042_2026-10-03.csv,0
+2026-10-04T05:07:34Z,google_trends_pytrends,P043,0,skipped_cached,P043_2026-10-03.csv,0
+2026-10-04T05:07:34Z,google_trends_pytrends,P044,0,skipped_cached,P044_2026-10-03.csv,0
+2026-10-04T05:07:34Z,google_trends_pytrends,P045,0,skipped_cached,P045_2026-10-03.csv,0
+2026-10-04T05:07:34Z,google_trends_pytrends,P046,0,skipped_cached,P046_2026-10-03.csv,0
+2026-10-04T05:07:34Z,google_trends_pytrends,P047,0,skipped_cached,P047_2026-10-03.csv,0
+2026-10-04T05:07:34Z,google_trends_pytrends,P048,0,skipped_cached,P048_2026-10-03.csv,0
+2026-10-04T05:07:34Z,google_trends_pytrends,P049,0,skipped_cached,P049_2026-10-03.csv,0
+2026-10-04T05:07:34Z,google_trends_pytrends,P050,0,skipped_cached,P050_2026-10-03.csv,0
+2026-10-04T05:07:34Z,google_trends_pytrends,P051,0,skipped_cached,P051_2026-10-03.csv,0
+2026-10-04T05:07:34Z,google_trends_pytrends,P052,0,skipped_cached,P052_2026-10-03.csv,0
+2026-10-04T05:07:34Z,google_trends_pytrends,P053,0,skipped_cached,P053_2026-10-03.csv,0
+2026-10-04T05:07:37Z,google_trends_pytrends,P054,269,success,,0
+2026-10-04T05:08:48Z,google_trends_pytrends,P055,269,success,,0
+2026-10-04T05:09:23Z,google_trends_pytrends,P056,269,success,,0
+2026-10-04T05:09:23Z,google_trends_pytrends,P057,0,skipped_cached,P057_2026-10-03.csv,0
+2026-10-04T05:10:31Z,google_trends_pytrends,P058,269,success,,0
+2026-10-04T05:10:31Z,google_trends_pytrends,P059,0,skipped_cached,P059_2026-10-03.csv,0
+2026-10-04T05:11:44Z,google_trends_pytrends,P060,269,success,,0
+2026-10-04T05:14:38Z,google_trends,P001,269,success,,0
+2026-10-04T05:14:38Z,google_trends,P002,269,success,,0
+2026-10-04T05:14:38Z,google_trends,P003,269,success,,0
+2026-10-04T05:14:38Z,google_trends,P004,269,success,,0
+2026-10-04T05:14:38Z,google_trends,P005,269,success,,0
+2026-10-04T05:14:38Z,google_trends,P006,269,success,,0
+2026-10-04T05:14:38Z,google_trends,P007,269,success,,0
+2026-10-04T05:14:38Z,google_trends,P008,269,success,,0
+2026-10-04T05:14:38Z,google_trends,P009,269,success,,0
+2026-10-04T05:14:38Z,google_trends,P010,269,success,,0
+2026-10-04T05:14:38Z,google_trends,P011,269,success,,0
+2026-10-04T05:14:38Z,google_trends,P012,269,success,,0
+2026-10-04T05:14:38Z,google_trends,P013,269,success,,0
+2026-10-04T05:14:38Z,google_trends,P014,269,success,,0
+2026-10-04T05:14:38Z,google_trends,P015,269,success,,0
+2026-10-04T05:14:38Z,google_trends,P016,269,success,,0
+2026-10-04T05:14:38Z,google_trends,P017,269,success,,0
+2026-10-04T05:14:38Z,google_trends,P018,269,success,,0
+2026-10-04T05:14:38Z,google_trends,P019,269,success,,0
+2026-10-04T05:14:38Z,google_trends,P020,269,success,,0
+2026-10-04T05:14:38Z,google_trends,P021,269,success,,0
+2026-10-04T05:14:38Z,google_trends,P022,269,success,,0
+2026-10-04T05:14:38Z,google_trends,P023,269,success,,0
+2026-10-04T05:14:38Z,google_trends,P024,269,success,,0
+2026-10-04T05:14:38Z,google_trends,P025,269,success,,0
+2026-10-04T05:14:38Z,google_trends,P026,269,success,,0
+2026-10-04T05:14:38Z,google_trends,P027,269,success,,0
+2026-10-04T05:14:38Z,google_trends,P028,269,success,,0
+2026-10-04T05:14:38Z,google_trends,P029,269,success,,0
+2026-10-04T05:14:38Z,google_trends,P030,269,success,,0
+2026-10-04T05:14:38Z,google_trends,P031,269,success,,0
+2026-10-04T05:14:38Z,google_trends,P032,269,success,,0
+2026-10-04T05:14:38Z,google_trends,P033,269,success,,0
+2026-10-04T05:14:38Z,google_trends,P034,269,success,,0
+2026-10-04T05:14:38Z,google_trends,P035,269,success,,0
+2026-10-04T05:14:38Z,google_trends,P036,269,success,,0
+2026-10-04T05:14:38Z,google_trends,P037,269,success,,0
+2026-10-04T05:14:38Z,google_trends,P038,269,success,,0
+2026-10-04T05:14:38Z,google_trends,P039,269,success,,0
+2026-10-04T05:14:38Z,google_trends,P040,269,success,,0
+2026-10-04T05:14:38Z,google_trends,P041,269,success,,0
+2026-10-04T05:14:38Z,google_trends,P042,269,success,,0
+2026-10-04T05:14:38Z,google_trends,P043,269,success,,0
+2026-10-04T05:14:38Z,google_trends,P044,269,success,,0
+2026-10-04T05:14:38Z,google_trends,P045,269,success,,0
+2026-10-04T05:14:38Z,google_trends,P046,269,success,,0
+2026-10-04T05:14:38Z,google_trends,P047,269,success,,0
+2026-10-04T05:14:38Z,google_trends,P048,269,success,,0
+2026-10-04T05:14:38Z,google_trends,P049,269,success,,0
+2026-10-04T05:14:38Z,google_trends,P050,269,success,,0
+2026-10-04T05:14:38Z,google_trends,P051,269,success,,0
+2026-10-04T05:14:38Z,google_trends,P052,269,success,,0
+2026-10-04T05:14:38Z,google_trends,P053,269,success,,0
+2026-10-04T05:14:38Z,google_trends,P054,269,success,,0
+2026-10-04T05:14:38Z,google_trends,P055,269,success,,0
+2026-10-04T05:14:38Z,google_trends,P056,269,success,,0
+2026-10-04T05:14:38Z,google_trends,P057,269,success,,0
+2026-10-04T05:14:38Z,google_trends,P058,269,success,,0
+2026-10-04T05:14:38Z,google_trends,P059,269,success,,0
+2026-10-04T05:14:38Z,google_trends,P060,269,success,,0
