@@ -10,7 +10,7 @@ The inputs in `data/youtube/` are never modified. The numbers below come from `d
 | videos | 3600 | 3500 | 100 | 100 | 0 | 0 | 0 |
 | comments | 33217 | 32215 | 1002 | 1000 | 0 | 0 | 2 |
 | product_daily | 72 | 70 | 2 | 2 | 0 | 0 | 0 |
-| recent_window | 70 | 70 | 0 | 0 | 0 | 0 | 0 |
+| recent_window | 10 | 10 | 0 | 0 | 0 | 0 | 0 |
 
 ## Missing values (before -> after)
 
@@ -46,6 +46,6 @@ This run: exact-model titles only (src/title_match.py); share < 60% flagged: P04
 - `data/processed/youtube_videos_clean.csv`: 3500 rows (git-ignored: titles)
 - `data/processed/youtube_comments_clean.csv`: 32215 rows (git-ignored: comment text)
 - `data/processed/youtube_product_daily_clean.csv`: 70 rows
-- `data/processed/youtube_recent_window_clean.csv`: 70 rows
+- `data/processed/youtube_recent_window_clean.csv`: 10 rows
 
 Google Trends cleaning is done separately by `src/clean_trends.py`.
