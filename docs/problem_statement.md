@@ -1,4 +1,4 @@
-# Problem Statement — Review 1
+# Problem Statement Review 1
 
 ## Viral Product Intelligence: Early Detection of Consumer Demand Surges
 
