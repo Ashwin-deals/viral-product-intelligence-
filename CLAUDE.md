@@ -60,6 +60,7 @@ python3 src/check_query_versions.py                # raw files + table rows vs r
 python3 src/clean_youtube.py                       # data/youtube -> data/processed (+ cleaning report)
 python3 src/clean_trends.py                        # data/trends_long.csv -> data/processed/trends_clean.csv
 python3 src/build_aligned.py                       # Trends index + same-day YouTube -> aligned_daily.csv
+python3 src/feature_encoding_scaling.py             # aligned_daily.csv -> processed/features_encoded_scaled.csv (encoding + scaling)
 python3 src/full_report.py                         # all 60 products -> data/processed/full_report.csv + docs/full_report.md
 python3 src/build_handoff.py                       # data/handoff/task1_handoff.zip (deterministic)
 ./run_after_reset.sh                               # after the quota reset: recent pass --all + rebuild everything + tests
