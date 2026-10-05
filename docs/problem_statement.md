@@ -28,13 +28,13 @@ Early consumer signals appear **days or weeks before** a visible demand surge:
 
 ### Our Approach
 
-1. **Multi-source signal collection** — Google Trends (search interest) + YouTube Data API
+1. **Multi-source signal collection** - Google Trends (search interest) + YouTube Data API
    (review videos, comments, engagement)
-2. **60-product registry** — RISING (24), STABLE (24), DECLINING (12) smartphones in the India
+2. **60-product registry** - RISING (24), STABLE (24), DECLINING (12) smartphones in the India
    market
-3. **Pilot validated** — 10 products collected on 2026-10-03; 5,639 comments and 600 video
+3. **Pilot validated** - 10 products collected on 2026-10-03; 5,639 comments and 600 video
    records processed
-4. **Automated pipeline** — reproducible, idempotent cleaning and alignment scripts
+4. **Automated pipeline** - reproducible, idempotent cleaning and alignment scripts
 
 ### Expected Outcome
 
