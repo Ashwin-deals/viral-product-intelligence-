@@ -79,6 +79,8 @@ Pipeline order:
 Every step is idempotent and only reads `raw/`.
 
 Docs:
+- `docs/presentation/review1_presentation.tex`: Beamer presentation source for Review 1 (10 slides matching rubric), with guide in `docs/presentation/README.md`
+- `notebooks/Review_1_Showcase.ipynb`: Master Review 1 showcase notebook integrating end-to-end data pipeline, EDA, feature scaling (SCRUM-20), and predictive modeling benchmark
 - `docs/dataset_documentation.md`: formal dataset documentation detailing all collection methods & constraints (SCRUM-10)
 - `docs/dataset_description_slide.md`: Review 1 presentation slide draft & speaker notes (SCRUM-14)
 - `docs/pipeline_consolidation.md`: architecture and stage contracts for consolidated pipeline (SCRUM-19)

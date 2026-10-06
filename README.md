@@ -158,6 +158,8 @@ All steps read their inputs without changing them, and re-running gives identica
 - **Alignment** is a left join on the Trends daily index. It adds `trends_observed`, `youtube_observed` and `youtube_recent_observed`, with no forward fill and no features or labels. Without Trends data it exits cleanly.
 
 ### Review 1 & Dataset Documentation
+- **Review 1 Presentation (LaTeX Beamer):** [docs/presentation/review1_presentation.tex](docs/presentation/review1_presentation.tex) — 10-slide presentation matching the 23CSE452 Business Analytics Review 1 template, with compilation guide in [docs/presentation/README.md](docs/presentation/README.md).
+- **Review 1 Master Showcase Notebook:** [notebooks/Review_1_Showcase.ipynb](notebooks/Review_1_Showcase.ipynb) — end-to-end interactive notebook showcasing the entire pipeline, data collection, EDA, feature scaling (SCRUM-20), predictive model benchmarks, and Review 2 roadmap.
 - **Formal Dataset Documentation:** [docs/dataset_documentation.md](docs/dataset_documentation.md) (SCRUM-10) — formal compilation of collection methods, query designs, rate limits, schema definitions, and source constraints.
 - **Dataset Description Slide Draft:** [docs/dataset_description_slide.md](docs/dataset_description_slide.md) (SCRUM-14) — Review 1 presentation slide drafts, volume breakdown, and talking points with visual figures in `docs/figures/`.
 - **Pipeline Consolidation Architecture:** [docs/pipeline_consolidation.md](docs/pipeline_consolidation.md) (SCRUM-19) — technical architecture, stage invariants, and execution guide.
