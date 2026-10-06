@@ -14,6 +14,11 @@
 \usepackage{hyperref}
 
 % -----------------------------------------------------------------------------
+% Geometry & Margin Settings (Maximized Vertical Canvas to Prevent Overflow)
+% -----------------------------------------------------------------------------
+\setbeamersize{text margin left=0.6cm, text margin right=0.6cm}
+
+% -----------------------------------------------------------------------------
 % Theme & Professional Color Palette
 % -----------------------------------------------------------------------------
 \usetheme{default}
@@ -25,45 +30,47 @@
 \definecolor{CoralRed}{RGB}{231, 76, 60}
 \definecolor{DarkText}{RGB}{44, 62, 80}
 \definecolor{MutedGray}{RGB}{127, 140, 141}
-\definecolor{CardBg}{RGB}{244, 246, 249}
-\definecolor{CardBorder}{RGB}{217, 226, 236}
+\definecolor{CardBg}{RGB}{246, 248, 251}
+\definecolor{CardBorder}{RGB}{220, 228, 238}
 
 \setbeamercolor{normal text}{fg=DarkText,bg=white}
 \setbeamercolor{frametitle}{fg=NavyPrimary,bg=white}
 \setbeamercolor{structure}{fg=BlueAccent}
 
-% Native Beamer Rounded Blocks (No fragile TikZ node parsing)
+% Rounded Native Beamer Blocks
 \setbeamertemplate{blocks}[rounded][shadow=false]
 \setbeamercolor{block title}{fg=NavyPrimary,bg=CardBorder}
 \setbeamercolor{block body}{fg=DarkText,bg=CardBg}
 
 \setbeamertemplate{navigation symbols}{}
-\setbeamertemplate{itemize items}{\color{BlueAccent}$\blacktriangleright$}
 
-% Custom Frame Title with Slide Number (01 to 10 matching template)
+% Compact List Formatting (Zero Wasted Vertical Space)
+\setbeamertemplate{itemize item}{\color{BlueAccent}\scriptsize$\blacktriangleright$}
+\setbeamertemplate{itemize subitem}{\color{BlueAccent!70}\tiny$\blacktriangleright$}
+\setbeamertemplate{itemize/enumerate body begin}{\vspace{-1pt}}
+\setbeamertemplate{itemize/enumerate body end}{\vspace{-1pt}}
+
+% Ultra-Slim Header (Gains 18mm of Free Vertical Canvas on Every Slide)
 \setbeamertemplate{frametitle}{%
-    \vspace{0.35cm}%
-    \begin{beamercolorbox}[wd=\paperwidth,ht=0.85cm,dp=0.2cm,leftskip=0.8cm,rightskip=0.8cm]{frametitle}%
-        {\fontsize{13pt}{15pt}\selectfont \textbf{\insertframetitle}}%
-        \hfill%
-        {\fontsize{11pt}{13pt}\selectfont \textbf{\color{MutedGray}\insertframenumber/10}}%
-    \end{beamercolorbox}%
-    \vspace{-0.3cm}%
-    \hspace{0.8cm}\textcolor{BlueAccent}{\rule{0.90\paperwidth}{1.2pt}}\par%
-    \vspace{0.1cm}%
+    \vspace{0.15cm}%
+    \noindent{\fontsize{11pt}{13pt}\selectfont \textbf{\color{NavyPrimary}\insertframenumber.\ \insertframetitle}}%
+    \hfill{\fontsize{8.5pt}{10.5pt}\selectfont \textbf{\color{BlueAccent}Group 13 \textbar\ Review 1}}\par%
+    \vspace{0.04cm}%
+    \textcolor{BlueAccent!35}{\rule{\linewidth}{0.6pt}}\par%
+    \vspace{-0.15cm}%
 }
 
-% Custom Minimal Clean Footer
+% Ultra-Slim Footer
 \setbeamertemplate{footline}{%
-    \vspace{-0.25cm}%
-    \begin{beamercolorbox}[wd=\paperwidth,ht=0.4cm,dp=0.2cm,leftskip=0.8cm,rightskip=0.8cm]{white}%
-        {\fontsize{7pt}{8pt}\selectfont \color{MutedGray} 23CSE452 Business Analytics \textbar\ Group 13: Viral Product Intelligence \hfill Review 1 Presentation}%
-    \end{beamercolorbox}%
+    \vspace{-0.15cm}%
+    \leavevmode\centering%
+    {\fontsize{6.5pt}{7.5pt}\selectfont \color{MutedGray} 23CSE452 Business Analytics \textbullet\ Viral Product Intelligence \hfill \insertframenumber/10}%
+    \vspace{0.12cm}%
 }
 
-% Robust Native Beamer Card Environment
-\newenvironment{beamerbox}[1][]{%
-    \begin{beamercolorbox}[rounded=true,shadow=false,wd=\linewidth,sep=5pt,#1]{block body}%
+% Native Beamer Card Environment (Zero TikZ Parsing Issues)
+\newenvironment{card}[1][]{%
+    \begin{beamercolorbox}[rounded=true,shadow=false,wd=\linewidth,sep=4pt,#1]{block body}%
 }{%
     \end{beamercolorbox}%
 }
@@ -85,21 +92,22 @@
 % SLIDE 1: Title Slide (01)
 % =============================================================================
 \begin{frame}[plain]
-    \vspace{0.5cm}
+    \vspace{0.4cm}
     \begin{center}
-        {\fontsize{9pt}{10pt}\selectfont \textbf{\color{BlueAccent}23CSE452 BUSINESS ANALYTICS \textbullet\ DATA ANALYSIS AND PREDICTIVE MODELLING}}\\[0.25cm]
-        {\fontsize{17pt}{20pt}\selectfont \textbf{\color{NavyPrimary}Viral Product Intelligence}}\\[0.15cm]
-        {\fontsize{11pt}{13pt}\selectfont \color{DarkText}Early Detection and Prediction of Consumer Demand Surges Using Multi-Source Signals}\\[0.3cm]
-        \textcolor{BlueAccent}{\rule{0.5\paperwidth}{1.5pt}}\\[0.35cm]
+        {\fontsize{8.5pt}{10pt}\selectfont \textbf{\color{BlueAccent}23CSE452 BUSINESS ANALYTICS \textbullet\ DATA ANALYSIS AND PREDICTIVE MODELLING}}\\[0.2cm]
+        {\fontsize{16pt}{19pt}\selectfont \textbf{\color{NavyPrimary}Viral Product Intelligence}}\\[0.12cm]
+        {\fontsize{10.5pt}{12.5pt}\selectfont \color{DarkText}Early Detection and Prediction of Consumer Demand Surges Using Multi-Source Signals}\\[0.25cm]
+        \textcolor{BlueAccent}{\rule{0.45\paperwidth}{1.2pt}}\\[0.3cm]
 
-        \begin{beamerbox}
+        \begin{card}
             \centering
-            {\fontsize{9pt}{11pt}\selectfont \textbf{\color{NavyPrimary}Review 1 Presentation \textbullet\ 15-Minute Team Presentation (20 Marks) \textbullet\ Team: Group 13}}\\[0.2cm]
+            {\fontsize{8.5pt}{10.5pt}\selectfont \textbf{\color{NavyPrimary}Review 1 Presentation \textbullet\ 15-Minute Presentation (20 Marks) \textbullet\ Team: Group 13}}\\[0.15cm]
+            \small
             \begin{tabular}{p{4.2cm}p{4.2cm}p{4.2cm}}
                 \textbf{Mounik Sai} (\textit{Reg: 23CSE01}) & \textbf{Ashwin E} (\textit{Reg: 23CSE02}) & \textbf{Vijay Krishna} (\textit{Reg: 23CSE03}) \\
                 \textbf{Sisthick S} (\textit{Reg: 23CSE04}) & \textbf{Konduru Hemesh} (\textit{Reg: 23CSE05}) & \textit{Supervised Capstone Project}
             \end{tabular}
-        \end{beamerbox}
+        \end{card}
     \end{center}
 \end{frame}
 
@@ -108,42 +116,28 @@
 % =============================================================================
 \begin{frame}{Problem Statement and Research Gap}
     \begin{columns}[T]
-        \begin{column}{0.48\textwidth}
-            \begin{beamerbox}
-                {\fontsize{9pt}{11pt}\selectfont \textbf{\color{NavyPrimary}Business Problem \& Market Context}}\\[0.1cm]
+        \begin{column}{0.49\textwidth}
+            \begin{card}
+                {\fontsize{8.5pt}{10pt}\selectfont \textbf{\color{NavyPrimary}The Business Problem \& Research Gap}}\\[0.08cm]
                 \begin{itemize}\setlength{\itemsep}{2pt}
-                    \item Smartphone demand in India experiences sudden \textbf{viral demand surges} triggered by influencer reviews and organic social buzz.
-                    \item Traditional POS/ERP sales data lags by \textbf{7--14 days}, leading to stockouts, lost margins, and missed campaign windows.
+                    \item \textbf{Viral Demand Surges:} Smartphone demand in India experiences sudden virality driven by influencer reviews and social media buzz.
+                    \item \textbf{Lagging Sales Data:} Traditional POS/ERP reports lag by \textbf{7--14 days}, causing stockouts, lost margins, and missed marketing windows.
+                    \item \textbf{Existing Methods:} Univariate sales forecasting (ARIMA/ETS) and unintegrated manual social listening.
+                    \item \textbf{Research Gap:} Failure to fuse early multimodal signals (search curiosity + content velocity) to detect surge inflections.
                 \end{itemize}
-            \end{beamerbox}
-            \vspace{0.15cm}
-            \begin{beamerbox}
-                {\fontsize{9pt}{11pt}\selectfont \textbf{\color{CoralRed}Existing Methods \& Research Gap}}\\[0.1cm]
-                \begin{itemize}\setlength{\itemsep}{2pt}
-                    \item \textbf{Current Methods:} Univariate sales forecasting (ARIMA/ETS) and unintegrated manual social monitoring.
-                    \item \textbf{Research Gap:} Lack of multimodal early-signal fusion (search intent + content velocity) to identify inflection points.
-                \end{itemize}
-            \end{beamerbox}
+            \end{card}
         \end{column}
 
-        \begin{column}{0.48\textwidth}
-            \begin{beamerbox}
-                {\fontsize{9pt}{11pt}\selectfont \textbf{\color{BlueAccent}Proposed Multi-Source Radar Approach}}\\[0.1cm]
+        \begin{column}{0.49\textwidth}
+            \begin{card}
+                {\fontsize{8.5pt}{10pt}\selectfont \textbf{\color{BlueAccent}Proposed Multi-Source Radar \& Objectives}}\\[0.08cm]
                 \begin{itemize}\setlength{\itemsep}{2pt}
-                    \item Continuous multi-modal ingestion across \textbf{60 smartphones} in India.
-                    \item \textbf{Google Trends:} Captures macro curiosity (\textbf{7--14d lead}).
-                    \item \textbf{YouTube Data API:} Captures video velocity (\textbf{5--10d lead}) and comment sentiment (\textbf{3--7d lead}).
+                    \item \textbf{Multimodal Ingestion:} Automated tracking across \textbf{60 smartphones} representing 13 brands in India.
+                    \item \textbf{Google Trends (7--14d Lead):} Captures unprompted consumer search curiosity before retail realization.
+                    \item \textbf{YouTube Data API (3--10d Lead):} Captures influencer review velocity and comment sentiment consensus.
+                    \item \textbf{Retailers \& OEMs:} Pre-allocate inventory 7--14 days early and synchronize marketing with viral momentum.
                 \end{itemize}
-            \end{beamerbox}
-            \vspace{0.15cm}
-            \begin{beamerbox}
-                {\fontsize{9pt}{11pt}\selectfont \textbf{\color{EmeraldGreen}Core Business Objectives}}\\[0.1cm]
-                \begin{itemize}\setlength{\itemsep}{2pt}
-                    \item \textbf{Retailers:} Prevent stockouts with 7--14 day inventory restock buffers.
-                    \item \textbf{Marketers:} Capitalize on emerging viral momentum.
-                    \item \textbf{Supply Chain:} Synchronize warehouse distribution with lead indicators.
-                \end{itemize}
-            \end{beamerbox}
+            \end{card}
         \end{column}
     \end{columns}
 \end{frame}
@@ -152,49 +146,50 @@
 % SLIDE 3: Dataset Description (03)
 % =============================================================================
 \begin{frame}{Dataset Description}
-    \vspace{-0.15cm}
+    \vspace{-0.1cm}
+    % Metric Badges Row
     \begin{columns}[T]
         \begin{column}{0.18\textwidth}
-            \begin{beamerbox}\centering \textbf{\color{NavyPrimary}60 Phones}\\ \fontsize{7pt}{8.5pt}\selectfont 13 Major Brands\end{beamerbox}
+            \begin{card}\centering \textbf{\color{NavyPrimary}60 Phones}\\ \fontsize{6.5pt}{8pt}\selectfont 13 Major Brands\end{card}
         \end{column}
         \begin{column}{0.18\textwidth}
-            \begin{beamerbox}\centering \textbf{\color{NavyPrimary}16,140 Rows}\\ \fontsize{7pt}{8.5pt}\selectfont 269 Continuous Days\end{beamerbox}
+            \begin{card}\centering \textbf{\color{NavyPrimary}16,140 Rows}\\ \fontsize{6.5pt}{8pt}\selectfont 269 Continuous Days\end{card}
         \end{column}
         \begin{column}{0.18\textwidth}
-            \begin{beamerbox}\centering \textbf{\color{NavyPrimary}3,500 Videos}\\ \fontsize{7pt}{8.5pt}\selectfont Cleaned Review Data\end{beamerbox}
+            \begin{card}\centering \textbf{\color{NavyPrimary}3,500 Videos}\\ \fontsize{6.5pt}{8pt}\selectfont Cleaned Review Data\end{card}
         \end{column}
         \begin{column}{0.18\textwidth}
-            \begin{beamerbox}\centering \textbf{\color{NavyPrimary}32,215 Comments}\\ \fontsize{7pt}{8.5pt}\selectfont Curated Text Dataset\end{beamerbox}
+            \begin{card}\centering \textbf{\color{NavyPrimary}32,215 Comments}\\ \fontsize{6.5pt}{8pt}\selectfont Curated Text Dataset\end{card}
         \end{column}
         \begin{column}{0.20\textwidth}
-            \begin{beamerbox}\centering \textbf{\color{NavyPrimary}Jan 8--Oct 3, 2026}\\ \fontsize{7pt}{8.5pt}\selectfont Observation Window\end{beamerbox}
+            \begin{card}\centering \textbf{\color{NavyPrimary}Jan 8--Oct 3, 2026}\\ \fontsize{6.5pt}{8pt}\selectfont Observation Window\end{card}
         \end{column}
     \end{columns}
 
-    \vspace{0.2cm}
+    \vspace{0.15cm}
     \begin{columns}[T]
-        \begin{column}{0.48\textwidth}
-            \begin{beamerbox}
-                {\fontsize{9pt}{11pt}\selectfont \textbf{\color{NavyPrimary}Data Sources \& Collection Method}}\\[0.1cm]
+        \begin{column}{0.49\textwidth}
+            \begin{card}
+                {\fontsize{8.5pt}{10pt}\selectfont \textbf{\color{NavyPrimary}Data Sources \& Portfolio Breakdown}}\\[0.08cm]
                 \begin{itemize}\setlength{\itemsep}{2pt}
                     \item \textbf{Google Trends:} Daily search interest (0--100) across 269 days.
-                    \item \textbf{YouTube Data API v3:} Video metadata (\texttt{videos.list}), top comments (\texttt{commentThreads}), and 7-day upload velocity.
-                    \item \textbf{Collection Period:} Jan 8 -- Oct 3, 2026 (daily series).
-                    \item \textbf{Limitations:} 10k unit/day API quota, 50-video search cap.
+                    \item \textbf{YouTube Data API v3:} Metadata (\texttt{videos.list}), top comments (\texttt{commentThreads}), and 7-day upload activity.
+                    \item \textbf{Balanced Cohorts:} 24 RISING (40\%), 24 STABLE (40\%), and 12 DECLINING (20\%) models.
+                    \item \textbf{Collection Constraints:} 10k unit/day API quota, 50-video cap.
                 \end{itemize}
-            \end{beamerbox}
+            \end{card}
         \end{column}
 
-        \begin{column}{0.48\textwidth}
-            \begin{beamerbox}
-                {\fontsize{9pt}{11pt}\selectfont \textbf{\color{NavyPrimary}Key Variables \& Prediction Target}}\\[0.1cm]
+        \begin{column}{0.49\textwidth}
+            \begin{card}
+                {\fontsize{8.5pt}{10pt}\selectfont \textbf{\color{NavyPrimary}Key Variables \& Prediction Target}}\\[0.08cm]
                 \begin{itemize}\setlength{\itemsep}{2pt}
-                    \item \textbf{Search Signals:} \texttt{search\_interest}, growth velocity, acceleration.
-                    \item \textbf{Video Signals:} \texttt{video\_views\_total}, \texttt{on\_target\_share} ($>80\%$), \texttt{videos\_published\_7d}.
-                    \item \textbf{Prediction Target:} \texttt{surge\_label} $\in \{0, 1\}$ (Top 15\% positive growth rate; 806 surge events across 16,140 rows).
-                    \item \textbf{Unified Table:} \texttt{aligned\_daily.csv} (16,140 rows $\times$ 28 features).
+                    \item \textbf{Search Predictors:} \texttt{search\_interest}, velocity, acceleration.
+                    \item \textbf{Video Predictors:} \texttt{video\_views\_total}, \texttt{on\_target\_share} ($>80\%$), \texttt{videos\_published\_7d}.
+                    \item \textbf{Target Variable:} \texttt{surge\_label} $\in \{0, 1\}$ (Top 15\% positive velocity; 806 surge events across 16,140 rows).
+                    \item \textbf{Unified Table:} \texttt{aligned\_daily.csv} (16,140 rows $\times$ 28 columns).
                 \end{itemize}
-            \end{beamerbox}
+            \end{card}
         \end{column}
     \end{columns}
 \end{frame}
@@ -204,42 +199,29 @@
 % =============================================================================
 \begin{frame}{Data Cleaning and Preprocessing}
     \begin{columns}[T]
-        \begin{column}{0.48\textwidth}
-            \begin{beamerbox}
-                {\fontsize{9pt}{11pt}\selectfont \textbf{\color{NavyPrimary}Missing Values \& Outlier Handling}}\\[0.1cm]
+        \begin{column}{0.49\textwidth}
+            \begin{card}
+                {\fontsize{8.5pt}{10pt}\selectfont \textbf{\color{NavyPrimary}Missing Values, Zeroes \& Deduplication}}\\[0.08cm]
                 \begin{itemize}\setlength{\itemsep}{2pt}
-                    \item \textbf{Zero Forward-Fill Policy:} Prohibited arbitrary forward-filling to eliminate temporal lookahead bias.
-                    \item \textbf{Principled Zero Imputation:} Days with no video uploads or sub-threshold search explicit as 0.0.
-                    \item \textbf{Missing Categoricals:} Unregistered attributes assigned to \texttt{Unknown}.
+                    \item \textbf{Zero Forward-Fill Policy:} Forward-filling prohibited to eliminate temporal lookahead bias and artificial trend continuity.
+                    \item \textbf{Principled Zero Imputation:} Zero video uploads or sub-threshold search explicit as 0.0, keeping true zeroes distinct from missing.
+                    \item \textbf{Query Version Control:} Tagged by registry version (\texttt{qv1--qv3}) to prevent duplicate fetches across collection cycles.
+                    \item \textbf{Exact Title Matching:} Strict regex matching achieves $>80\%$ precision, eliminating noisy older device variants.
                 \end{itemize}
-            \end{beamerbox}
-            \vspace{0.15cm}
-            \begin{beamerbox}
-                {\fontsize{9pt}{11pt}\selectfont \textbf{\color{NavyPrimary}Deduplication \& Title Matching}}\\[0.1cm]
-                \begin{itemize}\setlength{\itemsep}{2pt}
-                    \item \textbf{Query Version Control:} Tagged by registry version (\texttt{qv1}, \texttt{qv2}, \texttt{qv3}) to eliminate duplicate collections.
-                    \item \textbf{Exact Title Match:} Strict regex filter eliminates unrelated models, ensuring $>80\%$ exact-match precision.
-                \end{itemize}
-            \end{beamerbox}
+            \end{card}
         \end{column}
 
-        \begin{column}{0.48\textwidth}
-            \begin{beamerbox}
-                {\fontsize{9pt}{11pt}\selectfont \textbf{\color{NavyPrimary}Encoding, Scaling \& Transformations}}\\[0.1cm]
+        \begin{column}{0.49\textwidth}
+            \begin{card}
+                {\fontsize{8.5pt}{10pt}\selectfont \textbf{\color{NavyPrimary}Encoding, Scaling \& Verification Evidence}}\\[0.08cm]
                 \begin{itemize}\setlength{\itemsep}{2pt}
                     \item \textbf{One-Hot Encoding:} Applied to \texttt{brand} (12 dummies) and \texttt{product\_type} (2 dummies) with \texttt{drop\_first=True}.
-                    \item \textbf{StandardScaler:} Normalization applied to continuous features; identifiers and \texttt{surge\_label} left intact.
+                    \item \textbf{StandardScaler:} Normalization applied to continuous features; identifiers and \texttt{surge\_label} left unscaled.
+                    \item \textbf{Videos Table:} 3,600 raw $\rightarrow$ 3,500 clean (100 outdated query rows dropped).
+                    \item \textbf{Comments Table:} 33,217 raw $\rightarrow$ 32,215 clean (empty/bot text purged).
+                    \item \textbf{Audit Evidence:} 100\% verified in \texttt{cleaning\_report\_youtube.csv}.
                 \end{itemize}
-            \end{beamerbox}
-            \vspace{0.15cm}
-            \begin{beamerbox}
-                {\fontsize{9pt}{11pt}\selectfont \textbf{\color{EmeraldGreen}Before vs After Cleaning Evidence}}\\[0.1cm]
-                \begin{itemize}\setlength{\itemsep}{2pt}
-                    \item \textbf{Videos:} 3,600 raw $\rightarrow$ 3,500 clean (100 outdated query rows dropped).
-                    \item \textbf{Comments:} 33,217 raw $\rightarrow$ 32,215 clean (empty/bot text purged).
-                    \item \textbf{Validation:} 100\% verified via \texttt{cleaning\_report\_youtube.csv}.
-                \end{itemize}
-            \end{beamerbox}
+            \end{card}
         \end{column}
     \end{columns}
 \end{frame}
@@ -249,84 +231,84 @@
 % =============================================================================
 \begin{frame}{Exploratory Analysis and Visualization}
     \begin{columns}[T]
-        \begin{column}{0.31\textwidth}
-            \begin{beamerbox}
-                {\fontsize{8.5pt}{10pt}\selectfont \textbf{\color{BlueAccent}Finding 1: Search Leads Velocity}}\\[0.1cm]
-                {\fontsize{7.5pt}{9pt}\selectfont
+        \begin{column}{0.32\textwidth}
+            \begin{card}
+                {\fontsize{8pt}{9.5pt}\selectfont \textbf{\color{BlueAccent}Finding 1: Search Leads Velocity}}\\[0.08cm]
+                {\fontsize{7pt}{8.5pt}\selectfont
                 \textbf{Pattern Observed:}
-                Google Trends exhibits sharp spikes 7--14 days before YouTube review volume and comment engagement peak.\\[0.1cm]
+                Google Trends exhibits sharp spikes 7--14 days before YouTube review uploads and viewer comments peak.\\[0.08cm]
                 \textbf{Business Significance:}
-                Search momentum serves as the primary leading indicator for warehouse pre-allocation before social buzz saturates.
+                Search momentum serves as the primary leading indicator for warehouse replenishment before buzz saturates.
                 }
-            \end{beamerbox}
+            \end{card}
         \end{column}
 
-        \begin{column}{0.31\textwidth}
-            \begin{beamerbox}
-                {\fontsize{8.5pt}{10pt}\selectfont \textbf{\color{NavyPrimary}Finding 2: On-Target Specificity}}\\[0.1cm]
-                {\fontsize{7.5pt}{9pt}\selectfont
+        \begin{column}{0.32\textwidth}
+            \begin{card}
+                {\fontsize{8pt}{9.5pt}\selectfont \textbf{\color{NavyPrimary}Finding 2: On-Target Specificity}}\\[0.08cm]
+                {\fontsize{7pt}{8.5pt}\selectfont
                 \textbf{Pattern Observed:}
-                Over 80\% of video titles achieve exact-model matches, filtering out noise from older device variants.\\[0.1cm]
+                Over 80\% of video titles match exact smartphone models, filtering out sibling variants and peripheral noise.\\[0.08cm]
                 \textbf{Business Significance:}
-                Isolates genuine model-level buyer demand from brand-level halo noise, preventing miscalculated procurement.
+                Isolates genuine model-level buyer demand from brand-level halo chatter, preventing misallocated inventory procurement.
                 }
-            \end{beamerbox}
+            \end{card}
         \end{column}
 
-        \begin{column}{0.31\textwidth}
-            \begin{beamerbox}
-                {\fontsize{8.5pt}{10pt}\selectfont \textbf{\color{CoralRed}Finding 3: Cohort Dynamics}}\\[0.1cm]
-                {\fontsize{7.5pt}{9pt}\selectfont
+        \begin{column}{0.32\textwidth}
+            \begin{card}
+                {\fontsize{8pt}{9.5pt}\selectfont \textbf{\color{CoralRed}Finding 3: Cohort Dynamics}}\\[0.08cm]
+                {\fontsize{7pt}{8.5pt}\selectfont
                 \textbf{Pattern Observed:}
-                RISING models show volatile bursts and 68\% of all surges; STABLE models show low-variance baseline interest; DECLINING models show zero-inflation.\\[0.1cm]
+                RISING models show volatile bursts and 68\% of surges; STABLE show steady baseline interest; DECLINING show persistent zeroes.\\[0.08cm]
                 \textbf{Business Significance:}
                 Predictive surge thresholds must be calibrated by product lifecycle stage.
                 }
-            \end{beamerbox}
+            \end{card}
         \end{column}
     \end{columns}
 
-    \vspace{0.25cm}
-    \begin{beamerbox}
+    \vspace{0.15cm}
+    \begin{card}
         \centering
-        {\fontsize{8pt}{9.5pt}\selectfont \textbf{Visual Evidence Produced in Notebook:} Lifecycle Interest Boxplots \textbullet\ Top 10 Surge Peaks \textbullet\ YouTube View/Comment Correlation}
-    \end{beamerbox}
+        {\fontsize{7.5pt}{9pt}\selectfont \textbf{Visual Outputs Generated in Notebook:} Cohort Search Interest Boxplots \textbullet\ Top 10 Surge Peaks \textbullet\ YouTube View/Comment Correlation}
+    \end{card}
 \end{frame}
 
 % =============================================================================
 % SLIDE 6: Feature Engineering or Dimensionality Reduction (06)
 % =============================================================================
 \begin{frame}{Feature Engineering or Dimensionality Reduction}
-    \vspace{-0.15cm}
-    \begin{beamerbox}
+    \vspace{-0.1cm}
+    \begin{card}
         \centering
-        {\fontsize{8.5pt}{10pt}\selectfont \textbf{Dynamic Inflection Formulation:} \quad Velocity: $g_t = \frac{S_t - S_{t-1}}{S_{t-1}}$ \quad\textbar\quad Acceleration: $a_t = g_t - g_{t-1}$ \quad\textbar\quad Target: $\text{Surge}_t \in \{0, 1\}$ (Top 15\% $g_t > 0$)}
-    \end{beamerbox}
+        {\fontsize{8pt}{9.5pt}\selectfont \textbf{Dynamic Inflection Formulation:} \quad Velocity: $g_t = \frac{S_t - S_{t-1}}{S_{t-1}}$ \quad\textbar\quad Acceleration: $a_t = g_t - g_{t-1}$ \quad\textbar\quad Target: $\text{Surge}_t \in \{0, 1\}$ (Top 15\% $g_t > 0$)}
+    \end{card}
     \vspace{0.15cm}
 
     \begin{columns}[T]
-        \begin{column}{0.48\textwidth}
-            \begin{beamerbox}
-                {\fontsize{9pt}{11pt}\selectfont \textbf{\color{NavyPrimary}Engineered Predictive Features}}\\[0.1cm]
+        \begin{column}{0.49\textwidth}
+            \begin{card}
+                {\fontsize{8.5pt}{10pt}\selectfont \textbf{\color{NavyPrimary}Engineered Features \& Temporal Lags}}\\[0.08cm]
                 \begin{itemize}\setlength{\itemsep}{2pt}
                     \item \textbf{1st-Order Growth ($g_t$):} Day-over-day search velocity.
                     \item \textbf{2nd-Order Acceleration ($a_t$):} Rate of velocity change.
-                    \item \textbf{Temporal Lags ($t-1, t-2, t-3, t-7$):} Past signal states to enable leak-free forward forecasting.
+                    \item \textbf{Temporal Lags ($t-1, t-2, t-3, t-7$):} Past signal states enabling strictly leak-free forward forecasting.
                     \item \textbf{7-Day Rolling Metrics:} Rolling mean ($\mu_{7d}$) and volatility ($\sigma_{7d}$) capturing momentum shifts.
                     \item \textbf{Content Velocity:} 7-day upload count (\texttt{videos\_published\_7d}).
                 \end{itemize}
-            \end{beamerbox}
+            \end{card}
         \end{column}
 
-        \begin{column}{0.48\textwidth}
-            \begin{beamerbox}
-                {\fontsize{9pt}{11pt}\selectfont \textbf{\color{NavyPrimary}Justification \& Measured Effect}}\\[0.1cm]
+        \begin{column}{0.49\textwidth}
+            \begin{card}
+                {\fontsize{8.5pt}{10pt}\selectfont \textbf{\color{NavyPrimary}Justification \& Measured Effect}}\\[0.08cm]
                 \begin{itemize}\setlength{\itemsep}{2pt}
-                    \item \textbf{Justification:} Raw volume alone fails to separate stable interest from breakout virality; 2nd-order acceleration captures the early exponential curve.
-                    \item \textbf{Leakage Prevention:} Temporal lagging guarantees that model predictions use only historically available data.
-                    \item \textbf{Measured Effect:} Produces clear separation of viral events; isolates 806 actionable surge instances with low noise.
+                    \item \textbf{Justification:} Raw volume alone cannot separate steady demand from sudden viral surges; 2nd-order acceleration captures the early exponential inflection.
+                    \item \textbf{Leakage Prevention:} Temporal lagging guarantees that model predictions use only historically available observations.
+                    \item \textbf{Measured Effect:} Produces clear bimodal separation; isolates 806 actionable surge events with minimal background noise.
                 \end{itemize}
-            \end{beamerbox}
+            \end{card}
         \end{column}
     \end{columns}
 \end{frame}
@@ -336,31 +318,31 @@
 % =============================================================================
 \begin{frame}{Predictive Model Development}
     \begin{columns}[T]
-        \begin{column}{0.48\textwidth}
-            \begin{beamerbox}
-                {\fontsize{9pt}{11pt}\selectfont \textbf{\color{NavyPrimary}Prediction Task \& Algorithms}}\\[0.1cm]
-                \begin{itemize}\setlength{\itemsep}{2.5pt}
+        \begin{column}{0.49\textwidth}
+            \begin{card}
+                {\fontsize{8.5pt}{10pt}\selectfont \textbf{\color{NavyPrimary}Prediction Task \& Algorithms}}\\[0.08cm]
+                \begin{itemize}\setlength{\itemsep}{2pt}
                     \item \textbf{Task:} Binary classification of next-window Demand Surge (\texttt{surge\_label} $\in \{0, 1\}$).
-                    \item \textbf{Model 1 (Linear Baseline):} Logistic Regression with L2 regularization and balanced weights.
-                    \item \textbf{Model 2 (Bagging):} Random Forest Classifier (100 estimators, max depth 6).
-                    \item \textbf{Model 3 (Boosting):} HistGradientBoosting (GBDT) for non-linear interaction thresholds.
+                    \item \textbf{Model 1 (Linear Baseline):} Logistic Regression with L2 regularization and balanced class weights.
+                    \item \textbf{Model 2 (Bagging):} Random Forest Classifier (100 estimators, max depth 6 to prevent overfitting).
+                    \item \textbf{Model 3 (Boosting):} HistGradientBoosting (GBDT) for non-linear feature interaction thresholds.
                 \end{itemize}
-            \end{beamerbox}
+            \end{card}
         \end{column}
 
-        \begin{column}{0.48\textwidth}
-            \begin{beamerbox}
-                {\fontsize{9pt}{11pt}\selectfont \textbf{\color{NavyPrimary}Data Partitioning \& Settings}}\\[0.1cm]
-                \begin{itemize}\setlength{\itemsep}{2.5pt}
+        \begin{column}{0.49\textwidth}
+            \begin{card}
+                {\fontsize{8.5pt}{10pt}\selectfont \textbf{\color{NavyPrimary}Data Partitioning \& Protocol}}\\[0.08cm]
+                \begin{itemize}\setlength{\itemsep}{2pt}
                     \item \textbf{Strict Chronological 80/20 Split:}
-                        \begin{itemize}\setlength{\itemsep}{1.5pt}
+                        \begin{itemize}\setlength{\itemsep}{1pt}
                             \item \textbf{Train:} Jan 15 -- Aug 12, 2026 ($N = 12,540$, Surges: 586)
                             \item \textbf{Test:} Aug 13 -- Oct 3, 2026 ($N = 3,180$, Surges: 208)
                         \end{itemize}
-                    \item \textbf{Leakage Mitigation:} Chronological splitting ensures true out-of-sample forward evaluation.
-                    \item \textbf{Imbalance Tuning:} \texttt{class\_weight='balanced'} penalizes false negatives on rare viral events (base rate: 4.7\%).
+                    \item \textbf{Leakage Mitigation:} Chronological splitting ensures true forward-looking evaluation on unseen future dates.
+                    \item \textbf{Imbalance Tuning:} \texttt{class\_weight='balanced'} penalizes false negatives on rare viral surges (4.7\% base rate).
                 \end{itemize}
-            \end{beamerbox}
+            \end{card}
         \end{column}
     \end{columns}
 \end{frame}
@@ -369,11 +351,11 @@
 % SLIDE 8: Model Evaluation and Result Interpretation (08)
 % =============================================================================
 \begin{frame}{Model Evaluation and Result Interpretation}
-    \vspace{-0.15cm}
-    \begin{beamerbox}
+    \vspace{-0.1cm}
+    \begin{card}
         \centering
-        {\fontsize{8.5pt}{10pt}\selectfont \textbf{Out-of-Sample Benchmark Performance (Unseen Test Set: $N = 3,180$ Days)}}
-        \vspace{0.1cm}
+        {\fontsize{8pt}{9.5pt}\selectfont \textbf{Out-of-Sample Benchmark Performance (Unseen Test Set: $N = 3,180$ Days)}}
+        \vspace{0.08cm}
         \footnotesize
         \begin{tabular}{lccccc}
             \toprule
@@ -384,29 +366,29 @@
             HistGradientBoosting (GBDT) & \textbf{89.1\%} & \textbf{14.8\%} & 51.0\% & \textbf{0.229} & \textbf{0.739} \\
             \bottomrule
         \end{tabular}
-    \end{beamerbox}
-    \vspace{0.15cm}
+    \end{card}
+    \vspace{0.12cm}
 
     \begin{columns}[T]
-        \begin{column}{0.48\textwidth}
-            \begin{beamerbox}
-                {\fontsize{9pt}{11pt}\selectfont \textbf{\color{NavyPrimary}Technical Result Interpretation}}\\[0.1cm]
-                \begin{itemize}\setlength{\itemsep}{2pt}
+        \begin{column}{0.49\textwidth}
+            \begin{card}
+                {\fontsize{8.5pt}{10pt}\selectfont \textbf{\color{NavyPrimary}Technical Interpretation}}\\[0.06cm]
+                \begin{itemize}\setlength{\itemsep}{1.5pt}
                     \item Tree ensembles outperform linear baseline by \textbf{+19\% AUC} (0.739 vs 0.620).
                     \item Random Forest captures \textbf{63.5\% of actual surges} on completely unseen future test dates.
-                    \item Dominant predictors: 7-day rolling volatility and 1-day lag acceleration.
+                    \item Dominant signals: 7-day rolling volatility and 1-day lag acceleration.
                 \end{itemize}
-            \end{beamerbox}
+            \end{card}
         \end{column}
 
-        \begin{column}{0.48\textwidth}
-            \begin{beamerbox}
-                {\fontsize{9pt}{11pt}\selectfont \textbf{\color{EmeraldGreen}Actionable Business Findings}}\\[0.1cm]
-                \begin{itemize}\setlength{\itemsep}{2pt}
-                    \item \textbf{Asymmetric Cost Optimization:} The cost of stocking out (\$150+ lost margin) far exceeds temporary inventory holding (\$5/unit).
-                    \item \textbf{Recommended Policy:} Set alert threshold at 0.40 to capture $>63\%$ of emerging surges 1--7 days in advance.
+        \begin{column}{0.49\textwidth}
+            \begin{card}
+                {\fontsize{8.5pt}{10pt}\selectfont \textbf{\color{EmeraldGreen}Business Recommendations}}\\[0.06cm]
+                \begin{itemize}\setlength{\itemsep}{1.5pt}
+                    \item \textbf{Asymmetric Risk:} Stockout cost (\$150+ lost margin) far exceeds temporary inventory holding (\$5/unit).
+                    \item \textbf{Policy:} Threshold of 0.40 captures \textbf{$>63\%$ of upcoming surges} 1--7 days in advance.
                 \end{itemize}
-            \end{beamerbox}
+            \end{card}
         \end{column}
     \end{columns}
 \end{frame}
@@ -415,12 +397,12 @@
 % SLIDE 9: Project Tracking and Progress (09)
 % =============================================================================
 \begin{frame}{Project Tracking and Progress}
-    \vspace{-0.15cm}
-    \begin{beamerbox}
-        {\fontsize{8.5pt}{10pt}\selectfont \textbf{SCRUM Board Tracking (Group 13 / VPI)} \hfill \textit{Stages: Backlog $\rightarrow$ To Do $\rightarrow$ In Progress $\rightarrow$ Review/Testing $\rightarrow$ Completed}}
-        \vspace{0.1cm}
-        \footnotesize
-        \begin{tabular}{p{1.8cm}p{4.2cm}p{2.4cm}p{3.2cm}}
+    \vspace{-0.1cm}
+    \begin{card}
+        {\fontsize{8pt}{9.5pt}\selectfont \textbf{SCRUM Board Tracking (Group 13 / VPI)} \hfill \textit{Stages: Backlog $\rightarrow$ To Do $\rightarrow$ In Progress $\rightarrow$ Review/Testing $\rightarrow$ Completed}}
+        \vspace{0.06cm}
+        \scriptsize
+        \begin{tabular}{p{1.7cm}p{4.2cm}p{2.3cm}p{3.2cm}}
             \toprule
             \textbf{Task Key} & \textbf{Task Description} & \textbf{Assignee} & \textbf{Status \& Evidence} \\
             \midrule
@@ -432,16 +414,16 @@
             \textbf{SCRUM-20} & Feature Engineering, Encoding \& Scaling & Sisthick S & \textcolor{EmeraldGreen}{\textbf{Done}} (\texttt{features\_scaled.csv}) \\
             \bottomrule
         \end{tabular}
-    \end{beamerbox}
-    \vspace{0.15cm}
+    \end{card}
+    \vspace{0.12cm}
 
-    \begin{beamerbox}
-        {\fontsize{8.5pt}{10pt}\selectfont \textbf{\color{NavyPrimary}Engineering Evidence \& Quality Assurance}}\\[0.05cm]
+    \begin{card}
+        {\fontsize{8pt}{9.5pt}\selectfont \textbf{\color{NavyPrimary}Engineering Evidence \& Quality Assurance}}\\[0.04cm]
         \begin{itemize}\setlength{\itemsep}{1.5pt}
-            \item \textbf{Pull Requests:} 10 merged PRs with peer reviews \textbar\ \textbf{Unit Tests:} 124 passing tests in \texttt{tests/} (100\% pass rate, 2.55s).
+            \item \textbf{Pull Requests:} 10 merged PRs with peer reviews \textbar\ \textbf{Unit Tests:} 124 passing tests in \texttt{tests/} (100\% pass rate, 2.22s).
             \item \textbf{Reproducibility:} Idempotent CLI execution via \texttt{python src/consolidate\_pipeline.py}.
         \end{itemize}
-    \end{beamerbox}
+    \end{card}
 \end{frame}
 
 % =============================================================================
@@ -449,9 +431,9 @@
 % =============================================================================
 \begin{frame}{Individual Contributions and Next Steps}
     \begin{columns}[T]
-        \begin{column}{0.48\textwidth}
-            \begin{beamerbox}
-                {\fontsize{9pt}{11pt}\selectfont \textbf{\color{NavyPrimary}Individual Contributions (Group 13)}}\\[0.1cm]
+        \begin{column}{0.49\textwidth}
+            \begin{card}
+                {\fontsize{8.5pt}{10pt}\selectfont \textbf{\color{NavyPrimary}Individual Contributions (Group 13)}}\\[0.08cm]
                 \begin{itemize}\setlength{\itemsep}{2pt}
                     \item \textbf{Mounik Sai:} Consolidated pipeline orchestrator (SCRUM-19), dataset documentation (SCRUM-10/14), presentation \& showcase notebook.
                     \item \textbf{Ashwin E:} YouTube API collector, quota management, deduplication engine, cleaning audit (SCRUM-17).
@@ -459,24 +441,24 @@
                     \item \textbf{Sisthick S:} Repo scaffolding, feature engineering, encoding and scaling pipeline (SCRUM-20).
                     \item \textbf{Konduru Hemesh:} Engagement metadata integration, test suites, quality assurance.
                 \end{itemize}
-            \end{beamerbox}
+            \end{card}
         \end{column}
 
-        \begin{column}{0.48\textwidth}
-            \begin{beamerbox}
-                {\fontsize{9pt}{11pt}\selectfont \textbf{\color{BlueAccent}Review 2 Planned Milestones}}\\[0.1cm]
+        \begin{column}{0.49\textwidth}
+            \begin{card}
+                {\fontsize{8.5pt}{10pt}\selectfont \textbf{\color{BlueAccent}Review 2 Planned Milestones}}\\[0.08cm]
                 \begin{itemize}\setlength{\itemsep}{2pt}
                     \item \textbf{1. Hinglish NLP Sentiment:} Code-mixed RoBERTa embeddings on 32,215 YouTube comments.
                     \item \textbf{2. Deep Sequential Models:} Implement Temporal Fusion Transformers (TFT) / LSTM for multi-horizon forecasts.
                     \item \textbf{3. Viral Product Radar App:} Interactive Streamlit dashboard with live automated surge alerts.
                     \item \textbf{4. Production API:} Containerized daily automated Trends and YouTube inference jobs.
                 \end{itemize}
-            \end{beamerbox}
-            \vspace{0.15cm}
-            \begin{beamerbox}
-                {\fontsize{8pt}{9.5pt}\selectfont \textbf{Deliverable Submission Links:}\\
+            \end{card}
+            \vspace{0.12cm}
+            \begin{card}
+                {\fontsize{7.5pt}{9pt}\selectfont \textbf{Submission Links:}\\
                 \textbullet\ Repo: \href{https://github.com/Ashwin-deals/viral-product-intelligence-}{GitHub Repository} \textbullet\ Notebook: \texttt{Review\_1\_Showcase.ipynb}}
-            \end{beamerbox}
+            \end{card}
         \end{column}
     \end{columns}
 \end{frame}
