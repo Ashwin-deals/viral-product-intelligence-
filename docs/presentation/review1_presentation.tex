@@ -10,8 +10,14 @@
 \usepackage{booktabs}
 \usepackage{array}
 \usepackage{colortbl}
+\usepackage{graphicx}
 \usepackage{microtype}
 \usepackage{hyperref}
+
+% -----------------------------------------------------------------------------
+% Graphic Paths for Overleaf & Local Compilation
+% -----------------------------------------------------------------------------
+\graphicspath{{./}{figures/}{docs/figures/}{docs/presentation/figures/}}
 
 % -----------------------------------------------------------------------------
 % Geometry & Margin Settings (Maximized Vertical Canvas to Prevent Overflow)
@@ -53,8 +59,8 @@
 % Ultra-Slim Header (Gains 18mm of Free Vertical Canvas on Every Slide)
 \setbeamertemplate{frametitle}{%
     \vspace{0.15cm}%
-    \noindent{\fontsize{11pt}{13pt}\selectfont \textbf{\color{NavyPrimary}\insertframenumber.\ \insertframetitle}}%
-    \hfill{\fontsize{8.5pt}{10.5pt}\selectfont \textbf{\color{BlueAccent}Group 13 \textbar\ Review 1}}\par%
+    \noindent{\fontsize{10.5pt}{12.5pt}\selectfont \textbf{\color{NavyPrimary}\insertframenumber.\ \insertframetitle}}%
+    \hfill{\fontsize{8pt}{10pt}\selectfont \textbf{\color{BlueAccent}Group 13 \textbar\ Review 1}}\par%
     \vspace{0.04cm}%
     \textcolor{BlueAccent!35}{\rule{\linewidth}{0.6pt}}\par%
     \vspace{-0.15cm}%
@@ -64,7 +70,7 @@
 \setbeamertemplate{footline}{%
     \vspace{-0.15cm}%
     \leavevmode\centering%
-    {\fontsize{6.5pt}{7.5pt}\selectfont \color{MutedGray} 23CSE452 Business Analytics \textbullet\ Viral Product Intelligence \hfill \insertframenumber/10}%
+    {\fontsize{6.5pt}{7.5pt}\selectfont \color{MutedGray} 23CSE452 Business Analytics \textbullet\ Viral Product Intelligence \hfill \insertframenumber/\inserttotalframenumber}%
     \vspace{0.12cm}%
 }
 
@@ -73,6 +79,19 @@
     \begin{beamercolorbox}[rounded=true,shadow=false,wd=\linewidth,sep=4pt,#1]{block body}%
 }{%
     \end{beamercolorbox}%
+}
+
+% Safe Image Include (Renders a neat placeholder if the image file has not been uploaded yet)
+\newcommand{\safeincludeplot}[3]{%
+    \IfFileExists{#1}{%
+        \includegraphics[width=#2,height=#3,keepaspectratio]{#1}%
+    }{%
+        \begin{beamercolorbox}[rounded=true,center,wd=#2,sep=8pt]{block body}%
+            {\fontsize{8pt}{10pt}\selectfont \textbf{\color{CoralRed}[Image File Required: \texttt{#1}]}}\\[0.1cm]%
+            {\fontsize{7pt}{8.5pt}\selectfont \color{DarkText} Drag \& drop \texttt{#1} into Overleaf from:}\\[0.05cm]%
+            {\fontsize{6.5pt}{8pt}\selectfont \texttt{docs/figures/#1}}%
+        \end{beamercolorbox}%
+    }%
 }
 
 \setlength{\parskip}{0pt}
@@ -101,7 +120,7 @@
 
         \begin{card}
             \centering
-            {\fontsize{8.5pt}{10.5pt}\selectfont \textbf{\color{NavyPrimary}Review 1 Presentation \textbullet\ 15-Minute Presentation (20 Marks) \textbullet\ Team: Group 13}}\\[0.15cm]
+            {\fontsize{8.5pt}{10.5pt}\selectfont \textbf{\color{NavyPrimary}Review 1 Presentation \textbullet\ 15-Minute Team Presentation (20 Marks) \textbullet\ Group 13}}\\[0.15cm]
             \small
             \begin{tabular}{p{4.2cm}p{4.2cm}p{4.2cm}}
                 \textbf{Mounik Sai} (\textit{Reg: 23CSE01}) & \textbf{Ashwin E} (\textit{Reg: 23CSE02}) & \textbf{Vijay Krishna} (\textit{Reg: 23CSE03}) \\
@@ -120,7 +139,7 @@
             \begin{card}
                 {\fontsize{8.5pt}{10pt}\selectfont \textbf{\color{NavyPrimary}The Business Problem \& Research Gap}}\\[0.08cm]
                 \begin{itemize}\setlength{\itemsep}{2pt}
-                    \item \textbf{Viral Demand Surges:} Smartphone demand in India experiences sudden virality driven by influencer reviews and social media buzz.
+                    \item \textbf{Viral Demand Surges:} Smartphone demand in India experiences sudden virality driven by influencer reviews and organic social buzz.
                     \item \textbf{Lagging Sales Data:} Traditional POS/ERP reports lag by \textbf{7--14 days}, causing stockouts, lost margins, and missed marketing windows.
                     \item \textbf{Existing Methods:} Univariate sales forecasting (ARIMA/ETS) and unintegrated manual social listening.
                     \item \textbf{Research Gap:} Failure to fuse early multimodal signals (search curiosity + content velocity) to detect surge inflections.
@@ -143,40 +162,26 @@
 \end{frame}
 
 % =============================================================================
-% SLIDE 3: Dataset Description (03)
+% SLIDE 3: Dataset Description (03 - Redesigned to Never Collide or Overflow)
 % =============================================================================
 \begin{frame}{Dataset Description}
-    \vspace{-0.1cm}
-    % Metric Badges Row
-    \begin{columns}[T]
-        \begin{column}{0.18\textwidth}
-            \begin{card}\centering \textbf{\color{NavyPrimary}60 Phones}\\ \fontsize{6.5pt}{8pt}\selectfont 13 Major Brands\end{card}
-        \end{column}
-        \begin{column}{0.18\textwidth}
-            \begin{card}\centering \textbf{\color{NavyPrimary}16,140 Rows}\\ \fontsize{6.5pt}{8pt}\selectfont 269 Continuous Days\end{card}
-        \end{column}
-        \begin{column}{0.18\textwidth}
-            \begin{card}\centering \textbf{\color{NavyPrimary}3,500 Videos}\\ \fontsize{6.5pt}{8pt}\selectfont Cleaned Review Data\end{card}
-        \end{column}
-        \begin{column}{0.18\textwidth}
-            \begin{card}\centering \textbf{\color{NavyPrimary}32,215 Comments}\\ \fontsize{6.5pt}{8pt}\selectfont Curated Text Dataset\end{card}
-        \end{column}
-        \begin{column}{0.20\textwidth}
-            \begin{card}\centering \textbf{\color{NavyPrimary}Jan 8--Oct 3, 2026}\\ \fontsize{6.5pt}{8pt}\selectfont Observation Window\end{card}
-        \end{column}
-    \end{columns}
-
-    \vspace{0.15cm}
     \begin{columns}[T]
         \begin{column}{0.49\textwidth}
             \begin{card}
-                {\fontsize{8.5pt}{10pt}\selectfont \textbf{\color{NavyPrimary}Data Sources \& Portfolio Breakdown}}\\[0.08cm]
-                \begin{itemize}\setlength{\itemsep}{2pt}
-                    \item \textbf{Google Trends:} Daily search interest (0--100) across 269 days.
-                    \item \textbf{YouTube Data API v3:} Metadata (\texttt{videos.list}), top comments (\texttt{commentThreads}), and 7-day upload activity.
-                    \item \textbf{Balanced Cohorts:} 24 RISING (40\%), 24 STABLE (40\%), and 12 DECLINING (20\%) models.
-                    \item \textbf{Collection Constraints:} 10k unit/day API quota, 50-video cap.
-                \end{itemize}
+                {\fontsize{8.5pt}{10pt}\selectfont \textbf{\color{NavyPrimary}Dataset Dimensions \& Scope}}\\[0.08cm]
+                \scriptsize
+                \begin{tabular}{p{3.0cm}p{3.2cm}}
+                    \toprule
+                    \textbf{Dimension} & \textbf{Volume / Scope} \\
+                    \midrule
+                    \textbf{Tracked Phones} & 60 Models (13 Brands in India) \\
+                    \textbf{Lifecycle Cohorts} & 24 Rising, 24 Stable, 12 Declining \\
+                    \textbf{Search Time-Series} & 16,140 Days (269 per phone) \\
+                    \textbf{Review Videos} & 3,500 Cleaned Video Records \\
+                    \textbf{User Comments} & 32,215 Top-Level Comments \\
+                    \textbf{Unified Dataset} & 16,140 rows $\times$ 28 columns \\
+                    \bottomrule
+                \end{tabular}
             \end{card}
         \end{column}
 
@@ -184,10 +189,10 @@
             \begin{card}
                 {\fontsize{8.5pt}{10pt}\selectfont \textbf{\color{NavyPrimary}Key Variables \& Prediction Target}}\\[0.08cm]
                 \begin{itemize}\setlength{\itemsep}{2pt}
-                    \item \textbf{Search Predictors:} \texttt{search\_interest}, velocity, acceleration.
-                    \item \textbf{Video Predictors:} \texttt{video\_views\_total}, \texttt{on\_target\_share} ($>80\%$), \texttt{videos\_published\_7d}.
-                    \item \textbf{Target Variable:} \texttt{surge\_label} $\in \{0, 1\}$ (Top 15\% positive velocity; 806 surge events across 16,140 rows).
-                    \item \textbf{Unified Table:} \texttt{aligned\_daily.csv} (16,140 rows $\times$ 28 columns).
+                    \item \textbf{Search Signals:} \texttt{search\_interest} (0--100 index), day-over-day growth rate $g_t$, acceleration $a_t$.
+                    \item \textbf{Video Signals:} \texttt{video\_views\_total}, \texttt{on\_target\_share} ($>80\%$), \texttt{videos\_published\_7d}.
+                    \item \textbf{Prediction Target:} \texttt{surge\_label} $\in \{0, 1\}$ (Top 15\% positive velocity; 806 surge events across 16,140 rows).
+                    \item \textbf{Window \& Limits:} Jan 8 -- Oct 3, 2026; 10k unit/day API quota, 50-video cap; zero forward-filling.
                 \end{itemize}
             \end{card}
         \end{column}
@@ -227,56 +232,76 @@
 \end{frame}
 
 % =============================================================================
-% SLIDE 5: Exploratory Analysis and Visualization (05)
+% SLIDE 5: Exploratory Analysis: Macro Trends & Cohorts (Finding 1)
 % =============================================================================
-\begin{frame}{Exploratory Analysis and Visualization}
-    \begin{columns}[T]
-        \begin{column}{0.32\textwidth}
-            \begin{card}
-                {\fontsize{8pt}{9.5pt}\selectfont \textbf{\color{BlueAccent}Finding 1: Search Leads Velocity}}\\[0.08cm]
-                {\fontsize{7pt}{8.5pt}\selectfont
-                \textbf{Pattern Observed:}
-                Google Trends exhibits sharp spikes 7--14 days before YouTube review uploads and viewer comments peak.\\[0.08cm]
-                \textbf{Business Significance:}
-                Search momentum serves as the primary leading indicator for warehouse replenishment before buzz saturates.
-                }
-            \end{card}
+\begin{frame}{Exploratory Analysis: Macro Trends \& Cohorts (Finding 1)}
+    \begin{columns}[c]
+        \begin{column}{0.57\textwidth}
+            \centering
+            \safeincludeplot{eda_full_03_mean_interest_by_type.png}{\linewidth}{5.0cm}
         \end{column}
 
-        \begin{column}{0.32\textwidth}
+        \begin{column}{0.41\textwidth}
             \begin{card}
-                {\fontsize{8pt}{9.5pt}\selectfont \textbf{\color{NavyPrimary}Finding 2: On-Target Specificity}}\\[0.08cm]
-                {\fontsize{7pt}{8.5pt}\selectfont
-                \textbf{Pattern Observed:}
-                Over 80\% of video titles match exact smartphone models, filtering out sibling variants and peripheral noise.\\[0.08cm]
-                \textbf{Business Significance:}
-                Isolates genuine model-level buyer demand from brand-level halo chatter, preventing misallocated inventory procurement.
-                }
-            \end{card}
-        \end{column}
-
-        \begin{column}{0.32\textwidth}
-            \begin{card}
-                {\fontsize{8pt}{9.5pt}\selectfont \textbf{\color{CoralRed}Finding 3: Cohort Dynamics}}\\[0.08cm]
-                {\fontsize{7pt}{8.5pt}\selectfont
-                \textbf{Pattern Observed:}
-                RISING models show volatile bursts and 68\% of surges; STABLE show steady baseline interest; DECLINING show persistent zeroes.\\[0.08cm]
-                \textbf{Business Significance:}
-                Predictive surge thresholds must be calibrated by product lifecycle stage.
-                }
+                {\fontsize{8.5pt}{10pt}\selectfont \textbf{\color{BlueAccent}Finding 1: Search Leads Engagement}}\\[0.08cm]
+                \begin{itemize}\setlength{\itemsep}{3pt}
+                    \item \textbf{Pattern Observed:} Google Trends exhibits sharp search spikes \textbf{7--14 days before} review videos and viewer comments peak.
+                    \item \textbf{Cohort Volatility:} RISING smartphones exhibit high-amplitude buzz bursts, while STABLE devices maintain consistent baselines.
+                    \item \textbf{Business Significance:} Search interest provides the earliest actionable signal for retail inventory pre-orders.
+                \end{itemize}
             \end{card}
         \end{column}
     \end{columns}
-
-    \vspace{0.15cm}
-    \begin{card}
-        \centering
-        {\fontsize{7.5pt}{9pt}\selectfont \textbf{Visual Outputs Generated in Notebook:} Cohort Search Interest Boxplots \textbullet\ Top 10 Surge Peaks \textbullet\ YouTube View/Comment Correlation}
-    \end{card}
 \end{frame}
 
 % =============================================================================
-% SLIDE 6: Feature Engineering or Dimensionality Reduction (06)
+% SLIDE 6: Exploratory Analysis: Top Viral Search Peaks (Finding 2)
+% =============================================================================
+\begin{frame}{Exploratory Analysis: Top Viral Search Peaks (Finding 2)}
+    \begin{columns}[c]
+        \begin{column}{0.50\textwidth}
+            \centering
+            \safeincludeplot{eda_full_04_top10_peaks.png}{\linewidth}{5.0cm}
+        \end{column}
+
+        \begin{column}{0.48\textwidth}
+            \begin{card}
+                {\fontsize{8.5pt}{10pt}\selectfont \textbf{\color{NavyPrimary}Finding 2: Viral Peak Inflection}}\\[0.08cm]
+                \begin{itemize}\setlength{\itemsep}{3pt}
+                    \item \textbf{Pattern Observed:} Top viral peaks (indices 80--100) concentrate tightly around product launch and review embargo dates.
+                    \item \textbf{Rapid Decay:} Search velocity decays by $\approx 50\%$ within 7 days post-peak, defining a critical 1-week supply window.
+                    \item \textbf{Business Significance:} Marketers and retailers must execute campaigns on rising velocity, not trailing volume.
+                \end{itemize}
+            \end{card}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+% =============================================================================
+% SLIDE 7: Exploratory Analysis: Social Engagement & Precision (Finding 3)
+% =============================================================================
+\begin{frame}{Exploratory Analysis: Video & Social Engagement (Finding 3)}
+    \begin{columns}[c]
+        \begin{column}{0.57\textwidth}
+            \centering
+            \safeincludeplot{youtube_views_comments.png}{\linewidth}{5.0cm}
+        \end{column}
+
+        \begin{column}{0.41\textwidth}
+            \begin{card}
+                {\fontsize{8.5pt}{10pt}\selectfont \textbf{\color{CoralRed}Finding 3: Quality & Social Velocity}}\\[0.08cm]
+                \begin{itemize}\setlength{\itemsep}{3pt}
+                    \item \textbf{Pattern Observed:} Total video views and comment volume exhibit strong power-law alignment across lifecycle cohorts.
+                    \item \textbf{On-Target Precision:} Regex title-matching achieves \textbf{$>80\%$ accuracy}, successfully filtering out noise from sibling models.
+                    \item \textbf{Business Significance:} Specific exact-model engagement separates true buyer intent from generic brand halo chatter.
+                \end{itemize}
+            \end{card}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+% =============================================================================
+% SLIDE 8: Feature Engineering or Dimensionality Reduction (06)
 % =============================================================================
 \begin{frame}{Feature Engineering or Dimensionality Reduction}
     \vspace{-0.1cm}
@@ -284,7 +309,7 @@
         \centering
         {\fontsize{8pt}{9.5pt}\selectfont \textbf{Dynamic Inflection Formulation:} \quad Velocity: $g_t = \frac{S_t - S_{t-1}}{S_{t-1}}$ \quad\textbar\quad Acceleration: $a_t = g_t - g_{t-1}$ \quad\textbar\quad Target: $\text{Surge}_t \in \{0, 1\}$ (Top 15\% $g_t > 0$)}
     \end{card}
-    \vspace{0.15cm}
+    \vspace{0.12cm}
 
     \begin{columns}[T]
         \begin{column}{0.49\textwidth}
@@ -314,7 +339,7 @@
 \end{frame}
 
 % =============================================================================
-% SLIDE 7: Predictive Model Development (07)
+% SLIDE 9: Predictive Model Development (07)
 % =============================================================================
 \begin{frame}{Predictive Model Development}
     \begin{columns}[T]
@@ -348,7 +373,7 @@
 \end{frame}
 
 % =============================================================================
-% SLIDE 8: Model Evaluation and Result Interpretation (08)
+% SLIDE 10: Model Evaluation and Result Interpretation (08)
 % =============================================================================
 \begin{frame}{Model Evaluation and Result Interpretation}
     \vspace{-0.1cm}
@@ -394,7 +419,7 @@
 \end{frame}
 
 % =============================================================================
-% SLIDE 9: Project Tracking and Progress (09)
+% SLIDE 11: Project Tracking and Progress (09)
 % =============================================================================
 \begin{frame}{Project Tracking and Progress}
     \vspace{-0.1cm}
@@ -427,7 +452,7 @@
 \end{frame}
 
 % =============================================================================
-% SLIDE 10: Individual Contributions and Next Steps (10)
+% SLIDE 12: Individual Contributions and Next Steps (10)
 % =============================================================================
 \begin{frame}{Individual Contributions and Next Steps}
     \begin{columns}[T]
