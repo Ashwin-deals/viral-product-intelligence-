@@ -1,0 +1,18 @@
+check,status,detail
+rows = products x days,PASS,16140 rows = 60 products x 269 days (2026-01-08 to 2026-10-03)
+"no duplicate (product_id, date)",PASS,0 duplicate keys
+"every registry product present, nothing else",PASS,60 products; missing from data: none; not in registry: none
+every product has every calendar day,PASS,269 calendar days; products with gaps: none
+search_interest within 0-100,PASS,"min 0.0, max 100.0, missing 0"
+count columns never negative,PASS,15 count columns checked; negative values: none
+on_target_share within 0-1,PASS,"min 0.56, max 0.96"
+yt_on_target_share within 0-1,PASS,"min 0.48, max 1.0"
+zero_share_product within 0-1,PASS,"min 0.0, max 0.9442"
+surge_label is 0 or 1,PASS,806 surge days of 16140 (4.99%)
+YouTube snapshot (yt_* columns) for every product,PASS,60 of 60 products; latest snapshot date(s): 2026-10-04
+date-level YouTube columns from aligned_daily,INFO,"only 10 of 60 products, on 2026-10-03: snapshots taken after the Trends window ends do not join by date. Use the yt_* columns for all products"
+videos reconcile with source,PASS,"3500 rows in the cleaned table = 3149 unique videos + 351 seen again in a second snapshot; 2248 published inside the window, 901 earlier (not in the daily rows)"
+comments reconcile with source,PASS,"32215 rows in the cleaned table = 29189 unique comments + 3026 seen again in a second snapshot; 20828 published inside the window, 8361 earlier (not in the daily rows)"
+surge_label matches Unit 2 features file,PASS,"16140 of 16140 rows matched by key, 0 labels differ"
+"flagged products (kept, not dropped)",INFO,"low-signal Trends: 15; low YouTube on-target share: 4 (P009, P012, P015, P028)"
+"missing values (by design, not filled)",INFO,youtube_query_version: 16130; video_result_count: 16130; video_views_total: 16130; video_comments_total: 16130; videos_on_target: 16130; views_on_target_total: 16130; comments_on_target_total: 16130; on_target_share: 16130; low_on_target_share: 16130; result_cap_hit: 16130; videos_published_7d: 16130; videos_7d_on_target: 16130; recent_cap_hit: 16130; search_interest_growth: 3688; search_interest_accel: 4060. YouTube snapshot columns exist only on the snapshot day (no forward fill); growth and accel are empty on each product's first day and after a zero day
