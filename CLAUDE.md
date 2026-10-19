@@ -62,6 +62,7 @@ python3 src/clean_trends.py                        # data/trends_long.csv -> dat
 python3 src/build_aligned.py                       # Trends index + same-day YouTube -> aligned_daily.csv
 python3 src/feature_encoding_scaling.py             # aligned_daily.csv -> processed/features_encoded_scaled.csv (encoding + scaling)
 python3 src/full_report.py                         # all 60 products -> data/processed/full_report.csv + docs/full_report.md
+python3 src/build_master.py                        # validated master dataset -> processed/master_dataset.csv (+ sample, validation report) (SCRUM-21)
 python3 src/build_handoff.py                       # data/handoff/task1_handoff.zip (deterministic)
 python3 src/consolidate_pipeline.py [--dry-run]    # end-to-end consolidated preprocessing pipeline (SCRUM-19)
 ./run_after_reset.sh                               # after the quota reset: recent pass --all + rebuild everything + tests
