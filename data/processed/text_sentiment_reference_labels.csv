@@ -1,0 +1,101 @@
+product_id,comment_id,reference_label,label_source,note
+P049,Ugwr5Ymzhe0eh06PDVd4AaABAg,negative,"AI (Claude), not human","mixed, mostly negative: feels cheap, not worth upgrading; labeller had already seen this comment's SCRUM-28 labels"
+P056,UgxLAhpjrzVanLDUvvl4AaABAg,neutral,"AI (Claude), not human","fact about the reviewer's mishap; the sad emoji is sympathy, not an opinion; labeller had already seen this comment's SCRUM-28 labels"
+P007,UgzbTn-kMcpFBalmC3J4AaABAg,positive,"AI (Claude), not human",Hinglish: 'I learned a lot of tech from you'; labeller had already seen this comment's SCRUM-28 labels
+P003,Ugz5RuDm4vFkLQlQe614AaABAg,positive,"AI (Claude), not human",
+P046,UgztQgosXiFeuWYs8bd4AaABAg,negative,human,
+P057,UgzpOajebkffL-VCkcl4AaABAg,negative,"AI (Claude), not human","Tamil: joking complaint, no charger in the box and fakes online"
+P044,UgxgqbxGAaekPnU-9i54AaABAg,neutral,human,
+P010,UgzKjRglEZ9mSV_Uycl4AaABAg,positive,"AI (Claude), not human",
+P039,UgxkaqlQU5mrRWTcrAB4AaABAg,positive,"AI (Claude), not human",Bengali: wishes to meet the reviewer
+P037,UgyQvQa2EOxRggWtwYZ4AaABAg,negative,"AI (Claude), not human",
+P016,UgxFFm0QF1hzInJ07k94AaABAg,negative,"AI (Claude), not human",meme: phones go bad after a year
+P053,UgyEdWYtFBxPj716vk14AaABAg,negative,"AI (Claude), not human","mixed: bored of yearly launches, glad the FOMO is gone"
+P022,Ugw60kp9Zq3FL2issRB4AaABAg,positive,human,
+P020,UgwD1G7wGEJZwiuFcMV4AaABAg,positive,"AI (Claude), not human",Telugu: always supporting the reviewer
+P046,UgwA5rNXXrKd1OoCavt4AaABAg,negative,"AI (Claude), not human",Hinglish sarcasm: the praise is paid
+P056,UgwOYSZ-Iy0wR2IrNhp4AaABAg,neutral,"AI (Claude), not human",news about Canon making a phone; the excitement is not about this phone
+P004,Ugx19ktCCvmcq2a_C1J4AaABAg,positive,"AI (Claude), not human",prefers the reviewer's impressions to the launch event
+P028,UgzbA01wXMgHatMyuyp4AaABAg,neutral,"AI (Claude), not human",request
+P025,UgzBvnsmc57qFhuNQ6N4AaABAg,positive,"AI (Claude), not human",
+P043,Ugy2xpt09-yasfH59AB4AaABAg,negative,"AI (Claude), not human","mixed: looks good, camera choice criticised"
+P008,UgwEWK5ieZcACJMiskx4AaABAg,neutral,"AI (Claude), not human",waiting for the review
+P004,UgyYEH6spDaETLfkCoB4AaABAg,unclear,"AI (Claude), not human",off-topic joke about the reviewer
+P038,Ugw5qiRr7k64ey4DS-N4AaABAg,negative,"AI (Claude), not human",sarcasm about pricing
+P030,UgziQTxfNkK_HU3qq5x4AaABAg,neutral,"AI (Claude), not human",suggestion; implies the battery is not all-day
+P033,Ugy5lDkP9ahkbSQo18d4AaABAg,negative,"AI (Claude), not human",says the Pixel is not in the S26's league
+P049,UgwmCdEkkB1mUqEo2A54AaABAg,unclear,"AI (Claude), not human",joke about YouTube still processing the video
+P024,Ugw5hydc2D74JMh2MNZ4AaABAg,positive,"AI (Claude), not human",
+P025,Ugw8HkfuPcunktbUJPN4AaABAg,positive,human,
+P040,UgxsDecJq89OHiKNqXR4AaABAg,neutral,"AI (Claude), not human",request for a Tecno review
+P024,Ugxw3-wuFru4Y3UulDZ4AaABAg,negative,"AI (Claude), not human",mixed Hinglish: likes the memory slot and display; hates the 8MP selfie camera and price hikes
+P040,UgysH2SzgDStsrIhw254AaABAg,neutral,"AI (Claude), not human","Bengali: which of two phones is better, make a video"
+P016,Ugzz3LkXtnDHMjkmD-h4AaABAg,negative,"AI (Claude), not human",sarcasm about the chip
+P015,UgxxMgh4Dp9iRxpe8Nd4AaABAg,neutral,"AI (Claude), not human",
+P007,UgznreqNxu37eu1y1e94AaABAg,negative,"AI (Claude), not human",Hinglish: 'the Infinix GT 30 has all this anyway'
+P050,UgzlSDr7GFyFypSxMtZ4AaABAg,unclear,"AI (Claude), not human",meaning not clear
+P008,Ugxd_KkKS4zkK_2yDj94AaABAg,positive,"AI (Claude), not human","'best colour, very nice'"
+P002,Ugz1Q0I1YVri7F8qKEF4AaABAg,positive,"AI (Claude), not human",greeting with 'super'
+P040,Ugy9pliKFd3-DiFLMOJ4AaABAg,neutral,"AI (Claude), not human",Hinglish question about resale value
+P019,UgwXXWFe6dAAYhfiZ_x4AaABAg,negative,"AI (Claude), not human",price complaint
+P035,UgxHYlQe_CVOv9uup7F4AaABAg,negative,"AI (Claude), not human",disappointed: OnePlus has become like iQOO
+P051,UgyhXzfGsd-7bSQ1EmJ4AaABAg,positive,"AI (Claude), not human",prefers their own iPhone 15; happy tone
+P055,UgyCIcfdaL1w0-n3WN54AaABAg,positive,"AI (Claude), not human",wants to buy it (could be sarcasm about the price)
+P054,UgxQmeVP6fwDhmSnAXx4AaABAg,positive,"AI (Claude), not human",
+P033,Ugy4zv6WXD7yXM7TEp14AaABAg,negative,"AI (Claude), not human",says the review's comparison is unfair
+P032,Ugw-cOfJOmqtb_w3oRV4AaABAg,negative,"AI (Claude), not human",Portuguese: prefers the A16's camera style (mild)
+P059,UgwU8Ap7OpVb6XkjKIF4AaABAg,neutral,"AI (Claude), not human",request for an earbuds suggestion
+P026,UgzrcsFRxtBPeFl4_NF4AaABAg,positive,human,
+P007,UgxDqsFQQbmtWc8BcDh4AaABAg,neutral,"AI (Claude), not human",Hinglish: many features are also in the S24 (a fact)
+P033,UgzaUqFrKdrcd8Hag1R4AaABAg,positive,"AI (Claude), not human","Bengali: happy with their Infinix, pocket friendly"
+P046,UgyDugEmI-0_Epvq4_t4AaABAg,neutral,"AI (Claude), not human",Telugu: asks for the best compact phone
+P041,Ugxson9LNZKQmQkQlGt4AaABAg,negative,"AI (Claude), not human","Hinglish: heartbroken, the phone is not in India"
+P047,UgxMy2XQ3EgG-U6XdVN4AaABAg,negative,"AI (Claude), not human",mocks the hammer test as fake
+P046,UgxLoYNEi9vIeyjY9iB4AaABAg,positive,"AI (Claude), not human",
+P046,UgyHD7-OwuRnDdmRaZJ4AaABAg,negative,"AI (Claude), not human",Hinglish: the comparison used a dim iPhone screen
+P025,Ugz3zQpPBszFG-tQHdN4AaABAg,positive,"AI (Claude), not human",congratulates the reviewer on the studio
+P052,Ugzkk5ZaVRqFKuYNmbR4AaABAg,neutral,"AI (Claude), not human",advice: no need to upgrade every year
+P025,UgyrfxWX0BU1R2-EC-l4AaABAg,negative,"AI (Claude), not human",Hinglish rhetorical jab: 'ever seen the S26?'
+P048,Ugxtt-ijJqhmtyErWGl4AaABAg,neutral,"AI (Claude), not human",price fact
+P033,Ugy7MVsCki38HNZa2DB4AaABAg,neutral,"AI (Claude), not human",suggestion about a start-up sound
+P002,UgxSMqdiOQSPcfa3NVh4AaABAg,positive,"AI (Claude), not human",Hinglish: bought it on EMI
+P004,Ugx5CLE-hDR2qTR3pyl4AaABAg,unclear,human,
+P047,UgwePEPIr9SwietZArt4AaABAg,negative,"AI (Claude), not human",Hinglish: doesn't trust this review until another channel tests it
+P038,UgyrFwqLciIoYhUIqBN4AaABAg,negative,"AI (Claude), not human",sarcasm about the 'flagship' claim
+P036,Ugwh1RWygGapD1aANtt4AaABAg,neutral,"AI (Claude), not human",question to other viewers
+P020,UgxMjPetcM7pxkaAosh4AaABAg,negative,"AI (Claude), not human",Hinglish: better to buy the Reno 14 Pro instead
+P047,Ugw1IsmEe01mIRMtOlV4AaABAg,neutral,"AI (Claude), not human",Tamil: asks for a full review
+P042,UgzJ2UbyLBch7x9xnGB4AaABAg,neutral,"AI (Claude), not human",Hinglish advice about screen guards
+P003,Ugzy5qkSTK_tfde0MuZ4AaABAg,positive,"AI (Claude), not human",
+P025,UgyMIMS2Ljmj_Gz--554AaABAg,positive,"AI (Claude), not human",Hinglish: happy with the 17's battery; the Pro is not worth 55k more
+P014,Ugyy5wlTCssSoUgoMpx4AaABAg,positive,"AI (Claude), not human",praises an old Redmi
+P038,Ugzvuj-j30mF95L176d4AaABAg,neutral,"AI (Claude), not human",comparison request
+P039,UgxNxpJ8P3h8Nnu5I4B4AaABAg,neutral,"AI (Claude), not human",Bengali: asks for an HMD review
+P054,UgzwclKgswnGdMDBqvd4AaABAg,positive,"AI (Claude), not human",
+P030,UgwcoR_kSzD9HdtEnMF4AaABAg,negative,"AI (Claude), not human",Indonesian: no A-series phone as good as the A52S since
+P057,Ugzmrj269mlFx6dBpcx4AaABAg,positive,"AI (Claude), not human",Tamil: praises the Redmi 15C's value
+P054,Ugy4ivC5vnbTMuHiYN94AaABAg,negative,"AI (Claude), not human",
+P001,UgzkKJEBEzWjHxmakKx4AaABAg,neutral,"AI (Claude), not human",opinion on Apple's focus
+P049,Ugz8-bfk1-qcRuXAXKJ4AaABAg,negative,"AI (Claude), not human",jab: the S24 Ultra zooms better
+P018,UgxIAZzUB6qtqv12EKp4AaABAg,negative,"AI (Claude), not human",Hinglish backhanded: the collab warning lets viewers skip
+P057,UgxinVQ5zlmAXzFJWT94AaABAg,positive,"AI (Claude), not human","Tamil: all phones look like iPhones now, but it looks good"
+P055,Ugx4rvouYejk7qch35d4AaABAg,unclear,"AI (Claude), not human",festival greeting
+P011,Ugw4ZXZPXZLxCq0Becd4AaABAg,neutral,"AI (Claude), not human",Hinglish request for a gaming test
+P039,UgyGXNZk0YquGoZc13l4AaABAg,positive,"AI (Claude), not human",
+P003,UgyeXwBXS1-ggvJeAVV4AaABAg,unclear,"AI (Claude), not human",off-topic joke about the reviewer's personal life
+P002,UgzuT_Plt-BYjSVIUSV4AaABAg,positive,"AI (Claude), not human",Telugu: the colours look very nice
+P019,Ugwp1mh0TquUI0HMRUF4AaABAg,neutral,"AI (Claude), not human",Hinglish: when is the Poco video coming
+P007,Ugypwk9fJ9Kv7uJoUP14AaABAg,positive,"AI (Claude), not human",Hinglish: affectionate teasing of the reviewer
+P001,UgzLk-06FuIp9hhS0Lx4AaABAg,positive,"AI (Claude), not human",the video is good enough to be Apple's ad (could be an 'ad' jab)
+P041,UgyW_1z4X6owv864kTh4AaABAg,negative,"AI (Claude), not human",Hinglish: would buy the OnePlus 15 instead
+P026,Ugy_AdIXJE0iDdGr0t14AaABAg,positive,"AI (Claude), not human",
+P018,Ugzts6dSh3U0g5Ycewx4AaABAg,positive,"AI (Claude), not human",their old vivo still works like new
+P027,UgzV7gTDGBT-j4URHrt4AaABAg,positive,"AI (Claude), not human",
+P024,Ugw4RxjD-6cTjsUWfEt4AaABAg,positive,"AI (Claude), not human",
+P027,Ugw-Qy-RRW3lxKBAkZh4AaABAg,neutral,"AI (Claude), not human",points out a privacy slip in the video
+P016,Ugxkgoo-3aU1c3eq2sd4AaABAg,neutral,"AI (Claude), not human",technical correction
+P030,UgxmkZLtDG9UxC3bKp14AaABAg,negative,"AI (Claude), not human",bezel complaint
+P010,Ugxl-ox9Uc-rFv1LVfJ4AaABAg,positive,"AI (Claude), not human",about to order it
+P046,UgxfJm_n27WmcwOWRFV4AaABAg,positive,"AI (Claude), not human",Telugu: bought the phone after watching
+P004,UgxJS2WwhRjR4IDkoK94AaABAg,positive,"AI (Claude), not human",
+P008,Ugyd5qgMDRQ9tOj9V1x4AaABAg,unclear,"AI (Claude), not human",joke about a moment in the video

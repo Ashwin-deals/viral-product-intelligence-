@@ -1,0 +1,11 @@
+signal,meaning,lag_weeks,spearman_rho,p_value,pairs,phones
+comments_change,change in comments posted,-2,0.0357,0.1067,2040,60
+comments_change,change in comments posted,-1,0.029,0.1833,2100,60
+comments_change,change in comments posted,0,0.1279,0.0,2160,60
+comments_change,change in comments posted,1,0.034,0.1192,2100,60
+comments_change,change in comments posted,2,-0.0168,0.4495,2040,60
+sentiment,mean VADER score,-2,0.0576,0.1951,507,47
+sentiment,mean VADER score,-1,-0.025,0.5727,512,47
+sentiment,mean VADER score,0,0.0775,0.0777,519,47
+sentiment,mean VADER score,1,-0.0706,0.1129,505,47
+sentiment,mean VADER score,2,-0.1249,0.0062,479,45

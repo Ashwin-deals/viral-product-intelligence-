@@ -67,6 +67,7 @@ python3 src/prep_time_series.py                    # chronological train/test sp
 python3 src/build_text_corpus.py                   # comment text corpus extraction, cleaning, and tokenization (SCRUM-23)
 python3 src/text_mining.py [--no-plots] [--ks 4,5]    # descriptive VADER sentiment + LDA/NMF topics + aspects -> data/processed/text_* (SCRUM-28, ~4 min)
 python3 src/evaluate_spotcheck.py                  # VADER vs AI-review spot-check labels -> text_sentiment_spotcheck_eval.csv + docs/text_mining.md section
+python3 src/evaluate_text_mining.py                # SCRUM-29: VADER/TextBlob/AI review/baseline vs reference labels + weekly lead-lag -> data/processed/text_eval_*.csv, text_signal_lead_lag.csv
 python3 src/isolate_method2_data.py                # leakage audit & Method 2 data isolation (sentiment/topics lags, train/test splits) (SCRUM-24)
 python3 src/forecast_method1.py                   # time-series analysis (Method 1) baseline & ML forecasting benchmark (SCRUM-26)
 streamlit run dashboard/app.py                     # multi-page Streamlit dashboard with global sidebar filters (read-only)
