@@ -1,0 +1,13 @@
+check,status,detail
+dataset_not_empty,PASS,"16,140 rows, 43 columns"
+required_columns_present,PASS,Missing: none
+timestamp_parsing,PASS,Dates parsed successfully (2026-01-08 to 2026-10-03)
+product_count,PASS,60 distinct products identified
+no_duplicate_timestamps,PASS,"0 duplicate (product_id, date) pairs"
+chronological_order,PASS,Dates are monotonic increasing within each product
+sampling_frequency,INFO,Uniform daily sampling frequency verified across 269 calendar days
+calendar_continuity,PASS,All 60 products have complete contiguous history
+expected_row_count,PASS,"16,140 rows == 60 products × 269 days"
+search_interest_valid,PASS,"Search interest in [0, 100]; min=0.0, max=100.0, nulls=0"
+surge_label_valid,PASS,"Surge labels in {0, 1}; 806 surge days (4.99% base rate)"
+null_value_audit,INFO,"Unfilled values in required columns: {'search_interest_growth': 3688, 'search_interest_accel': 4060}. Note: growth/accel unobserved on day 1 or zero-days by design"
