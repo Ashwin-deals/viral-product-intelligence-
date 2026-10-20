@@ -1,0 +1,61 @@
+product_id,product_name,brand,product_type,comments,usable_comments,usable_share,tokens_total,tokens_usable,mean_tokens_per_comment,top_terms
+P001,Apple iPhone 18 Pro,Apple,RISING,500,462,0.924,4483,4313,8.97,iphone:88; pro:66; apple:65; phone:55; video:54; like:52; love:38; just:35; new:33; duo:32
+P002,Apple iPhone 18 Pro Max,Apple,RISING,500,442,0.884,3473,3343,6.95,iphone:76; video:72; apple:55; pro:51; max:41; phone:40; 18:33; ad:29; love:26; bro:24
+P003,Apple iPhone Duo,Apple,RISING,503,451,0.8966,4365,4179,8.68,iphone:79; apple:66; phone:57; just:55; like:51; duo:49; fold:43; video:37; screen:32; samsung:30
+P004,Samsung Galaxy Z Fold 8,Samsung,RISING,500,421,0.842,4360,4196,8.72,fold:142; 8:83; phone:77; like:65; samsung:61; z:46; screen:42; ultra:42; duo:40; just:38
+P005,Samsung Galaxy Z Fold 8 Ultra,Samsung,RISING,500,451,0.902,4660,4548,9.32,fold:127; phone:81; samsung:75; 8:71; screen:52; like:49; just:44; duo:42; apple:41; video:40
+P006,Samsung Galaxy Z Flip 8,Samsung,RISING,700,613,0.8757,5749,5587,8.21,fold:156; phone:127; 8:105; flip:91; screen:69; just:67; samsung:65; like:60; love:56; z:52
+P007,Samsung Galaxy S26 FE,Samsung,RISING,500,390,0.78,3927,3574,7.85,samsung:82; phone:71; fe:64; video:60; battery:35; anna:32; s26:30; h:29; best:25; series:24
+P008,Google Pixel 11,Google,RISING,500,418,0.836,3693,3543,7.39,pixel:76; phone:61; google:57; video:51; pro:33; intro:30; marques:26; 11:24; light:24; just:23
+P009,Google Pixel 11 Pro,Google,RISING,500,418,0.836,3693,3543,7.39,pixel:76; phone:61; google:57; video:51; pro:33; intro:30; marques:26; 11:24; light:24; just:23
+P010,Google Pixel 11 Pro XL,Google,RISING,500,404,0.808,3383,3196,6.77,pixel:53; video:50; unboxing:38; phone:34; wow:33; google:33; super:29; asmr:29; intro:29; parker:28
+P011,OnePlus 16,OnePlus,RISING,433,296,0.6836,2683,2344,6.2,oneplus:69; 16:37; phone:36; video:29; plus:22; pro:20; iqoo:19; h:19; 15:18; price:17
+P012,Redmi Note 17 Pro,Redmi,RISING,440,336,0.7636,4054,3642,9.21,redmi:100; pro:91; note:87; phone:47; hp:45; video:37; max:29; 17:26; yang:26; di:25
+P013,Redmi Note 17 Pro Max,Redmi,RISING,481,382,0.7942,5136,4932,10.68,redmi:109; note:97; pro:94; hp:81; di:55; yang:42; phone:41; ini:41; harga:39; beli:37
+P014,Redmi 17C 5G,Redmi,RISING,371,237,0.6388,2457,1949,6.62,phone:60; redmi:38; video:35; anna:27; note:21; pro:20; price:18; mobile:17; vivo:16; unboxing:16
+P015,Poco X8,Poco,RISING,500,360,0.72,3368,2957,6.74,phone:77; bro:75; poco:68; video:49; pro:44; x8:39; review:29; camera:26; h:24; best:23
+P016,Poco X8 Power,Poco,RISING,926,728,0.7862,7797,7227,8.42,poco:187; phone:158; pro:137; x8:101; battery:63; video:62; price:57; max:56; good:54; na:51
+P017,Vivo V80,Vivo,RISING,288,161,0.559,1369,1082,4.75,vivo:29; phone:24; video:19; price:16; camera:15; 9xm:13; v80:13; hoga:12; bade:11; processor:10
+P018,Vivo T5 5G,Vivo,RISING,626,481,0.7684,4679,4316,7.47,pro:161; vivo:99; phone:83; t4:82; video:73; t5:56; camera:43; note:42; infinix:39; raha:37
+P019,iQOO Z11,iQOO,RISING,500,395,0.79,3973,3537,7.95,phone:90; video:60; iqoo:48; price:40; moto:36; anna:34; sir:30; best:28; edge:27; mobile:26
+P020,Oppo Reno 16,Oppo,RISING,387,263,0.6796,2476,2047,6.4,reno:58; phone:43; oppo:38; video:25; anna:25; price:23; 16:22; mobile:18; best:17; videos:15
+P021,Oppo F35 Pro,Oppo,RISING,147,95,0.6463,881,732,5.99,bro:48; oppo:22; review:22; video:16; pro:12; phone:11; la:11; mobile:11; podunga:8; best:7
+P022,Motorola Edge 70 Max,Motorola,RISING,500,369,0.738,3733,3301,7.47,phone:102; moto:66; motorola:59; edge:59; 70:41; anna:36; video:29; camera:27; mobile:26; pro:25
+P023,Nothing Phone (4b),Nothing,RISING,499,399,0.7996,3876,3629,7.77,phone:113; nothing:84; video:34; price:34; rcb:28; bro:28; la:23; like:22; b:21; h:19
+P024,Infinix Hot 70 Pro 5G,Infinix,RISING,500,409,0.818,3764,3543,7.53,phone:68; display:50; bro:50; infinix:43; price:40; good:37; ott:35; video:33; premium:30; pro:30
+P025,Apple iPhone 17,Apple,STABLE,500,425,0.85,4706,4498,9.41,iphone:151; 17:151; pro:84; video:58; phone:56; bro:51; new:41; camera:35; best:34; studio:33
+P026,Apple iPhone 17e,Apple,STABLE,500,430,0.86,4590,4405,9.18,17e:113; iphone:105; phone:85; anna:54; 17:50; video:49; just:48; good:44; camera:44; pro:44
+P027,Samsung Galaxy S26 Ultra,Samsung,STABLE,489,390,0.7975,4487,4151,9.18,ultra:91; samsung:72; phone:67; s26:60; video:52; like:49; just:45; s25:35; privacy:34; apple:32
+P028,Samsung Galaxy S26,Samsung,STABLE,489,374,0.7648,3594,3279,7.35,ultra:89; samsung:82; s26:60; iphone:59; phone:48; s25:41; like:37; just:35; bro:34; video:24
+P029,Samsung Galaxy S26 Plus,Samsung,STABLE,500,353,0.706,3013,2641,6.03,ultra:100; samsung:80; s26:59; phone:42; privacy:31; s25:30; display:27; video:26; camera:24; galaxy:24
+P030,Samsung Galaxy A57 5G,Samsung,STABLE,411,299,0.7275,3629,3397,8.83,samsung:79; a57:48; di:37; phone:37; s25:34; hp:32; ini:31; fe:28; beli:26; nya:26
+P031,Samsung Galaxy A37 5G,Samsung,STABLE,341,211,0.6188,1791,1535,5.25,phone:43; samsung:36; a37:33; a57:25; a56:23; price:23; galaxy:19; a17:19; vs:16; phones:16
+P032,Samsung Galaxy A17 5G,Samsung,STABLE,440,249,0.5659,3823,1978,8.69,phone:54; a17:46; samsung:46; vs:27; video:24; galaxy:23; display:23; 5g:20; notch:19; 6:18
+P033,Google Pixel 10a,Google,STABLE,500,396,0.792,3767,3406,7.53,pixel:108; phone:81; google:51; 9a:36; 10a:35; iphone:30; like:30; video:25; samsung:25; camera:23
+P034,OnePlus 15,OnePlus,STABLE,452,338,0.7478,3184,2912,7.04,phone:74; bro:62; oneplus:58; video:50; camera:35; like:25; 15:24; editing:23; review:20; display:19
+P035,OnePlus 15R,OnePlus,STABLE,501,395,0.7884,3576,3235,7.14,phone:77; video:45; oneplus:43; 15r:39; aap:37; bhaiya:31; battery:27; watching:24; like:24; bro:23
+P036,OnePlus Nord 6,OnePlus,STABLE,482,381,0.7905,4055,3646,8.41,phone:92; nord:88; 6:71; oneplus:62; video:43; best:31; camera:30; aap:27; good:25; mobile:25
+P037,Nothing Phone (4a),Nothing,STABLE,390,313,0.8026,2946,2794,7.55,nothing:112; phone:106; 4a:59; pro:30; camera:24; just:21; like:21; video:20; design:18; good:17
+P038,Nothing Phone (3),Nothing,STABLE,500,443,0.886,4317,4169,8.63,phone:126; nothing:114; flagship:48; price:47; video:44; camera:39; like:38; just:35; 3:32; design:29
+P039,Vivo X300 Pro,Vivo,STABLE,500,287,0.574,2245,1839,4.49,vivo:67; phone:49; camera:43; x300:43; pro:41; video:39; 10:28; wow:20; dada:17; dekh:12
+P040,Vivo X300,Vivo,STABLE,439,244,0.5558,2341,1739,5.33,vivo:60; iphone:33; x300:31; 10:29; video:29; phone:27; camera:21; bro:15; ultra:12; 17:12
+P041,iQOO 15,iQOO,STABLE,500,328,0.656,2917,2618,5.83,iqoo:62; phone:58; camera:44; 15:37; video:30; price:22; h:21; oneplus:19; gaming:19; dil:17
+P042,Realme 16 Pro Plus,Realme,STABLE,500,369,0.738,3441,3049,6.88,realme:124; pro:64; anna:53; phone:53; camera:48; 16:36; video:35; price:34; vivo:34; best:31
+P043,Realme GT 8 Pro,Realme,STABLE,600,378,0.63,3521,3013,5.87,realme:101; phone:64; pro:51; gt:38; video:37; 8:36; camera:35; price:34; 3:28; iqoo:27
+P044,Motorola Edge 70,Motorola,STABLE,625,502,0.8032,5048,4587,8.08,phone:141; edge:100; moto:90; 70:69; motorola:56; video:45; problem:44; raha:42; fusion:40; display:38
+P045,Oppo Find X9 Pro,Oppo,STABLE,500,366,0.732,3215,2910,6.43,oppo:107; pro:83; find:63; video:61; x9:58; phone:49; vivo:48; anna:42; camera:37; review:36
+P046,Oppo Reno 15,Oppo,STABLE,664,486,0.7319,4355,3906,6.56,phone:136; reno:94; oppo:88; 15:85; video:65; pro:51; price:47; h:37; iphone:34; raha:33
+P047,Redmi Note 15 Pro Plus,Redmi,STABLE,447,342,0.7651,3080,2766,6.89,redmi:98; note:85; bro:72; pro:66; 15:35; phone:35; video:32; camera:31; series:31; review:28
+P048,Poco F7,Poco,STABLE,400,317,0.7925,3185,3005,7.96,poco:120; phone:93; f7:67; battery:35; h:27; video:27; 10:24; gaming:20; performance:19; hu:19
+P049,Apple iPhone 17 Pro,Apple,DECLINING,497,409,0.8229,4449,4221,8.95,pro:183; iphone:116; 17:103; max:65; phone:49; like:45; apple:40; video:33; camera:32; just:31
+P050,Apple iPhone 17 Pro Max,Apple,DECLINING,500,387,0.774,3246,3064,6.49,pro:116; iphone:99; 17:84; max:78; phone:53; like:34; apple:31; bro:26; video:22; just:22
+P051,Apple iPhone 16,Apple,DECLINING,500,375,0.75,3487,3265,6.97,iphone:131; 16:103; pro:75; 17:48; 15:37; app:36; buy:29; wallpaper:29; phone:29; just:28
+P052,Apple iPhone 15,Apple,DECLINING,500,425,0.85,5225,5000,10.45,iphone:185; 15:124; phone:82; bro:49; pro:48; camera:48; apple:40; use:35; battery:34; like:33
+P053,Samsung Galaxy S25 Ultra,Samsung,DECLINING,500,445,0.89,5486,5341,10.97,ultra:140; phone:112; s25:79; like:72; samsung:71; just:64; s24:55; love:49; pen:45; s:41
+P054,Samsung Galaxy S24 Ultra,Samsung,DECLINING,500,434,0.868,5086,4932,10.17,ultra:138; phone:109; samsung:108; s24:106; just:63; pen:50; like:49; s:41; love:39; camera:37
+P055,Samsung Galaxy Z Fold 7,Samsung,DECLINING,430,309,0.7186,2869,2628,6.67,fold:76; phone:75; samsung:54; anna:46; bro:31; like:28; continuously:24; 7:23; open:22; unfold:22
+P056,Google Pixel 10 Pro,Google,DECLINING,435,359,0.8253,3829,3681,8.8,pixel:142; pro:67; phone:61; google:58; 10:54; iphone:51; apple:48; like:46; video:41; just:29
+P057,Google Pixel 9,Google,DECLINING,442,398,0.9005,4442,4281,10.05,pixel:139; google:73; 9:59; phone:59; like:47; just:47; bro:46; pro:41; video:37; use:30
+P058,OnePlus 13,OnePlus,DECLINING,500,361,0.722,3622,3292,7.24,oneplus:80; phone:76; bro:57; video:43; 13:38; samsung:34; review:33; like:30; plus:24; ultra:22
+P059,Redmi Note 14 Pro Plus,Redmi,DECLINING,494,393,0.7955,4098,3808,8.3,redmi:139; pro:109; note:101; phone:85; 14:58; plus:40; video:39; 3:34; price:30; mobile:29
+P060,Vivo X200 Pro,Vivo,DECLINING,420,276,0.6571,2215,1905,5.27,vivo:82; iphone:62; phone:52; camera:42; akka:28; pro:26; video:23; x200:22; best:18; bro:18
