@@ -1,0 +1,9 @@
+reference,method,comments,accuracy,accuracy_ci95_low,accuracy_ci95_high,macro_f1,negative_recall,negative_precision,cohen_kappa
+all labels (human + AI review),VADER (project method),93,0.4946,0.3953,0.5944,0.4677,0.2667,0.6667,0.2195
+all labels (human + AI review),TextBlob,93,0.4194,0.3242,0.5209,0.3748,0.1,0.4286,0.1286
+all labels (human + AI review),AI review (SCRUM-28 spot check),93,0.7957,0.7028,0.8651,0.8275,0.7,0.875,0.7023
+all labels (human + AI review),Always positive (baseline),93,0.3978,0.3043,0.4995,0.1897,0.0,,0.0
+human labels only,VADER (project method),5,0.4,0.1176,0.7693,0.1905,0.0,,-0.25
+human labels only,TextBlob,5,0.2,0.0362,0.6245,0.1333,0.0,,-0.25
+human labels only,AI review (SCRUM-28 spot check),5,0.6,0.2307,0.8824,0.6,1.0,1.0,0.4118
+human labels only,Always positive (baseline),5,0.6,0.2307,0.8824,0.25,0.0,,0.0

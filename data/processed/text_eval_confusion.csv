@@ -1,0 +1,49 @@
+reference,method,reference_label,predicted,comments
+all labels (human + AI review),AI review (SCRUM-28 spot check),negative,negative,21
+all labels (human + AI review),AI review (SCRUM-28 spot check),negative,neutral,2
+all labels (human + AI review),AI review (SCRUM-28 spot check),negative,positive,4
+all labels (human + AI review),AI review (SCRUM-28 spot check),negative,unclear,3
+all labels (human + AI review),AI review (SCRUM-28 spot check),neutral,negative,2
+all labels (human + AI review),AI review (SCRUM-28 spot check),neutral,neutral,21
+all labels (human + AI review),AI review (SCRUM-28 spot check),neutral,positive,1
+all labels (human + AI review),AI review (SCRUM-28 spot check),neutral,unclear,2
+all labels (human + AI review),AI review (SCRUM-28 spot check),positive,negative,1
+all labels (human + AI review),AI review (SCRUM-28 spot check),positive,neutral,1
+all labels (human + AI review),AI review (SCRUM-28 spot check),positive,positive,32
+all labels (human + AI review),AI review (SCRUM-28 spot check),positive,unclear,3
+all labels (human + AI review),Always positive (baseline),negative,positive,30
+all labels (human + AI review),Always positive (baseline),neutral,positive,26
+all labels (human + AI review),Always positive (baseline),positive,positive,37
+all labels (human + AI review),TextBlob,negative,negative,3
+all labels (human + AI review),TextBlob,negative,neutral,17
+all labels (human + AI review),TextBlob,negative,positive,10
+all labels (human + AI review),TextBlob,neutral,negative,2
+all labels (human + AI review),TextBlob,neutral,neutral,15
+all labels (human + AI review),TextBlob,neutral,positive,9
+all labels (human + AI review),TextBlob,positive,negative,2
+all labels (human + AI review),TextBlob,positive,neutral,14
+all labels (human + AI review),TextBlob,positive,positive,21
+all labels (human + AI review),VADER (project method),negative,negative,8
+all labels (human + AI review),VADER (project method),negative,neutral,7
+all labels (human + AI review),VADER (project method),negative,positive,15
+all labels (human + AI review),VADER (project method),neutral,negative,2
+all labels (human + AI review),VADER (project method),neutral,neutral,12
+all labels (human + AI review),VADER (project method),neutral,positive,12
+all labels (human + AI review),VADER (project method),positive,negative,2
+all labels (human + AI review),VADER (project method),positive,neutral,9
+all labels (human + AI review),VADER (project method),positive,positive,26
+human labels only,AI review (SCRUM-28 spot check),negative,negative,1
+human labels only,AI review (SCRUM-28 spot check),neutral,unclear,1
+human labels only,AI review (SCRUM-28 spot check),positive,neutral,1
+human labels only,AI review (SCRUM-28 spot check),positive,positive,2
+human labels only,Always positive (baseline),negative,positive,1
+human labels only,Always positive (baseline),neutral,positive,1
+human labels only,Always positive (baseline),positive,positive,3
+human labels only,TextBlob,negative,neutral,1
+human labels only,TextBlob,neutral,positive,1
+human labels only,TextBlob,positive,neutral,2
+human labels only,TextBlob,positive,positive,1
+human labels only,VADER (project method),negative,positive,1
+human labels only,VADER (project method),neutral,positive,1
+human labels only,VADER (project method),positive,neutral,1
+human labels only,VADER (project method),positive,positive,2
