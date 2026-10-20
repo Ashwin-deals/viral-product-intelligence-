@@ -9,3 +9,5 @@ pytrends==4.9.2
 statsmodels
 matplotlib
 vaderSentiment
+# Dashboard (dashboard/app.py); Altair ships with Streamlit
+streamlit>=1.66

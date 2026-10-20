@@ -67,13 +67,14 @@ python3 src/prep_time_series.py                    # chronological train/test sp
 python3 src/build_text_corpus.py                   # comment text corpus extraction, cleaning, and tokenization (SCRUM-23)
 python3 src/isolate_method2_data.py                # leakage audit & Method 2 data isolation (sentiment/topics lags, train/test splits) (SCRUM-24)
 python3 src/forecast_method1.py                   # time-series analysis (Method 1) baseline & ML forecasting benchmark (SCRUM-26)
+streamlit run dashboard/app.py                     # multi-page Streamlit dashboard with global sidebar filters (read-only)
 python3 src/build_handoff.py                       # data/handoff/task1_handoff.zip (deterministic)
 python3 src/consolidate_pipeline.py [--dry-run]    # end-to-end consolidated preprocessing pipeline (SCRUM-19)
 ./run_after_reset.sh                               # after the quota reset: recent pass --all + rebuild everything + tests
 python3 src/backup_local_data.py                   # archive all of raw/, data/, docs/ (not .env) into backups/
 ```
 
-Scripts are run from the repo root as `python3 src/<script>.py`. Modules import each other by plain name (`import config`). `pytest.ini` sets `pythonpath = src`.
+Scripts are run from the repo root as `python3 src/<script>.py`. Modules import each other by plain name (`import config`). `pytest.ini` sets `pythonpath = src dashboard`.
 
 Pipeline order:
 1. Collect: `collect_youtube.py`, then `check_query_versions.py`.
@@ -131,6 +132,10 @@ Docs:
 - `src/full_report.py`: one row per registry product and an issues list. `usable` means Trends is not low-signal and YouTube on-target share is at least 60%.
 - `run_after_reset.sh`: stops at the first failing step. Step b0 refuses to call the API if the dry run says today's quota cannot cover the recent pass.
 - Both Trends-side scripts exit 0 and write nothing when their input is missing.
+- `dashboard/` (Streamlit, read-only):
+  - `app.py` is the entry point. It draws the global sidebar filters (category, brand, cohort, products, date range) and publishes a `PageContext` to the session state before `st.navigation` runs the selected page script in `dashboard/views/`.
+  - Filtering lives only in `filters.py` (pure pandas, unit-tested). Pages call `ctx.filtered(df)`.
+  - `data_loader.py` reads paths from `config.PATHS`; a missing file loads as an empty frame.
 
 ## Data conventions
 
