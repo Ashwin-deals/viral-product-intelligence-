@@ -1,11 +1,11 @@
 model_name,model_family,test_mae,test_rmse,test_wape_pct,test_r2,test_mda_pct
-LightGBM,Machine_Learning,5.1769,10.0475,21.53,0.7344,50.22
-Gradient_Boosting,Machine_Learning,5.2882,10.2003,21.99,0.7263,49.61
+Extra_Trees,Machine_Learning,5.28,10.1594,21.95,0.7285,49.75
+Gradient_Boosting,Machine_Learning,5.2871,10.1953,21.98,0.7265,49.64
 Random_Forest,Machine_Learning,5.2943,10.1076,22.01,0.7312,49.31
 Ridge_Regression,Machine_Learning,5.3039,10.3494,22.05,0.7182,50.8
 ElasticNet,Machine_Learning,5.3634,10.406,22.3,0.7151,50.51
 Naive_Persistence,Baseline,5.5437,11.2043,23.05,0.6697,0.0
 Exponential_Smoothing,Statistical,5.6013,11.2915,23.29,0.6646,0.55
-"ARIMA(1,1,1)",Statistical,6.0016,11.763,24.95,0.636,51.49
+"ARIMA(1,1,1)",Statistical,6.0016,11.7629,24.95,0.636,51.49
 Rolling_Mean_7d,Baseline,6.2931,11.8387,26.17,0.6313,50.86
 Seasonal_Naive_7d,Baseline,8.9947,16.7834,37.4,0.259,49.56
