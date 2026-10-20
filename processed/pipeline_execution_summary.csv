@@ -1,0 +1,11 @@
+stage_name,unit,status,duration_seconds,details,error_message,outputs_count
+task1_prep,unit1,SKIPPED,0.0,Pre-existing clean extracts found,,4
+unit2_features,unit2,SUCCESS,0.94,"Engineered features & surge labels (16,140 rows, 806 surges, 30 cols)",,1
+unit1_master,unit1,SUCCESS,0.712,"Master dataset validated (16,140 rows x 43 cols, 60 products)",,3
+unit3_text_corpus,unit3,SUCCESS,1.462,"Text corpus extracted (29,189 comments across 60 products)",,3
+unit3_ts_prep,unit3,SUCCESS,1.412,"Chronological split & stationarity diagnostics (12,540 train / 3,180 test)",,5
+unit3_forecast,unit3,SUCCESS,7.624,Trained 10 forecasting models. Top model: Extra_Trees (MAE: 5.280),,4
+unit2_method2,unit2,SUCCESS,19.881,"Method 2 multimodal dataset isolated & audited (12,540 train / 3,180 test)",,6
+unit3_text_mining,unit3,SUCCESS,119.288,"Sentiment & topic mining completed (22,568 scored comments)",,5
+unit3_text_spotcheck,unit3,SUCCESS,0.096,Spot-check agreement evaluated (43 metric records),,1
+unit3_text_eval,unit3,SUCCESS,1.069,Evaluated 8 sentiment methods and 10 signal lead-lag lags,,3

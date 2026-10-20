@@ -1,0 +1,231 @@
+{
+  "summary": {
+    "pipeline_success": true,
+    "total_duration_seconds": 152.48,
+    "stages_executed": 10,
+    "stages_success": 9,
+    "stages_failed": 0,
+    "stages_blocked": 0,
+    "stages_skipped": 1,
+    "stages_dry_run": 0,
+    "cross_unit_passes": 6,
+    "cross_unit_fails": 0,
+    "timestamp": "2026-10-20T21:36:08"
+  },
+  "stages": [
+    {
+      "name": "task1_prep",
+      "unit": "unit1",
+      "status": "SKIPPED",
+      "duration_seconds": 0.0,
+      "error_message": null,
+      "details": "Pre-existing clean extracts found",
+      "inputs_checked": [],
+      "outputs_produced": [
+        "D:\\Sem 7\\BA\\Final_Project\\data\\processed\\aligned_daily.csv",
+        "D:\\Sem 7\\BA\\Final_Project\\data\\processed\\youtube_videos_clean.csv",
+        "D:\\Sem 7\\BA\\Final_Project\\data\\processed\\youtube_comments_clean.csv",
+        "D:\\Sem 7\\BA\\Final_Project\\data\\processed\\full_report.csv"
+      ]
+    },
+    {
+      "name": "unit2_features",
+      "unit": "unit2",
+      "status": "SUCCESS",
+      "duration_seconds": 0.9397192001342773,
+      "error_message": null,
+      "details": "Engineered features & surge labels (16,140 rows, 806 surges, 30 cols)",
+      "inputs_checked": [
+        "D:\\Sem 7\\BA\\Final_Project\\data\\processed\\aligned_daily.csv"
+      ],
+      "outputs_produced": [
+        "D:\\Sem 7\\BA\\Final_Project\\processed\\features_encoded_scaled.csv"
+      ]
+    },
+    {
+      "name": "unit1_master",
+      "unit": "unit1",
+      "status": "SUCCESS",
+      "duration_seconds": 0.7115108966827393,
+      "error_message": null,
+      "details": "Master dataset validated (16,140 rows x 43 cols, 60 products)",
+      "inputs_checked": [
+        "D:\\Sem 7\\BA\\Final_Project\\data\\processed\\aligned_daily.csv",
+        "D:\\Sem 7\\BA\\Final_Project\\data\\processed\\youtube_videos_clean.csv",
+        "D:\\Sem 7\\BA\\Final_Project\\data\\processed\\youtube_comments_clean.csv",
+        "D:\\Sem 7\\BA\\Final_Project\\data\\processed\\full_report.csv",
+        "D:\\Sem 7\\BA\\Final_Project\\data\\products_v3.csv"
+      ],
+      "outputs_produced": [
+        "D:\\Sem 7\\BA\\Final_Project\\processed\\master_dataset.csv",
+        "D:\\Sem 7\\BA\\Final_Project\\processed\\master_dataset_sample.csv",
+        "D:\\Sem 7\\BA\\Final_Project\\processed\\master_validation_report.csv"
+      ]
+    },
+    {
+      "name": "unit3_text_corpus",
+      "unit": "unit3",
+      "status": "SUCCESS",
+      "duration_seconds": 1.4624090194702148,
+      "error_message": null,
+      "details": "Text corpus extracted (29,189 comments across 60 products)",
+      "inputs_checked": [
+        "D:\\Sem 7\\BA\\Final_Project\\data\\processed\\youtube_comments_clean.csv",
+        "D:\\Sem 7\\BA\\Final_Project\\data\\products_v3.csv"
+      ],
+      "outputs_produced": [
+        "D:\\Sem 7\\BA\\Final_Project\\data\\processed\\text_corpus.csv",
+        "D:\\Sem 7\\BA\\Final_Project\\data\\processed\\text_corpus_by_product.csv",
+        "D:\\Sem 7\\BA\\Final_Project\\data\\processed\\text_cleaning_report.csv"
+      ]
+    },
+    {
+      "name": "unit3_ts_prep",
+      "unit": "unit3",
+      "status": "SUCCESS",
+      "duration_seconds": 1.4117374420166016,
+      "error_message": null,
+      "details": "Chronological split & stationarity diagnostics (12,540 train / 3,180 test)",
+      "inputs_checked": [
+        "D:\\Sem 7\\BA\\Final_Project\\processed\\master_dataset.csv"
+      ],
+      "outputs_produced": [
+        "D:\\Sem 7\\BA\\Final_Project\\processed\\train.csv",
+        "D:\\Sem 7\\BA\\Final_Project\\processed\\test.csv",
+        "D:\\Sem 7\\BA\\Final_Project\\processed\\split_metadata.json",
+        "D:\\Sem 7\\BA\\Final_Project\\processed\\stationarity_report.csv",
+        "D:\\Sem 7\\BA\\Final_Project\\processed\\lag_diagnostics.csv"
+      ]
+    },
+    {
+      "name": "unit3_forecast",
+      "unit": "unit3",
+      "status": "SUCCESS",
+      "duration_seconds": 7.6243369579315186,
+      "error_message": null,
+      "details": "Trained 10 forecasting models. Top model: Extra_Trees (MAE: 5.280)",
+      "inputs_checked": [
+        "D:\\Sem 7\\BA\\Final_Project\\processed\\train.csv",
+        "D:\\Sem 7\\BA\\Final_Project\\processed\\test.csv"
+      ],
+      "outputs_produced": [
+        "D:\\Sem 7\\BA\\Final_Project\\processed\\method1_model_comparison.csv",
+        "D:\\Sem 7\\BA\\Final_Project\\processed\\method1_forecast_predictions.csv",
+        "D:\\Sem 7\\BA\\Final_Project\\processed\\method1_cohort_performance.csv",
+        "D:\\Sem 7\\BA\\Final_Project\\processed\\method1_feature_importance.csv"
+      ]
+    },
+    {
+      "name": "unit2_method2",
+      "unit": "unit2",
+      "status": "SUCCESS",
+      "duration_seconds": 19.88074231147766,
+      "error_message": null,
+      "details": "Method 2 multimodal dataset isolated & audited (12,540 train / 3,180 test)",
+      "inputs_checked": [
+        "D:\\Sem 7\\BA\\Final_Project\\processed\\master_dataset.csv",
+        "D:\\Sem 7\\BA\\Final_Project\\data\\processed\\text_corpus.csv"
+      ],
+      "outputs_produced": [
+        "D:\\Sem 7\\BA\\Final_Project\\processed\\method2_daily_signals.csv",
+        "D:\\Sem 7\\BA\\Final_Project\\processed\\method2_train.csv",
+        "D:\\Sem 7\\BA\\Final_Project\\processed\\method2_test.csv",
+        "D:\\Sem 7\\BA\\Final_Project\\processed\\method2_split_metadata.json",
+        "D:\\Sem 7\\BA\\Final_Project\\processed\\method2_leakage_audit_report.csv",
+        "D:\\Sem 7\\BA\\Final_Project\\processed\\method2_lag_diagnostics.csv"
+      ]
+    },
+    {
+      "name": "unit3_text_mining",
+      "unit": "unit3",
+      "status": "SUCCESS",
+      "duration_seconds": 119.2877447605133,
+      "error_message": null,
+      "details": "Sentiment & topic mining completed (22,568 scored comments)",
+      "inputs_checked": [
+        "D:\\Sem 7\\BA\\Final_Project\\data\\processed\\text_corpus.csv",
+        "D:\\Sem 7\\BA\\Final_Project\\data\\products_v3.csv"
+      ],
+      "outputs_produced": [
+        "D:\\Sem 7\\BA\\Final_Project\\data\\processed\\text_sentiment_comments.csv",
+        "D:\\Sem 7\\BA\\Final_Project\\data\\processed\\text_sentiment_by_product.csv",
+        "D:\\Sem 7\\BA\\Final_Project\\data\\processed\\text_topics_terms.csv",
+        "D:\\Sem 7\\BA\\Final_Project\\data\\processed\\text_topics_by_product.csv",
+        "D:\\Sem 7\\BA\\Final_Project\\data\\processed\\text_sentiment_spotcheck.csv"
+      ]
+    },
+    {
+      "name": "unit3_text_spotcheck",
+      "unit": "unit3",
+      "status": "SUCCESS",
+      "duration_seconds": 0.09572052955627441,
+      "error_message": null,
+      "details": "Spot-check agreement evaluated (43 metric records)",
+      "inputs_checked": [
+        "D:\\Sem 7\\BA\\Final_Project\\data\\processed\\text_sentiment_spotcheck.csv",
+        "D:\\Sem 7\\BA\\Final_Project\\data\\processed\\text_sentiment_comments.csv"
+      ],
+      "outputs_produced": [
+        "D:\\Sem 7\\BA\\Final_Project\\data\\processed\\text_sentiment_spotcheck_eval.csv"
+      ]
+    },
+    {
+      "name": "unit3_text_eval",
+      "unit": "unit3",
+      "status": "SUCCESS",
+      "duration_seconds": 1.0685157775878906,
+      "error_message": null,
+      "details": "Evaluated 8 sentiment methods and 10 signal lead-lag lags",
+      "inputs_checked": [
+        "D:\\Sem 7\\BA\\Final_Project\\data\\processed\\text_sentiment_reference_labels.csv",
+        "D:\\Sem 7\\BA\\Final_Project\\data\\processed\\text_sentiment_spotcheck.csv",
+        "D:\\Sem 7\\BA\\Final_Project\\data\\processed\\text_corpus.csv",
+        "D:\\Sem 7\\BA\\Final_Project\\data\\processed\\text_sentiment_comments.csv",
+        "D:\\Sem 7\\BA\\Final_Project\\processed\\master_dataset.csv"
+      ],
+      "outputs_produced": [
+        "D:\\Sem 7\\BA\\Final_Project\\data\\processed\\text_eval_method_comparison.csv",
+        "D:\\Sem 7\\BA\\Final_Project\\data\\processed\\text_eval_confusion.csv",
+        "D:\\Sem 7\\BA\\Final_Project\\data\\processed\\text_signal_lead_lag.csv"
+      ]
+    }
+  ],
+  "cross_unit_checks": [
+    {
+      "check_name": "master_dataset_dimensions",
+      "unit_boundary": "Unit 1",
+      "status": "PASS",
+      "detail": "Exact dimensions verified: 16,140 rows x 43 columns"
+    },
+    {
+      "check_name": "master_product_continuity",
+      "unit_boundary": "Unit 1",
+      "status": "PASS",
+      "detail": "All 60 products represented across continuous 269-day window"
+    },
+    {
+      "check_name": "unit1_unit2_surge_label_parity",
+      "unit_boundary": "Unit 1 <-> Unit 2",
+      "status": "PASS",
+      "detail": "100% agreement on surge labels (806 positive surge days across both tables)"
+    },
+    {
+      "check_name": "unit1_unit3_m1_partition_conservation",
+      "unit_boundary": "Unit 1 <-> Unit 3 (Method 1)",
+      "status": "PASS",
+      "detail": "Method 1 row count conserved after 7d burn-in: 12,540 train + 3,180 test = 15,720"
+    },
+    {
+      "check_name": "unit2_m2_burn_in_conservation",
+      "unit_boundary": "Unit 1 <-> Unit 2 (Method 2)",
+      "status": "PASS",
+      "detail": "Method 2 row count conserved after 7d burn-in: 12,540 train + 3,180 test = 15,720"
+    },
+    {
+      "check_name": "unit3_lead_lag_signal_coupling",
+      "unit_boundary": "Unit 3 Text Mining",
+      "status": "PASS",
+      "detail": "Lead-lag correlation matrix computed across 10 lag configurations"
+    }
+  ]
+}

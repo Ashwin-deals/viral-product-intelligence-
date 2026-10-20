@@ -181,6 +181,15 @@ All steps read their inputs without changing them, and re-running gives identica
 - **SCRUM-26 Time-Series Forecasting Benchmark (Method 1):** `python3 src/forecast_method1.py` benchmarks baseline, statistical (ARIMA/ETS), and lagged ML models (Ridge, ElasticNet, Random Forest, GBR, LightGBM) on the 53-day held-out test split. LightGBM achieves champion performance (MAE: 5.177, R²: 0.7344, MDA: 67.8%). Report: [docs/SCRUM_26_TIME_SERIES_FORECASTING.md](docs/SCRUM_26_TIME_SERIES_FORECASTING.md), interactive walkthrough: [notebooks/scrum26_time_series_forecasting.ipynb](notebooks/scrum26_time_series_forecasting.ipynb).
 - **SCRUM-28 Text Mining (descriptive):** `python3 src/text_mining.py` scores comment sentiment with VADER and fits LDA topics (NMF as comparison) for the review and dashboard; `python3 src/evaluate_spotcheck.py` compares VADER with the AI-review spot-check labels (not human labels). Report: [docs/text_mining.md](docs/text_mining.md), walkthrough: [notebooks/05_text_mining.ipynb](notebooks/05_text_mining.ipynb).
 
+### Review 2: Consolidated Execution Workflow (SCRUM-30)
+- **Consolidated Pipeline Orchestrator:** `python3 src/run_full_pipeline.py` executes all stages across Units 1, 2, and 3 in verified DAG order, checks contracts before each stage, executes 6 cross-unit consistency boundary verifications, and outputs standardized execution reports.
+  - Full end-to-end run: `python3 src/run_full_pipeline.py`
+  - Fast smoke-test: `python3 src/run_full_pipeline.py --smoke-test --skip-prep` (~25s)
+  - Unit selection: `python3 src/run_full_pipeline.py --units unit1 unit2 unit3`
+  - Dry-run validation: `python3 src/run_full_pipeline.py --dry-run`
+  - Full documentation & architecture report: [docs/SCRUM_30_EXECUTION_CONSOLIDATION.md](docs/SCRUM_30_EXECUTION_CONSOLIDATION.md).
+  - Execution summary outputs: `processed/pipeline_execution_summary.csv` and `processed/pipeline_execution_summary.json`.
+
 ### Dashboard (Streamlit)
 `streamlit run dashboard/app.py` (from the repo root) opens a multi-page dashboard over the files already in `processed/` and the active registry. It is read-only and needs no API key. If `streamlit` is not recognised (its Scripts folder is not on PATH, common on Windows), use `python -m streamlit run dashboard/app.py`.
 
@@ -211,4 +220,4 @@ After the YouTube quota resets (12:30 IST), `caffeinate -i ./run_after_reset.sh`
 3. the EDA notebook, the handoff zip and a backup;
 4. the tests.
 
-Note: cleaned outputs go to `data/processed/`. The top-level `processed/` folder is an unused placeholder.
+Note: Cleaned intermediate extracts go to `data/processed/`. The top-level `processed/` folder holds the consolidated master dataset (`master_dataset.csv`), feature scaling (`features_encoded_scaled.csv`), Method 1 & Method 2 training partitions (`train.csv`, `test.csv`, `method2_train.csv`, `method2_test.csv`), model evaluation benchmarks (`method1_model_comparison.csv`), and pipeline execution summaries (`pipeline_execution_summary.csv`).

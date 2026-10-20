@@ -1,0 +1,17 @@
+{
+  "python.analysis.extraPaths": [
+    "${workspaceFolder}/src",
+    "${workspaceFolder}/dashboard"
+  ],
+  "python.autoComplete.extraPaths": [
+    "${workspaceFolder}/src",
+    "${workspaceFolder}/dashboard"
+  ],
+  "python.analysis.typeCheckingMode": "off",
+  "python.defaultInterpreterPath": "${workspaceFolder}/.venv/Scripts/python.exe",
+  "python.testing.pytestArgs": [
+    "tests"
+  ],
+  "python.testing.unittestEnabled": false,
+  "python.testing.pytestEnabled": true
+}

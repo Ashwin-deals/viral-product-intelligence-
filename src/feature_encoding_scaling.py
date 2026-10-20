@@ -213,7 +213,7 @@ def main(paths=config.PATHS):
     out_path = paths.root / "processed" / FEATURES_OUT
     out_path.parent.mkdir(parents=True, exist_ok=True)
     result.to_csv(out_path, index=False, lineterminator="\n")
-    print(f"[encoding-scaling] Saved → {out_path}")
+    print(f"[encoding-scaling] Saved -> {out_path}")
 
     # Quick sanity checks
     assert "surge_label" in result.columns, "surge_label missing from output"
@@ -222,7 +222,7 @@ def main(paths=config.PATHS):
     for col in IDENTIFIER_COLS:
         if col in result.columns:
             assert result[col].equals(df[col]), f"Identifier {col} was modified"
-    print("[encoding-scaling] ✓ Sanity checks passed")
+    print("[encoding-scaling] [PASS] Sanity checks passed")
     return 0
 
 

@@ -111,64 +111,64 @@
     "lda_vocabulary_size": 500,
     "lda_topics": {
       "topic_lda_0": [
-        "pro",
-        "iphone",
-        "17",
-        "15",
-        "vivo",
-        "max",
-        "oppo",
-        "16",
-        "redmi",
-        "note"
+        "raha",
+        "price",
+        "realme",
+        "mobile",
+        "hu",
+        "video",
+        "s25",
+        "camera",
+        "iqoo",
+        "moto"
       ],
       "topic_lda_1": [
         "phone",
-        "video",
-        "mobile",
-        "raha",
-        "hu",
-        "na",
-        "sir",
-        "aap",
-        "mai",
-        "liye"
-      ],
-      "topic_lda_2": [
-        "phone",
-        "good",
-        "love",
-        "just",
-        "pixel",
-        "battery",
-        "use",
-        "got",
-        "like",
-        "great"
-      ],
-      "topic_lda_3": [
-        "samsung",
-        "ultra",
-        "price",
         "nothing",
-        "phone",
-        "s25",
-        "best",
-        "camera",
-        "s24",
-        "s26"
-      ],
-      "topic_lda_4": [
-        "bro",
-        "like",
         "review",
-        "video",
+        "time",
+        "good",
+        "like",
+        "phones",
         "just",
         "apple",
+        "best"
+      ],
+      "topic_lda_2": [
+        "pro",
+        "iphone",
+        "like",
+        "camera",
+        "15",
+        "pixel",
+        "screen",
+        "17",
+        "redmi",
+        "max"
+      ],
+      "topic_lda_3": [
+        "ultra",
+        "samsung",
+        "pro",
+        "vivo",
         "anna",
         "fold",
-        "phone",
-        "screen"
+        "s24",
+        "years",
+        "oppo",
+        "poco"
+      ],
+      "topic_lda_4": [
+        "video",
+        "bro",
+        "iphone",
+        "love",
+        "videos",
+        "sir",
+        "la",
+        "17",
+        "intro",
+        "tech"
       ]
     }
   }
