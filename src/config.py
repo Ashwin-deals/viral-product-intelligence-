@@ -106,6 +106,34 @@ class Paths:
     def trends_manifest_csv(self):
         return self.data_dir / "trends_collection_manifest.csv"
 
+    @property
+    def master_dataset_csv(self):
+        return self.root / "processed" / "master_dataset.csv"
+
+    @property
+    def time_series_train_csv(self):
+        return self.root / "processed" / "train.csv"
+
+    @property
+    def time_series_test_csv(self):
+        return self.root / "processed" / "test.csv"
+
+    @property
+    def time_series_split_metadata_json(self):
+        return self.root / "processed" / "split_metadata.json"
+
+    @property
+    def time_series_validation_report_csv(self):
+        return self.root / "processed" / "time_series_validation_report.csv"
+
+    @property
+    def stationarity_report_csv(self):
+        return self.root / "processed" / "stationarity_report.csv"
+
+    @property
+    def lag_diagnostics_csv(self):
+        return self.root / "processed" / "lag_diagnostics.csv"
+
 
 # --- Product registry versions -------------------------------------------------
 # Every registry version keeps the same columns and product_ids; versions differ only in
