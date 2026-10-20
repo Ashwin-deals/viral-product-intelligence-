@@ -64,6 +64,8 @@ python3 src/feature_encoding_scaling.py             # aligned_daily.csv -> proce
 python3 src/full_report.py                         # all 60 products -> data/processed/full_report.csv + docs/full_report.md
 python3 src/build_master.py                        # validated master dataset -> processed/master_dataset.csv (+ sample, validation report) (SCRUM-21)
 python3 src/prep_time_series.py                    # chronological train/test split, stationarity (ADF/KPSS), lag features (SCRUM-22)
+python3 src/build_text_corpus.py                   # comment text corpus extraction, cleaning, and tokenization (SCRUM-23)
+python3 src/isolate_method2_data.py                # leakage audit & Method 2 data isolation (sentiment/topics lags, train/test splits) (SCRUM-24)
 python3 src/build_handoff.py                       # data/handoff/task1_handoff.zip (deterministic)
 python3 src/consolidate_pipeline.py [--dry-run]    # end-to-end consolidated preprocessing pipeline (SCRUM-19)
 ./run_after_reset.sh                               # after the quota reset: recent pass --all + rebuild everything + tests
@@ -81,6 +83,9 @@ Pipeline order:
 Every step is idempotent and only reads `raw/`.
 
 Docs:
+- `docs/SCRUM_24_METHOD_2_LEAKAGE_AUDIT.md`: Leakage audit, quarantine matrix, and Method 2 data isolation documentation (SCRUM-24)
+- `docs/text_corpus.md`: YouTube comments text corpus cleaning, tokenization, and leakage warning (SCRUM-23)
+- `docs/SCRUM_22_TIME_SERIES_PREPARATION.md`: Chronological train/test split, stationarity, and Method 1 time-series preparation (SCRUM-22)
 - `docs/presentation/review1_presentation.tex`: Beamer presentation source for Review 1 (10 slides matching rubric), with guide in `docs/presentation/README.md`
 - `notebooks/Review_1_Showcase.ipynb`: Master Review 1 showcase notebook integrating end-to-end data pipeline, EDA, feature scaling (SCRUM-20), and predictive modeling benchmark
 - `docs/dataset_documentation.md`: formal dataset documentation detailing all collection methods & constraints (SCRUM-10)
