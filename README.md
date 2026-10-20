@@ -176,6 +176,26 @@ All steps read their inputs without changing them, and re-running gives identica
 - **SCRUM-24 Leakage Audit & Method 2 Data Isolation:** `python3 src/isolate_method2_data.py` isolates sentiment and topic variables, fits NLP models strictly on train observations, and enforces a 12-point automated leakage audit (`processed/method2_leakage_audit_report.csv`). Generates `processed/method2_train.csv` (12,540 rows) and `processed/method2_test.csv` (3,180 rows). Report: [docs/SCRUM_24_METHOD_2_LEAKAGE_AUDIT.md](docs/SCRUM_24_METHOD_2_LEAKAGE_AUDIT.md), interactive walkthrough: [notebooks/scrum24_method2_isolation.ipynb](notebooks/scrum24_method2_isolation.ipynb).
 - **SCRUM-26 Time-Series Forecasting Benchmark (Method 1):** `python3 src/forecast_method1.py` benchmarks baseline, statistical (ARIMA/ETS), and lagged ML models (Ridge, ElasticNet, Random Forest, GBR, LightGBM) on the 53-day held-out test split. LightGBM achieves champion performance (MAE: 5.177, R²: 0.7344, MDA: 67.8%). Report: [docs/SCRUM_26_TIME_SERIES_FORECASTING.md](docs/SCRUM_26_TIME_SERIES_FORECASTING.md), interactive walkthrough: [notebooks/scrum26_time_series_forecasting.ipynb](notebooks/scrum26_time_series_forecasting.ipynb).
 
+### Dashboard (Streamlit)
+`streamlit run dashboard/app.py` (from the repo root) opens a multi-page dashboard over the files already in `processed/` and the active registry. It is read-only and needs no API key. If `streamlit` is not recognised (its Scripts folder is not on PATH, common on Windows), use `python -m streamlit run dashboard/app.py`.
+
+- **Global filters** in the sidebar apply to every page and persist across page switches. They cascade, and an empty selection means *all*:
+  - Category dropdown;
+  - Brand and Trend cohort (`product_type`: RISING / STABLE / DECLINING) multiselects;
+  - Products multiselect, limited to the products the filters above allow;
+  - Date-range slider covering the full data window;
+  - a **Reset filters** button.
+- **Pages** (in `dashboard/views/`):
+  - *Overview*: KPIs, search interest by cohort, surge days by brand and a per-product summary.
+  - *Search Trends*: per-product search interest, growth or acceleration with surge markers, plus a weekly surge calendar.
+  - *Forecasts*: Method 1 model errors recomputed for the current selection, and actual vs predicted lines.
+  - *Audience Signals*: Method 2 comment volume, sentiment and topic mix.
+- **Layout**:
+  - `dashboard/app.py` is the entry point, with the sidebar and `st.navigation`;
+  - `dashboard/filters.py` holds the pure filter logic, unit-tested in `tests/test_dashboard.py`;
+  - `dashboard/data_loader.py` loads the data; a missing file shows a notice instead of an error;
+  - `dashboard/context.py` holds the per-session page context.
+
 Handoff for teammates: [docs/handoff_task1.md](docs/handoff_task1.md), bundled as `data/handoff/task1_handoff.zip` (`python3 src/build_handoff.py`).
 
 All-product status: `python3 src/full_report.py` writes `data/processed/full_report.csv` and [docs/full_report.md](docs/full_report.md). The all-product EDA is `notebooks/04_eda_full.ipynb`, with charts in `docs/figures/eda_full_*.png`.
