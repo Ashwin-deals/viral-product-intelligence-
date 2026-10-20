@@ -66,6 +66,7 @@ python3 src/build_master.py                        # validated master dataset ->
 python3 src/prep_time_series.py                    # chronological train/test split, stationarity (ADF/KPSS), lag features (SCRUM-22)
 python3 src/build_text_corpus.py                   # comment text corpus extraction, cleaning, and tokenization (SCRUM-23)
 python3 src/isolate_method2_data.py                # leakage audit & Method 2 data isolation (sentiment/topics lags, train/test splits) (SCRUM-24)
+python3 src/forecast_method1.py                   # time-series analysis (Method 1) baseline & ML forecasting benchmark (SCRUM-26)
 python3 src/build_handoff.py                       # data/handoff/task1_handoff.zip (deterministic)
 python3 src/consolidate_pipeline.py [--dry-run]    # end-to-end consolidated preprocessing pipeline (SCRUM-19)
 ./run_after_reset.sh                               # after the quota reset: recent pass --all + rebuild everything + tests
@@ -83,6 +84,7 @@ Pipeline order:
 Every step is idempotent and only reads `raw/`.
 
 Docs:
+- `docs/SCRUM_26_TIME_SERIES_FORECASTING.md`: Method 1 time-series baseline and ML forecasting model benchmark (SCRUM-26)
 - `docs/SCRUM_24_METHOD_2_LEAKAGE_AUDIT.md`: Leakage audit, quarantine matrix, and Method 2 data isolation documentation (SCRUM-24)
 - `docs/text_corpus.md`: YouTube comments text corpus cleaning, tokenization, and leakage warning (SCRUM-23)
 - `docs/SCRUM_22_TIME_SERIES_PREPARATION.md`: Chronological train/test split, stationarity, and Method 1 time-series preparation (SCRUM-22)

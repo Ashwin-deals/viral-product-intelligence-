@@ -166,6 +166,22 @@ class Paths:
     def method2_lag_diagnostics_csv(self):
         return self.root / "processed" / "method2_lag_diagnostics.csv"
 
+    @property
+    def method1_model_comparison_csv(self):
+        return self.root / "processed" / "method1_model_comparison.csv"
+
+    @property
+    def method1_forecast_predictions_csv(self):
+        return self.root / "processed" / "method1_forecast_predictions.csv"
+
+    @property
+    def method1_cohort_performance_csv(self):
+        return self.root / "processed" / "method1_cohort_performance.csv"
+
+    @property
+    def method1_feature_importance_csv(self):
+        return self.root / "processed" / "method1_feature_importance.csv"
+
 
 # --- Product registry versions -------------------------------------------------
 # Every registry version keeps the same columns and product_ids; versions differ only in
