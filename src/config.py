@@ -134,6 +134,54 @@ class Paths:
     def lag_diagnostics_csv(self):
         return self.root / "processed" / "lag_diagnostics.csv"
 
+    @property
+    def text_corpus_csv(self):
+        return self.processed_dir / "text_corpus.csv"
+
+    @property
+    def text_corpus_by_product_csv(self):
+        return self.processed_dir / "text_corpus_by_product.csv"
+
+    @property
+    def method2_train_csv(self):
+        return self.root / "processed" / "method2_train.csv"
+
+    @property
+    def method2_test_csv(self):
+        return self.root / "processed" / "method2_test.csv"
+
+    @property
+    def method2_metadata_json(self):
+        return self.root / "processed" / "method2_split_metadata.json"
+
+    @property
+    def method2_daily_signals_csv(self):
+        return self.root / "processed" / "method2_daily_signals.csv"
+
+    @property
+    def method2_leakage_audit_report_csv(self):
+        return self.root / "processed" / "method2_leakage_audit_report.csv"
+
+    @property
+    def method2_lag_diagnostics_csv(self):
+        return self.root / "processed" / "method2_lag_diagnostics.csv"
+
+    @property
+    def method1_model_comparison_csv(self):
+        return self.root / "processed" / "method1_model_comparison.csv"
+
+    @property
+    def method1_forecast_predictions_csv(self):
+        return self.root / "processed" / "method1_forecast_predictions.csv"
+
+    @property
+    def method1_cohort_performance_csv(self):
+        return self.root / "processed" / "method1_cohort_performance.csv"
+
+    @property
+    def method1_feature_importance_csv(self):
+        return self.root / "processed" / "method1_feature_importance.csv"
+
 
 # --- Product registry versions -------------------------------------------------
 # Every registry version keeps the same columns and product_ids; versions differ only in
@@ -237,6 +285,14 @@ TEXT_MIN_TOKENS = 3  # comments with fewer text_clean tokens are flagged is_too_
 REQUEST_PAUSE_SECONDS = 0.5
 MAX_RETRIES = 4
 BACKOFF_BASE_SECONDS = 2.0
+
+# --- Method 2: Sentiment & Topic Modeling (SCRUM-24) -------------------------
+METHOD2_TOPIC_COUNT = 5
+METHOD2_SPLIT_DATE = "2026-08-12"
+METHOD2_DEFAULT_LAGS = [1, 2, 3, 7]
+METHOD2_ROLLING_WINDOW = 7
+METHOD2_BURN_IN_DAYS = 7
+
 
 # --- Quota constants (YouTube Data API v3) -----------------------------------
 # Verified 2026-10-03 against the official docs (page "Last updated 2026-09-15 UTC"):

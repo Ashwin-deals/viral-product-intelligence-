@@ -1,0 +1,13 @@
+check,status,detail
+contemporaneous_sentiment_quarantine,PASS,Contemporaneous sentiment excluded from model features; overlapping: none
+contemporaneous_topic_quarantine,PASS,Contemporaneous topics excluded from model features; overlapping: none
+lag_shift_integrity,PASS,Audited 107 lag index mappings for exact match Value(t-k); mismatches: 0
+rolling_trend_lookahead_quarantine,PASS,"Rolling window verified as strictly backwards [t-7, t-1] using shift(1).rolling(7); violations: 0"
+chronological_boundary_separation,PASS,Max train date (2026-08-11) < Min test date (2026-08-12); zero date overlap
+nlp_topic_model_train_only,PASS,LDA and CountVectorizer fitted exclusively on comments with date < 2026-08-12
+scaler_train_only_fit,PASS,"StandardScaler fit exclusively on train partition: train feature means in [-0.01, 0.01]"
+point_in_time_snapshot_exclusion,PASS,Quarantined Oct-4 snapshot columns excluded from predictors; leaked: none
+timezone_alignment_verification,PASS,Comment timestamps localized to Asia/Kolkata (UTC+5.5 offset verified)
+target_variable_independence,PASS,Contemporaneous targets strictly excluded from predictor matrices; leaked: none
+missing_signal_no_future_fill,PASS,Unobserved comment days filled with neutral 0.0 without backward filling from future days
+survival_bias_audit_documented,INFO,"Collection-date survival bias (SCRUM-24 warning) audited and documented: comments sampled on Oct 4, 2026"

@@ -8,3 +8,4 @@ pytest
 pytrends==4.9.2
 statsmodels
 matplotlib
+vaderSentiment
