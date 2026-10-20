@@ -1,0 +1,7 @@
+text_measure,trends_measure,n_products,pearson_r,pearson_p,spearman_rho,spearman_p,strength_spearman
+mean_compound,mean_interest,60,0.2138,0.1009,0.2756,0.033,weak
+mean_compound,last_7d_mean,60,-0.0276,0.8341,0.0602,0.648,negligible
+like_weighted_mean_compound,mean_interest,60,0.0247,0.8513,0.0269,0.8384,negligible
+like_weighted_mean_compound,last_7d_mean,60,-0.0054,0.9672,0.0173,0.8957,negligible
+comments,mean_interest,60,-0.0285,0.8289,0.0159,0.9039,negligible
+comments,last_7d_mean,60,-0.3318,0.0096,-0.152,0.2464,weak
