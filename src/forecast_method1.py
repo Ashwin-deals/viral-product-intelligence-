@@ -43,7 +43,7 @@ import config
 
 # Optional LightGBM import
 try:
-    import lightgbm as lgb
+    import lightgbm as lgb  # type: ignore
     LIGHTGBM_AVAILABLE = True
 except ImportError:
     lgb = None

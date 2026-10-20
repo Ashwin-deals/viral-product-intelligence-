@@ -152,7 +152,10 @@ def sentiment_label(compound, threshold=config.TEXT_SENTIMENT_THRESHOLD):
 
 def score_sentiment(corpus, analyzer=None):
     """VADER compound and label for usable rows; flagged rows keep a missing score and a reason."""
-    analyzer = analyzer or SentimentIntensityAnalyzer()
+    if analyzer is None:
+        if SentimentIntensityAnalyzer is None:
+            raise ImportError("vaderSentiment is required for score_sentiment. Install vaderSentiment.")
+        analyzer = SentimentIntensityAnalyzer()
     usable = is_true(corpus["is_usable"])
     cache = {}
     compound = pd.Series(np.nan, index=corpus.index)
@@ -385,7 +388,7 @@ def sentiment_stats(frame):
     scored = frame[frame["sentiment_compound"].notna()]
     n = len(scored)
     weights = 1 + pd.to_numeric(scored["like_count"], errors="coerce").fillna(0)
-    out = {"comments": len(frame), "scored_comments": n, "unscored_comments": len(frame) - n,
+    out: dict = {"comments": len(frame), "scored_comments": n, "unscored_comments": len(frame) - n,
            "mean_compound": scored["sentiment_compound"].mean() if n else np.nan,
            "median_compound": scored["sentiment_compound"].median() if n else np.nan}
     for label in LABELS:
@@ -398,11 +401,11 @@ def sentiment_stats(frame):
 def topic_aspect_stats(frame, topic_cols):
     usable = frame[frame["sentiment_compound"].notna()]
     with_topic = usable[usable["dominant_topic"] != ""]
-    out = {"usable_comments": len(usable), "comments_with_topic": len(with_topic)}
+    out: dict = {"usable_comments": len(usable), "comments_with_topic": len(with_topic)}
     means = with_topic[topic_cols].mean() if len(with_topic) else pd.Series(np.nan, index=topic_cols)
     for col in topic_cols:
         out[f"{col}_share"] = means[col]
-    out["dominant_topic"] = means.idxmax().removeprefix("topic_") if len(with_topic) else ""
+    out["dominant_topic"] = str(means.idxmax()).removeprefix("topic_") if len(with_topic) else ""
     for name in ASPECTS:
         mask = usable[f"aspect_{name}"] == "True"
         out[f"aspect_{name}_comments"] = int(mask.sum())

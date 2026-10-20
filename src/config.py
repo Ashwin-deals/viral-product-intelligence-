@@ -182,6 +182,58 @@ class Paths:
     def method1_feature_importance_csv(self):
         return self.root / "processed" / "method1_feature_importance.csv"
 
+    @property
+    def features_encoded_scaled_csv(self):
+        return self.root / "processed" / "features_encoded_scaled.csv"
+
+    @property
+    def master_validation_report_csv(self):
+        return self.root / "processed" / "master_validation_report.csv"
+
+    @property
+    def text_sentiment_comments_csv(self):
+        return self.processed_dir / "text_sentiment_comments.csv"
+
+    @property
+    def text_sentiment_by_product_csv(self):
+        return self.processed_dir / "text_sentiment_by_product.csv"
+
+    @property
+    def text_topics_terms_csv(self):
+        return self.processed_dir / "text_topics_terms.csv"
+
+    @property
+    def text_topics_by_product_csv(self):
+        return self.processed_dir / "text_topics_by_product.csv"
+
+    @property
+    def text_sentiment_spotcheck_csv(self):
+        return self.processed_dir / "text_sentiment_spotcheck.csv"
+
+    @property
+    def text_sentiment_spotcheck_eval_csv(self):
+        return self.processed_dir / "text_sentiment_spotcheck_eval.csv"
+
+    @property
+    def text_eval_method_comparison_csv(self):
+        return self.processed_dir / "text_eval_method_comparison.csv"
+
+    @property
+    def text_eval_confusion_csv(self):
+        return self.processed_dir / "text_eval_confusion.csv"
+
+    @property
+    def text_signal_lead_lag_csv(self):
+        return self.processed_dir / "text_signal_lead_lag.csv"
+
+    @property
+    def pipeline_execution_summary_csv(self):
+        return self.root / "processed" / "pipeline_execution_summary.csv"
+
+    @property
+    def pipeline_execution_summary_json(self):
+        return self.root / "processed" / "pipeline_execution_summary.json"
+
 
 # --- Product registry versions -------------------------------------------------
 # Every registry version keeps the same columns and product_ids; versions differ only in

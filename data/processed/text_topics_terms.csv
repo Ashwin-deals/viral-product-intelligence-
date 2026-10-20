@@ -1,81 +1,61 @@
 method,k,topic,label_suggestion,label_status,rank,term,weight,topic_mean_share,dominant_comments
-lda,4,1,Buying advice,suggestion: confirm by reading the terms,1,price,0.0114,0.2417,4746
-lda,4,1,Buying advice,suggestion: confirm by reading the terms,2,use,0.0092,0.2417,4746
-lda,4,1,Buying advice,suggestion: confirm by reading the terms,3,bahut,0.0091,0.2417,4746
-lda,4,1,Buying advice,suggestion: confirm by reading the terms,4,camera,0.0082,0.2417,4746
-lda,4,1,Buying advice,suggestion: confirm by reading the terms,5,kon,0.0077,0.2417,4746
-lda,4,1,Buying advice,suggestion: confirm by reading the terms,6,lena,0.0073,0.2417,4746
-lda,4,1,Buying advice,suggestion: confirm by reading the terms,7,chahiye,0.007,0.2417,4746
-lda,4,1,Buying advice,suggestion: confirm by reading the terms,8,acha,0.007,0.2417,4746
-lda,4,1,Buying advice,suggestion: confirm by reading the terms,9,pen,0.0061,0.2417,4746
-lda,4,1,Buying advice,suggestion: confirm by reading the terms,10,kam,0.0057,0.2417,4746
-lda,4,2,Specs & hardware,suggestion: confirm by reading the terms,1,best,0.0313,0.2842,5565
-lda,4,2,Specs & hardware,suggestion: confirm by reading the terms,2,good,0.0309,0.2842,5565
-lda,4,2,Specs & hardware,suggestion: confirm by reading the terms,3,camera,0.0294,0.2842,5565
-lda,4,2,Specs & hardware,suggestion: confirm by reading the terms,4,battery,0.0225,0.2842,5565
-lda,4,2,Specs & hardware,suggestion: confirm by reading the terms,5,years,0.0184,0.2842,5565
-lda,4,2,Specs & hardware,suggestion: confirm by reading the terms,6,series,0.0139,0.2842,5565
-lda,4,2,Specs & hardware,suggestion: confirm by reading the terms,7,year,0.0131,0.2842,5565
-lda,4,2,Specs & hardware,suggestion: confirm by reading the terms,8,price,0.0122,0.2842,5565
-lda,4,2,Specs & hardware,suggestion: confirm by reading the terms,9,day,0.0117,0.2842,5565
-lda,4,2,Specs & hardware,suggestion: confirm by reading the terms,10,better,0.0108,0.2842,5565
-lda,4,3,Comparisons,suggestion: confirm by reading the terms,1,tech,0.018,0.2207,3860
-lda,4,3,Comparisons,suggestion: confirm by reading the terms,2,new,0.0162,0.2207,3860
-lda,4,3,Comparisons,suggestion: confirm by reading the terms,3,vs,0.0154,0.2207,3860
-lda,4,3,Comparisons,suggestion: confirm by reading the terms,4,buy,0.0148,0.2207,3860
-lda,4,3,Comparisons,suggestion: confirm by reading the terms,5,price,0.0138,0.2207,3860
-lda,4,3,Comparisons,suggestion: confirm by reading the terms,6,better,0.0132,0.2207,3860
-lda,4,3,Comparisons,suggestion: confirm by reading the terms,7,display,0.0108,0.2207,3860
-lda,4,3,Comparisons,suggestion: confirm by reading the terms,8,great,0.0107,0.2207,3860
-lda,4,3,Comparisons,suggestion: confirm by reading the terms,9,india,0.0098,0.2207,3860
-lda,4,3,Comparisons,suggestion: confirm by reading the terms,10,people,0.0093,0.2207,3860
-lda,4,4,Design & display,suggestion: confirm by reading the terms,1,love,0.0238,0.2534,4722
-lda,4,4,Design & display,suggestion: confirm by reading the terms,2,screen,0.0203,0.2534,4722
-lda,4,4,Design & display,suggestion: confirm by reading the terms,3,camera,0.0121,0.2534,4722
-lda,4,4,Design & display,suggestion: confirm by reading the terms,4,nice,0.012,0.2534,4722
-lda,4,4,Design & display,suggestion: confirm by reading the terms,5,use,0.0119,0.2534,4722
-lda,4,4,Design & display,suggestion: confirm by reading the terms,6,ai,0.0101,0.2534,4722
-lda,4,4,Design & display,suggestion: confirm by reading the terms,7,looks,0.0092,0.2534,4722
-lda,4,4,Design & display,suggestion: confirm by reading the terms,8,display,0.009,0.2534,4722
-lda,4,4,Design & display,suggestion: confirm by reading the terms,9,feature,0.0088,0.2534,4722
-lda,4,4,Design & display,suggestion: confirm by reading the terms,10,fan,0.0066,0.2534,4722
-nmf,4,1,Buying advice,suggestion: confirm by reading the terms,1,best,0.2952,0.1124,999
-nmf,4,1,Buying advice,suggestion: confirm by reading the terms,2,series,0.017,0.1124,999
-nmf,4,1,Buying advice,suggestion: confirm by reading the terms,3,tech,0.0141,0.1124,999
-nmf,4,1,Buying advice,suggestion: confirm by reading the terms,4,vs,0.0123,0.1124,999
-nmf,4,1,Buying advice,suggestion: confirm by reading the terms,5,buy,0.0116,0.1124,999
-nmf,4,1,Buying advice,suggestion: confirm by reading the terms,6,seen,0.01,0.1124,999
-nmf,4,1,Buying advice,suggestion: confirm by reading the terms,7,suggest,0.0084,0.1124,999
-nmf,4,1,Buying advice,suggestion: confirm by reading the terms,8,years,0.0077,0.1124,999
-nmf,4,1,Buying advice,suggestion: confirm by reading the terms,9,using,0.0077,0.1124,999
-nmf,4,1,Buying advice,suggestion: confirm by reading the terms,10,money,0.0072,0.1124,999
-nmf,4,2,Design & display,suggestion: confirm by reading the terms,1,love,0.2729,0.1438,1290
-nmf,4,2,Design & display,suggestion: confirm by reading the terms,2,design,0.0173,0.1438,1290
-nmf,4,2,Design & display,suggestion: confirm by reading the terms,3,tech,0.0114,0.1438,1290
-nmf,4,2,Design & display,suggestion: confirm by reading the terms,4,nice,0.0107,0.1438,1290
-nmf,4,2,Design & display,suggestion: confirm by reading the terms,5,new,0.0098,0.1438,1290
-nmf,4,2,Design & display,suggestion: confirm by reading the terms,6,buy,0.0091,0.1438,1290
-nmf,4,2,Design & display,suggestion: confirm by reading the terms,7,absolutely,0.0073,0.1438,1290
-nmf,4,2,Design & display,suggestion: confirm by reading the terms,8,years,0.0063,0.1438,1290
-nmf,4,2,Design & display,suggestion: confirm by reading the terms,9,time,0.0063,0.1438,1290
-nmf,4,2,Design & display,suggestion: confirm by reading the terms,10,screen,0.0055,0.1438,1290
-nmf,4,3,Specs & hardware,suggestion: confirm by reading the terms,1,camera,0.1374,0.3296,6082
-nmf,4,3,Specs & hardware,suggestion: confirm by reading the terms,2,better,0.0202,0.3296,6082
-nmf,4,3,Specs & hardware,suggestion: confirm by reading the terms,3,vs,0.0132,0.3296,6082
-nmf,4,3,Specs & hardware,suggestion: confirm by reading the terms,4,battery,0.0125,0.3296,6082
-nmf,4,3,Specs & hardware,suggestion: confirm by reading the terms,5,use,0.0114,0.3296,6082
-nmf,4,3,Specs & hardware,suggestion: confirm by reading the terms,6,quality,0.0112,0.3296,6082
-nmf,4,3,Specs & hardware,suggestion: confirm by reading the terms,7,design,0.011,0.3296,6082
-nmf,4,3,Specs & hardware,suggestion: confirm by reading the terms,8,display,0.0097,0.3296,6082
-nmf,4,3,Specs & hardware,suggestion: confirm by reading the terms,9,performance,0.0076,0.3296,6082
-nmf,4,3,Specs & hardware,suggestion: confirm by reading the terms,10,gaming,0.0075,0.3296,6082
-nmf,4,4,Upgrading & ownership,suggestion: confirm by reading the terms,1,good,0.1109,0.4142,10522
-nmf,4,4,Upgrading & ownership,suggestion: confirm by reading the terms,2,price,0.0361,0.4142,10522
-nmf,4,4,Upgrading & ownership,suggestion: confirm by reading the terms,3,buy,0.0118,0.4142,10522
-nmf,4,4,Upgrading & ownership,suggestion: confirm by reading the terms,4,using,0.0105,0.4142,10522
-nmf,4,4,Upgrading & ownership,suggestion: confirm by reading the terms,5,time,0.0096,0.4142,10522
-nmf,4,4,Upgrading & ownership,suggestion: confirm by reading the terms,6,battery,0.0091,0.4142,10522
-nmf,4,4,Upgrading & ownership,suggestion: confirm by reading the terms,7,looks,0.0084,0.4142,10522
-nmf,4,4,Upgrading & ownership,suggestion: confirm by reading the terms,8,years,0.0081,0.4142,10522
-nmf,4,4,Upgrading & ownership,suggestion: confirm by reading the terms,9,series,0.0071,0.4142,10522
-nmf,4,4,Upgrading & ownership,suggestion: confirm by reading the terms,10,new,0.0064,0.4142,10522
+lda,3,1,Buying advice,suggestion: confirm by reading the terms,1,use,0.0232,0.3001,5470
+lda,3,1,Buying advice,suggestion: confirm by reading the terms,2,price,0.0093,0.3001,5470
+lda,3,1,Buying advice,suggestion: confirm by reading the terms,3,ai,0.0086,0.3001,5470
+lda,3,1,Buying advice,suggestion: confirm by reading the terms,4,bahut,0.0074,0.3001,5470
+lda,3,1,Buying advice,suggestion: confirm by reading the terms,5,test,0.007,0.3001,5470
+lda,3,1,Buying advice,suggestion: confirm by reading the terms,6,app,0.0064,0.3001,5470
+lda,3,1,Buying advice,suggestion: confirm by reading the terms,7,acha,0.0057,0.3001,5470
+lda,3,1,Buying advice,suggestion: confirm by reading the terms,8,chahiye,0.0057,0.3001,5470
+lda,3,1,Buying advice,suggestion: confirm by reading the terms,9,lena,0.0051,0.3001,5470
+lda,3,1,Buying advice,suggestion: confirm by reading the terms,10,pen,0.0051,0.3001,5470
+lda,3,2,Upgrading & ownership,suggestion: confirm by reading the terms,1,camera,0.041,0.3259,5981
+lda,3,2,Upgrading & ownership,suggestion: confirm by reading the terms,2,best,0.0308,0.3259,5981
+lda,3,2,Upgrading & ownership,suggestion: confirm by reading the terms,3,good,0.0305,0.3259,5981
+lda,3,2,Upgrading & ownership,suggestion: confirm by reading the terms,4,battery,0.0222,0.3259,5981
+lda,3,2,Upgrading & ownership,suggestion: confirm by reading the terms,5,price,0.0205,0.3259,5981
+lda,3,2,Upgrading & ownership,suggestion: confirm by reading the terms,6,years,0.0181,0.3259,5981
+lda,3,2,Upgrading & ownership,suggestion: confirm by reading the terms,7,series,0.0136,0.3259,5981
+lda,3,2,Upgrading & ownership,suggestion: confirm by reading the terms,8,design,0.0134,0.3259,5981
+lda,3,2,Upgrading & ownership,suggestion: confirm by reading the terms,9,using,0.0132,0.3259,5981
+lda,3,2,Upgrading & ownership,suggestion: confirm by reading the terms,10,year,0.0128,0.3259,5981
+lda,3,3,Design & display,suggestion: confirm by reading the terms,1,love,0.0197,0.374,7442
+lda,3,3,Design & display,suggestion: confirm by reading the terms,2,screen,0.0131,0.374,7442
+lda,3,3,Design & display,suggestion: confirm by reading the terms,3,new,0.0107,0.374,7442
+lda,3,3,Design & display,suggestion: confirm by reading the terms,4,great,0.0096,0.374,7442
+lda,3,3,Design & display,suggestion: confirm by reading the terms,5,display,0.009,0.374,7442
+lda,3,3,Design & display,suggestion: confirm by reading the terms,6,tech,0.0089,0.374,7442
+lda,3,3,Design & display,suggestion: confirm by reading the terms,7,people,0.0087,0.374,7442
+lda,3,3,Design & display,suggestion: confirm by reading the terms,8,better,0.0083,0.374,7442
+lda,3,3,Design & display,suggestion: confirm by reading the terms,9,looks,0.0081,0.374,7442
+lda,3,3,Design & display,suggestion: confirm by reading the terms,10,vs,0.0076,0.374,7442
+nmf,3,1,Buying advice,suggestion: confirm by reading the terms,1,best,0.3219,0.1141,938
+nmf,3,1,Buying advice,suggestion: confirm by reading the terms,2,series,0.0169,0.1141,938
+nmf,3,1,Buying advice,suggestion: confirm by reading the terms,3,tech,0.0152,0.1141,938
+nmf,3,1,Buying advice,suggestion: confirm by reading the terms,4,vs,0.0149,0.1141,938
+nmf,3,1,Buying advice,suggestion: confirm by reading the terms,5,seen,0.0108,0.1141,938
+nmf,3,1,Buying advice,suggestion: confirm by reading the terms,6,buy,0.0107,0.1141,938
+nmf,3,1,Buying advice,suggestion: confirm by reading the terms,7,suggest,0.0092,0.1141,938
+nmf,3,1,Buying advice,suggestion: confirm by reading the terms,8,money,0.0074,0.1141,938
+nmf,3,1,Buying advice,suggestion: confirm by reading the terms,9,gaming,0.0074,0.1141,938
+nmf,3,1,Buying advice,suggestion: confirm by reading the terms,10,years,0.007,0.1141,938
+nmf,3,2,Design & display,suggestion: confirm by reading the terms,1,love,0.2839,0.151,1137
+nmf,3,2,Design & display,suggestion: confirm by reading the terms,2,design,0.0169,0.151,1137
+nmf,3,2,Design & display,suggestion: confirm by reading the terms,3,tech,0.012,0.151,1137
+nmf,3,2,Design & display,suggestion: confirm by reading the terms,4,nice,0.0107,0.151,1137
+nmf,3,2,Design & display,suggestion: confirm by reading the terms,5,new,0.0096,0.151,1137
+nmf,3,2,Design & display,suggestion: confirm by reading the terms,6,buy,0.0091,0.151,1137
+nmf,3,2,Design & display,suggestion: confirm by reading the terms,7,absolutely,0.0075,0.151,1137
+nmf,3,2,Design & display,suggestion: confirm by reading the terms,8,years,0.0062,0.151,1137
+nmf,3,2,Design & display,suggestion: confirm by reading the terms,9,time,0.0061,0.151,1137
+nmf,3,2,Design & display,suggestion: confirm by reading the terms,10,screen,0.0054,0.151,1137
+nmf,3,3,Design & display,suggestion: confirm by reading the terms,1,camera,0.0626,0.735,16818
+nmf,3,3,Design & display,suggestion: confirm by reading the terms,2,good,0.0444,0.735,16818
+nmf,3,3,Design & display,suggestion: confirm by reading the terms,3,price,0.0182,0.735,16818
+nmf,3,3,Design & display,suggestion: confirm by reading the terms,4,better,0.0143,0.735,16818
+nmf,3,3,Design & display,suggestion: confirm by reading the terms,5,battery,0.0112,0.735,16818
+nmf,3,3,Design & display,suggestion: confirm by reading the terms,6,design,0.0088,0.735,16818
+nmf,3,3,Design & display,suggestion: confirm by reading the terms,7,display,0.0081,0.735,16818
+nmf,3,3,Design & display,suggestion: confirm by reading the terms,8,use,0.0081,0.735,16818
+nmf,3,3,Design & display,suggestion: confirm by reading the terms,9,buy,0.0079,0.735,16818
+nmf,3,3,Design & display,suggestion: confirm by reading the terms,10,looks,0.0073,0.735,16818

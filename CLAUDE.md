@@ -70,6 +70,7 @@ python3 src/evaluate_spotcheck.py                  # VADER vs AI-review spot-che
 python3 src/evaluate_text_mining.py                # SCRUM-29: VADER/TextBlob/AI review/baseline vs reference labels + weekly lead-lag -> data/processed/text_eval_*.csv, text_signal_lead_lag.csv
 python3 src/isolate_method2_data.py                # leakage audit & Method 2 data isolation (sentiment/topics lags, train/test splits) (SCRUM-24)
 python3 src/forecast_method1.py                   # time-series analysis (Method 1) baseline & ML forecasting benchmark (SCRUM-26)
+python3 src/run_full_pipeline.py [--smoke-test]       # consolidated Unit 1, 2, 3 execution workflow & cross-unit verification (SCRUM-30)
 streamlit run dashboard/app.py                     # multi-page Streamlit dashboard with global sidebar filters (read-only)
 python3 src/build_handoff.py                       # data/handoff/task1_handoff.zip (deterministic)
 python3 src/consolidate_pipeline.py [--dry-run]    # end-to-end consolidated preprocessing pipeline (SCRUM-19)
@@ -83,11 +84,13 @@ Pipeline order:
 1. Collect: `collect_youtube.py`, then `check_query_versions.py`.
 2. Consolidated Preprocessing: `consolidate_pipeline.py` (orchestrates validation, Trends cleaning, YouTube cleaning, alignment, reporting, and handoff).
    Alternatively, individual steps: `load_trends.py`, `clean_trends.py`, `clean_youtube.py`, `build_aligned.py`, `full_report.py`, `build_handoff.py`.
-3. Report: `pilot_report.py` gives a go/no-go view at any point.
+3. Consolidated Units 1-3 Execution: `run_full_pipeline.py` (orchestrates preprocessing, Unit 1 master dataset, Unit 2 features and Method 2 isolation, and Unit 3 forecasting and NLP).
+4. Report: `pilot_report.py` gives a go/no-go view at any point.
 
 Every step is idempotent and only reads `raw/`.
 
 Docs:
+- `docs/SCRUM_30_EXECUTION_CONSOLIDATION.md`: Consolidated execution workflow report across Units 1, 2, and 3 (SCRUM-30)
 - `docs/SCRUM_26_TIME_SERIES_FORECASTING.md`: Method 1 time-series baseline and ML forecasting model benchmark (SCRUM-26)
 - `docs/SCRUM_24_METHOD_2_LEAKAGE_AUDIT.md`: Leakage audit, quarantine matrix, and Method 2 data isolation documentation (SCRUM-24)
 - `docs/text_corpus.md`: YouTube comments text corpus cleaning, tokenization, and leakage warning (SCRUM-23)
