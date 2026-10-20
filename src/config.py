@@ -215,6 +215,24 @@ LOW_SIGNAL_ZERO_SHARE = 0.50
 YOUTUBE_RECENT_WINDOW_DAYS = 7
 YOUTUBE_RECENT_MAX_RESULTS = 50
 
+# --- Text corpus (src/build_text_corpus.py, SCRUM-23) ----------------------------
+# Stop-words for text_clean (topic modelling) = sklearn's ENGLISH_STOP_WORDS (no downloads) plus
+# these extra lists. The sentiment-ready text keeps every stop-word. Registry brand and model
+# tokens (e.g. "nothing", "find", "15", "pro") are never removed, even when listed here.
+#   hinglish:     very common romanised Hindi function words and fillers seen in the comments
+#                 (is/are, of, to, from, in, not, brother/mate, what, this/that, also, so, was, and)
+#   contractions: what "don't", "i'm", "it's" become once the apostrophe is removed; plus chat
+#                 shorthands for you/your
+TEXT_EXTRA_STOP_WORDS = {
+    "hinglish": ("hai", "hain", "ka", "ki", "ke", "ko", "ne", "se", "mein", "nahi", "nhi", "bhai", "yaar",
+                 "kya", "ye", "yeh", "vo", "wo", "bhi", "hi", "toh", "tha", "thi", "aur", "ho", "kar",
+                 "ek", "koi", "kuch", "sab"),
+    "contractions": ("dont", "doesnt", "didnt", "isnt", "wasnt", "arent", "werent", "cant", "couldnt",
+                     "wont", "wouldnt", "shouldnt", "im", "ive", "youre", "youve", "theyre", "thats",
+                     "theres", "whats", "lets", "u", "ur"),
+}
+TEXT_MIN_TOKENS = 3  # comments with fewer text_clean tokens are flagged is_too_short (not dropped)
+
 # Request pacing and retries (429 and 5xx are retried with exponential backoff).
 REQUEST_PAUSE_SECONDS = 0.5
 MAX_RETRIES = 4

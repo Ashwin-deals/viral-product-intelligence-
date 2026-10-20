@@ -1,0 +1,15 @@
+step,rows_before,rows_after,rows_flagged,detail
+load,32215,32215,,rows read from data/processed/youtube_comments_clean.csv
+select_active_query,32215,32215,,rows not from the active query version: none
+drop_empty_text,32215,32215,,text empty before cleaning (the only rows dropped)
+drop_duplicate_comments,32215,29189,,"key (product_id, comment_id): copies from later snapshots removed, earliest kept; 0 row(s) without comment_id keyed on (product_id, video_id, text). Kept once per product: 2389 comment ids appear under 2+ products (5178 rows, see n_products_sharing)"
+remove_urls,29189,29189,13,comments affected; 16 URLs removed
+remove_mentions,29189,29189,27,comments affected; 27 @mentions removed
+remove_html_leftovers,29189,29189,0,comments affected
+collapse_repeated_characters,29189,29189,3862,comments affected; 4781 runs collapsed
+flag_is_empty_after_clean,29189,29189,606,"flagged, kept: no token left after full cleaning"
+flag_is_too_short,29189,29189,5849,"flagged, kept: fewer than 3 tokens (empty included)"
+flag_is_emoji_only,29189,29189,369,"flagged, kept: from clean_youtube.py"
+flag_likely_non_english,29189,29189,868,"flagged, kept: from clean_youtube.py (script heuristic; Hinglish counts as English)"
+flag_is_usable,29189,29189,22568,"flagged, kept: none of the four flags above"
+output,32215,29189,,60 products
