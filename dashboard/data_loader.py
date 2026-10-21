@@ -4,7 +4,7 @@ Every dataset comes from files the pipeline already writes (see config.Paths). A
 loads as an empty DataFrame so a page can show a notice instead of crashing.
 """
 import sys
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
 
 import pandas as pd
@@ -26,6 +26,7 @@ class Datasets:
     signals: pd.DataFrame  # Method 2 daily sentiment/topic signals
     model_comparison: pd.DataFrame
     feature_importance: pd.DataFrame
+    cohort_performance: pd.DataFrame = field(default_factory=pd.DataFrame)
 
 
 def read_csv(path, parse_dates=("date",)):
@@ -55,4 +56,5 @@ def load_datasets(paths=None):
         signals=read_csv(paths.method2_daily_signals_csv),
         model_comparison=read_csv(paths.method1_model_comparison_csv, parse_dates=()),
         feature_importance=read_csv(paths.method1_feature_importance_csv, parse_dates=()),
+        cohort_performance=read_csv(paths.method1_cohort_performance_csv, parse_dates=()),
     )
