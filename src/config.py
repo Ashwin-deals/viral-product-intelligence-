@@ -182,6 +182,58 @@ class Paths:
     def method1_feature_importance_csv(self):
         return self.root / "processed" / "method1_feature_importance.csv"
 
+    @property
+    def features_encoded_scaled_csv(self):
+        return self.root / "processed" / "features_encoded_scaled.csv"
+
+    @property
+    def master_validation_report_csv(self):
+        return self.root / "processed" / "master_validation_report.csv"
+
+    @property
+    def text_sentiment_comments_csv(self):
+        return self.processed_dir / "text_sentiment_comments.csv"
+
+    @property
+    def text_sentiment_by_product_csv(self):
+        return self.processed_dir / "text_sentiment_by_product.csv"
+
+    @property
+    def text_topics_terms_csv(self):
+        return self.processed_dir / "text_topics_terms.csv"
+
+    @property
+    def text_topics_by_product_csv(self):
+        return self.processed_dir / "text_topics_by_product.csv"
+
+    @property
+    def text_sentiment_spotcheck_csv(self):
+        return self.processed_dir / "text_sentiment_spotcheck.csv"
+
+    @property
+    def text_sentiment_spotcheck_eval_csv(self):
+        return self.processed_dir / "text_sentiment_spotcheck_eval.csv"
+
+    @property
+    def text_eval_method_comparison_csv(self):
+        return self.processed_dir / "text_eval_method_comparison.csv"
+
+    @property
+    def text_eval_confusion_csv(self):
+        return self.processed_dir / "text_eval_confusion.csv"
+
+    @property
+    def text_signal_lead_lag_csv(self):
+        return self.processed_dir / "text_signal_lead_lag.csv"
+
+    @property
+    def pipeline_execution_summary_csv(self):
+        return self.root / "processed" / "pipeline_execution_summary.csv"
+
+    @property
+    def pipeline_execution_summary_json(self):
+        return self.root / "processed" / "pipeline_execution_summary.json"
+
 
 # --- Product registry versions -------------------------------------------------
 # Every registry version keeps the same columns and product_ids; versions differ only in
@@ -280,6 +332,45 @@ TEXT_EXTRA_STOP_WORDS = {
                      "theres", "whats", "lets", "u", "ur"),
 }
 TEXT_MIN_TOKENS = 3  # comments with fewer text_clean tokens are flagged is_too_short (not dropped)
+
+# --- Text mining (src/text_mining.py, SCRUM-28) -----------------------------------
+# VADER labels: compound >= threshold positive, <= -threshold negative, else neutral (VADER's own cut-offs).
+TEXT_SENTIMENT_THRESHOLD = 0.05
+# Domain stop-list for the topic models only, on top of TEXT_EXTRA_STOP_WORDS and sklearn's list.
+# Chosen from document frequencies in the usable comments (docs/text_mining.md prints each word's
+# share): generic words that are among the most frequent and say nothing about the phone itself.
+# Sentiment words (good, best, love, great, nice) are kept: they do not swamp the topics.
+# Registry brand and model tokens and tokens containing a digit (s24, x300, 5g) are also dropped
+# from the topic vocabulary, by rule in text_mining.py: kept, they turn every topic into a brand.
+#   platform:  about the YouTube video or channel, not the phone ("video" is in 9% of comments)
+#   address:   forms of address to the reviewer or other viewers
+#   product:   the generic product noun ("phone" is in 16% of comments)
+#   fillers:   frequent English verbs and adverbs with no topic
+#   hinglish:  romanised Hindi and Tamil function words and fillers not already in TEXT_EXTRA_STOP_WORDS
+#              ("main" is Hindi "I" far more often than "main camera" here)
+#   names:     brands, sub-brands and reviewer names missing from the registry tokens
+TEXT_TOPIC_STOP_WORDS = {
+    "platform": ("video", "videos", "review", "reviews", "reviewer", "watching", "watch", "watched", "channel",
+                 "youtube", "content", "comment", "comments", "unboxing", "intro", "editing", "ad", "collab",
+                 "subscribe"),
+    "address": ("bro", "brother", "sir", "anna", "bhaiya", "ji", "guys", "dude"),
+    "product": ("phone", "phones", "mobile", "mobiles", "smartphone", "device"),
+    "fillers": ("just", "like", "really", "actually", "got", "think", "know", "want", "need", "make", "thing",
+                "things", "way", "going", "did", "does", "say", "right", "thanks", "thank", "pls", "plz"),
+    "hinglish": ("raha", "rha", "rahe", "hu", "aap", "apka", "apke", "liye", "dekh", "karo", "hota", "wala", "wale",
+                 "na", "main", "mai", "ya", "le", "liya", "diya", "aa", "par", "ab", "lo", "pe", "jo", "hoga",
+                 "abhi", "kiya", "mere", "mujhe", "mera", "tak", "gaya", "la", "podunga"),
+    "names": ("moto", "xiaomi", "mi", "tecno", "iphones", "mkbhd", "marques", "arun"),
+}
+TEXT_TOPIC_K_RANGE = tuple(range(4, 11))  # k tried for LDA and NMF; chosen by coherence and stability
+TEXT_TOPIC_MIN_DF = 0.0005  # share of comments: about 10 of the ~20,000 usable comments
+TEXT_TOPIC_MAX_DF = 0.5
+TEXT_TOPIC_RANDOM_STATE = 42
+# SCRUM-24's aspect keyword lists (isolate_method2_data.DOMAIN_TOPIC_KEYWORDS) are reused for the
+# aspect view, without these words: here "video(s)" is the YouTube video, "power" a model name
+# (Poco X8 Power), "light" mostly "background light", and "buy"/"purchase" buying intent, not price.
+TEXT_ASPECT_EXCLUDED_KEYWORDS = ("video", "videos", "power", "light", "buy", "purchase")
+TEXT_SPOTCHECK_SIZE = 100
 
 # Request pacing and retries (429 and 5xx are retried with exponential backoff).
 REQUEST_PAUSE_SECONDS = 0.5

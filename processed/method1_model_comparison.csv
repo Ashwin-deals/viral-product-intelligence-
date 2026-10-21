@@ -1,5 +1,5 @@
 model_name,model_family,test_mae,test_rmse,test_wape_pct,test_r2,test_mda_pct
-LightGBM,Machine_Learning,5.1769,10.0475,21.53,0.7344,50.22
+LightGBM,Machine_Learning,5.1762,10.0268,21.52,0.7355,50.28
 Gradient_Boosting,Machine_Learning,5.2882,10.2003,21.99,0.7263,49.61
 Random_Forest,Machine_Learning,5.2943,10.1076,22.01,0.7312,49.31
 Ridge_Regression,Machine_Learning,5.3039,10.3494,22.05,0.7182,50.8

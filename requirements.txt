@@ -11,3 +11,4 @@ matplotlib
 vaderSentiment
 # Dashboard (dashboard/app.py); Altair ships with Streamlit
 streamlit>=1.66
+textblob

@@ -31,6 +31,7 @@ KEYS = {
 
 PAGES = [  # (script relative to this file, title, icon); the first one is the default page
     ("views/overview.py", "Overview", ":material/dashboard:"),
+    ("views/radar.py", "Viral Radar", ":material/radar:"),
     ("views/trends.py", "Search Trends", ":material/trending_up:"),
     ("views/forecasts.py", "Forecasts", ":material/query_stats:"),
     ("views/signals.py", "Audience Signals", ":material/forum:"),

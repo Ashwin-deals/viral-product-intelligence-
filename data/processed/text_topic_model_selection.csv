@@ -1,0 +1,5 @@
+method,vocabulary,k,documents,vocabulary_size,coherence_npmi,stability,topic_overlap,brand_term_share,rank_coherence,rank_stability,mean_rank,selected_for_method,top_terms
+lda,domain_stop_list_no_brand_terms,3,18893,2226,0.0215,0.2655,0.0175,0.0,1.0,1.0,1.0,True,use price ai bahut test | camera best good battery price | love screen new great display
+nmf,domain_stop_list_no_brand_terms,3,18893,2226,0.0846,0.7766,0.1134,0.0,1.0,1.0,1.0,True,best series tech vs seen | love design tech nice new | camera good price better battery
+lda,brand_and_model_terms_kept,3,18893,2377,0.0925,,0.0916,0.5,,,,False,pro iphone ultra 15 vivo | good love apple camera samsung | price redmi note iqoo edge
+nmf,brand_and_model_terms_kept,3,18893,2377,0.1059,,0.0351,0.6,,,,False,pro iphone 17 max 15 | camera best good samsung ultra | love fold pixel design tech
