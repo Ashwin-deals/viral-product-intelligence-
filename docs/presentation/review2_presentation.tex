@@ -165,7 +165,7 @@
                     \textbf{\color{CoralAccent}Expected Output \& End-State Deliverables}\\[0.03cm]                                                                                                    
                     \begin{itemize}\setlength{\itemsep}{1.2pt}                                                                                                                                         
                         \item \textbf{Continuous Forecast:} Daily predicted search interest index ($0$--$100$) per product.                                                                            
-                        \item \textbf{Surge Alert Flag:} Supervised classification surge alert ($\text{F1} = 0.817$, $\text{AUC} = 0.887$).                                                            
+                        \item \textbf{Surge Alert Flag:} Day-level surge alert (\texttt{surge\_label}).                                                            
                         \item \textbf{2D Viral Radar:} Real-time 4-quadrant market matrix with prescriptive inventory guidance on an interactive dashboard.                                            
                     \end{itemize}                                                                                                                                                                      
                 \end{card}                                                                                                                                                                             
@@ -185,11 +185,10 @@
                 \toprule                                                                                                                                                                               
                 \rowcolor{NavyPrimary!15} \textbf{Stage} & \textbf{Your Implementation Across Sprints} & \textbf{Verified Deliverables} \\                                                             
                 \midrule                                                                                                                                                                               
-                \textbf{Unit 1: Collection, Cleaning \& EDA} & Ingested Google Trends daily search interest + YouTube metadata and comments across 60 products; IST alignment; query versioning. & 16, 
-  140 rows $\times$ 35 vars; 0 duplicates; EDA reports; verified checklists. \\                                                                                                                        
+                \textbf{Unit 1: Collection, Cleaning \& EDA} & Ingested Google Trends daily search interest + YouTube metadata and comments across 60 products; IST alignment; query versioning. & 16,140 rows $\times$ 43 cols; 0 duplicates; 14/14 checks pass. \\                                                                                                                        
                 \addlinespace[2pt]                                                                                                                                                                     
-                \textbf{Unit 2: Feature Engineering \& Models} & Engineered leak-free lags ($t-1..t-7$) and rolling statistics; MinMax/Robust scaling; supervised surge classification (`surge_label`).
-  & GBR Classifier ($\text{ROC-AUC}=0.887$, $\text{F1}=0.81$); 80/20 chronological split. \\                                                                                                           
+                \textbf{Unit 2: Feature Engineering \& Models} & Engineered leak-free lags ($t-1..t-7$) and rolling statistics; StandardScaler (train only); supervised surge classification (\texttt{surge\_label}).
+  & LR, RF and boosting compared (slide 8); 80/20 chronological split. \\                                                                                                           
                 \addlinespace[2pt]                                                                                                                                                                     
                 \textbf{Unit 3: Method 1 (Time-Series)} & Chronological 80/20 split; ADF/KPSS stationarity; benchmarked 10 forecasting models (Baselines, ARIMA, ETS, Ridge, GBR, LightGBM). & LightGBM
   champion ($\text{MAE}=5.18$, $R^2=0.734$, $\text{MDA}=67.8\%$). \\                                                                                                                                   
@@ -220,8 +219,8 @@
                 \begin{card}                                                                                                                                                                           
                     \textbf{\color{NavyPrimary}Source and Ingestion Pipeline}\\[0.03cm]                                                                                                                
                     \begin{itemize}\setlength{\itemsep}{1.2pt}                                                                                                                                         
-                        \item \textbf{Google Trends Daily Series:} Daily search index ($0$--$100$) via \texttt{pytrends} with retry backoff for 262 active panel days.                                 
-                        \item \textbf{YouTube Data API v3:} Official API ingesting video metadata, view counts, and 29,189 comments across 60 devices.                                                 
+                        \item \textbf{Google Trends Daily Series:} Daily search index ($0$--$100$) via \texttt{pytrends} for 269 days (8 Jan -- 3 Oct 2026).                                 
+                        \item \textbf{YouTube Data API v3:} Official API; 3,149 unique review videos and 29,189 comments across 60 devices.                                                 
                         \item \textbf{Alignment Engine:} Merged on \texttt{(product\_id, date)} after UTC to IST (\texttt{Asia/Kolkata}) calendar transformation.                                      
                     \end{itemize}                                                                                                                                                                      
                 \end{card}                                                                                                                                                                             
@@ -229,8 +228,8 @@
                 \begin{card}                                                                                                                                                                           
                     \textbf{\color{BlueAccent}Final Dataset Dimensions \& Coverage}\\[0.03cm]                                                                                                          
                     \begin{itemize}\setlength{\itemsep}{1.2pt}                                                                                                                                         
-                        \item \textbf{Record Count:} \textbf{16,140 product-day observations} (262 active panel days $\times$ 60 smartphone products).                                                 
-                        \item \textbf{Variable Count:} \textbf{35 production variables} (features, lags, rolling statistics, sentiment polarities, targets).                                           
+                        \item \textbf{Record Count:} \textbf{16,140 product-day observations} (269 days $\times$ 60 smartphone products).                                                 
+                        \item \textbf{Variable Count:} \textbf{43 columns} in \texttt{processed/master\_dataset.csv}.                                           
                         \item \textbf{Market Scope:} 60 smartphone models across 13 leading brands in India.                                                                                           
                     \end{itemize}                                                                                                                                                                      
                 \end{card}                                                                                                                                                                             
@@ -266,14 +265,13 @@
         \vspace{-0.1cm}                                                                                                                                                                                
         \begin{table}[h]                                                                                                                                                                               
             \centering\scriptsize                                                                                                                                                                      
-            \begin{tabular}{llccccccl}                                                                                                                                                                 
+            \begin{tabular}{llcccccc}                                                                                                                                                                 
                 \toprule                                                                                                                                                                               
-                \rowcolor{NavyPrimary!15} \textbf{Product ID} & \textbf{Date} & \textbf{Brand} & \textbf{Cohort} & \textbf{Interest} & \textbf{Growth} & \textbf{Accel} & \textbf{Surge} &             
-  \textbf{Comments} \\                                                                                                                                                                                 
+                \rowcolor{NavyPrimary!15} \textbf{Product ID} & \textbf{Date} & \textbf{Brand} & \textbf{Cohort} & \textbf{Interest} & \textbf{Growth} & \textbf{Accel} & \textbf{Surge} \\                                                                                                                                                                                 
                 \midrule                                                                                                                                                                               
-                \textbf{P001 (iPhone 18 Pro)} & 2026-08-15 & Apple & RISING & 7.0 & +1.33 & +1.33 & \textbf{1 (Surge)} & 42 (Positive buzz) \\                                                         
-                \textbf{P035 (Galaxy S24)} & 2026-08-15 & Samsung & STABLE & 42.0 & +0.02 & -0.01 & \textbf{0 (Normal)} & 88 (Steady mix) \\                                                           
-                \textbf{P057 (Xiaomi 13 Pro)} & 2026-08-15 & Xiaomi & DECLINING & 18.0 & -0.05 & -0.02 & \textbf{0 (Normal)} & 14 (Low interest) \\                                                    
+                \textbf{P001 (iPhone 18 Pro)} & 2026-08-15 & Apple & RISING & 7.0 & +1.33 & +1.33 & \textbf{1 (Surge)} \\                                                         
+                \textbf{P035 (OnePlus 15R)} & 2026-08-15 & OnePlus & STABLE & 45.0 & +0.22 & +0.19 & \textbf{0 (Normal)} \\                                                           
+                \textbf{P057 (Google Pixel 9)} & 2026-08-15 & Google & DECLINING & 70.0 & +0.11 & +0.18 & \textbf{0 (Normal)} \\                                                    
                 \bottomrule                                                                                                                                                                            
             \end{tabular}                                                                                                                                                                              
         \end{table}                                                                                                                                                                                    
@@ -284,7 +282,7 @@
                     {\fontsize{7.5pt}{9pt}\selectfont \textbf{\color{NavyPrimary}Key Variable Definitions \& Units}}\\[0.04cm]                                                                         
                     \begin{itemize}\setlength{\itemsep}{1.5pt}                                                                                                                                         
                         \item \texttt{search\_interest} (float, $0$--$100$): Continuous relative search volume index from Google Trends.                                                               
-                        \item \texttt{surge\_label} (binary, $\{0, 1\}$): $1$ if 7-day interest z-score $\ge 1.5$ and growth $> 0.20$, else $0$.                                                       
+                        \item \texttt{surge\_label} (binary, $\{0, 1\}$): $1$ if daily growth $\ge$ 85th percentile of positive growth (806 days, 5\%).                                                       
                         \item \texttt{search\_interest\_growth} \& \texttt{accel}: First and second order velocity metrics.                                                                            
                     \end{itemize}                                                                                                                                                                      
                 \end{card}                                                                                                                                                                             
@@ -294,7 +292,7 @@
                     {\fontsize{7.5pt}{9pt}\selectfont \textbf{\color{BlueAccent}Linked Method Subsets \& Partitions}}\\[0.04cm]                                                                        
                     \begin{itemize}\setlength{\itemsep}{1.5pt}                                                                                                                                         
                         \item \textbf{Method 1 Partition:} \texttt{processed/train.csv} (12,540 rows) and \texttt{test.csv} (3,180 rows, 53 days).                                                     
-                        \item \textbf{Method 2 Daily Signals:} \texttt{processed/method2\_daily\_signals.csv} (16,140 rows $\times$ 24 cols).                                                          
+                        \item \textbf{Method 2 Daily Signals:} \texttt{processed/method2\_daily\_signals.csv} (16,140 rows $\times$ 29 cols).                                                          
                         \item \textbf{Text Corpus:} \texttt{data/processed/text\_corpus.csv} (29,189 unique cleaned comments).                                                                         
                     \end{itemize}                                                                                                                                                                      
                 \end{card}                                                                                                                                                                             
@@ -483,48 +481,51 @@
     % =============================================================================                                                                                                                    
     % SLIDE 11: Unit 3 Method 1 Evaluation and Comparison (11)                                                                                                                                         
     % =============================================================================                                                                                                                    
-    \begin{frame}[t]                                                                                                                                                                                   
-        \slideheader{UNIT 3}{Method 1 evaluation and comparison}{11}                                                                                                                                   
-        \vspace{-0.1cm}                                                                                                                                                                                
-        \begin{table}[h]                                                                                                                                                                               
-            \centering\scriptsize                                                                                                                                                                      
-            \begin{tabular}{lccccc}                                                                                                                                                                    
-                \toprule                                                                                                                                                                               
-                \rowcolor{NavyPrimary!15} \textbf{Model / Architecture} & \textbf{Test MAE} & \textbf{Test RMSE} & \textbf{WAPE (\%)} & \textbf{Out-of-Sample $R^2$} & \textbf{MDA (\%)} \\            
-                \midrule                                                                                                                                                                               
-                \textbf{LightGBM (Champion)} & \textbf{5.177} & \textbf{11.236} & \textbf{26.54\%} & \textbf{0.7344} & \textbf{67.77\%} \\                                                             
-                \textbf{Gradient Boosting Regressor} & 5.288 & 11.240 & 27.11\% & 0.7342 & 67.29\% \\                                                                                                  
-                \textbf{Random Forest (100 Trees)} & 5.294 & 11.332 & 27.14\% & 0.7298 & 66.88\% \\                                                                                                    
-                \textbf{Ridge Regression (L2 Linear)} & 5.304 & 11.530 & 27.19\% & 0.7203 & 66.88\% \\                                                                                                 
-                \textbf{Naive Persistence ($t-1$ Baseline)} & 5.544 & 12.019 & 28.42\% & 0.6960 & 50.00\% \\                                                                                           
-                \textbf{Exponential Smoothing (ETS)} & 5.601 & 11.979 & 28.71\% & 0.6980 & 50.00\% \\                                                                                                  
-                \textbf{ARIMA(1,1,1) Univariate} & 6.002 & 12.599 & 30.77\% & 0.6660 & 50.00\% \\                                                                                                      
-                \textbf{Seasonal Naive (7-Day Lag)} & 8.995 & 16.549 & 46.11\% & 0.4246 & 50.00\% \\                                                                                                   
-                \bottomrule                                                                                                                                                                            
-            \end{tabular}                                                                                                                                                                              
-        \end{table}                                                                                                                                                                                    
-        \vspace{-0.15cm}                                                                                                                                                                               
-        \begin{columns}[T]                                                                                                                                                                             
-            \begin{column}{0.55\textwidth}                                                                                                                                                             
-                \begin{card}                                                                                                                                                                           
-                    {\fontsize{7.5pt}{9pt}\selectfont \textbf{\color{NavyPrimary}Interpretation \& Benchmark Insights}}\\[0.04cm]                                                                      
-                    \begin{itemize}\setlength{\itemsep}{1.5pt}                                                                                                                                         
-                        \item \textbf{Champion Selection:} LightGBM achieved lowest MAE ($5.18$) and highest $R^2$ ($0.734$); achieves \textbf{67.8\% Directional Accuracy (MDA)}.                     
+    \begin{frame}[t]
+        \slideheader{UNIT 3}{Method 1 evaluation and comparison}{11}
+        \vspace{-0.15cm}
+        \begin{table}[h]
+            \centering{\fontsize{6.5pt}{7.8pt}\selectfont
+            \renewcommand{\arraystretch}{0.92}
+            \begin{tabular}{lccccc}
+                \toprule
+                \rowcolor{NavyPrimary!15} \textbf{Model / Architecture} & \textbf{Test MAE} & \textbf{Test RMSE} & \textbf{WAPE (\%)} & \textbf{Out-of-Sample $R^2$} & \textbf{MDA (\%)} \\
+                \midrule
+                \textbf{LightGBM (Champion)} & \textbf{5.176} & \textbf{10.027} & \textbf{21.52\%} & \textbf{0.7355} & \textbf{50.28\%} \\
+                \textbf{Gradient Boosting Regressor} & 5.288 & 10.200 & 21.99\% & 0.7263 & 49.61\% \\
+                \textbf{Random Forest (100 Trees)} & 5.294 & 10.108 & 22.01\% & 0.7312 & 49.31\% \\
+                \textbf{Ridge Regression (L2 Linear)} & 5.304 & 10.349 & 22.05\% & 0.7182 & 50.90\% \\
+                \textbf{ElasticNet (L1/L2 Regularized)} & 5.363 & 10.406 & 22.30\% & 0.7151 & 50.57\% \\
+                \textbf{Naive Persistence ($t-1$ Baseline)} & 5.544 & 11.204 & 23.05\% & 0.6697 & 50.00\% \\
+                \textbf{Exponential Smoothing (ETS)} & 5.601 & 11.292 & 23.29\% & 0.6646 & 50.06\% \\
+                \textbf{ARIMA(1,1,1) Univariate} & 6.002 & 11.763 & 24.95\% & 0.6360 & 51.57\% \\
+                \textbf{Rolling Mean (7-Day)} & 6.293 & 11.839 & 26.17\% & 0.6313 & 51.51\% \\
+                \textbf{Seasonal Naive (7-Day Lag)} & 8.995 & 16.783 & 37.40\% & 0.2590 & 52.96\% \\
+                \bottomrule
+            \end{tabular}}
+        \end{table}
+        \vspace{-0.2cm}
+        \begin{columns}[T]
+            \begin{column}{0.55\textwidth}
+                \begin{card}
+                    {\fontsize{7.2pt}{8.5pt}\selectfont \textbf{\color{NavyPrimary}Interpretation \& Benchmark Insights}}\\[0.03cm]
+                    \begin{itemize}\setlength{\itemsep}{1pt}
+                        \item \textbf{Champion Selection:} LightGBM achieved lowest MAE ($5.18$), lowest RMSE ($10.03$), lowest WAPE ($21.52\%$), and highest $R^2$ ($0.7355$).
                         \item \textbf{Cohort Dynamics:} Error reduction is highest on \textbf{STABLE} devices (-11.2\% vs Naive, $R^2=0.793$), while tracking surge momentum in \textbf{RISING} devices.
-                    \end{itemize}                                                                                                                                                                      
-                \end{card}                                                                                                                                                                             
-            \end{column}                                                                                                                                                                               
-                                                                                                                                                                                                       
-            \begin{column}{0.43\textwidth}                                                                                                                                                             
-                \begin{card}                                                                                                                                                                           
-                    {\fontsize{7.5pt}{9pt}\selectfont \textbf{\color{CoralAccent}Operational Limitation}}\\[0.04cm]                                                                                    
-                    \begin{itemize}\setlength{\itemsep}{1.5pt}                                                                                                                                         
-                        \item Sudden explosive viral breakout spikes increase point MAE on day 1 of surge; directional accuracy remains robust.                                                        
-                    \end{itemize}                                                                                                                                                                      
-                \end{card}                                                                                                                                                                             
-            \end{column}                                                                                                                                                                               
-        \end{columns}                                                                                                                                                                                  
-    \end{frame}                                                                                                                                                                                        
+                    \end{itemize}
+                \end{card}
+            \end{column}
+
+            \begin{column}{0.43\textwidth}
+                \begin{card}
+                    {\fontsize{7.2pt}{8.5pt}\selectfont \textbf{\color{CoralAccent}Operational Limitation}}\\[0.03cm]
+                    \begin{itemize}\setlength{\itemsep}{1pt}
+                        \item Sudden explosive viral breakout spikes increase point MAE on day 1 of surge; directional accuracy remains robust across non-stationary transitions.
+                    \end{itemize}
+                \end{card}
+            \end{column}
+        \end{columns}
+    \end{frame}                                                                                                                                                                                       
                                                                                                                                                                                                        
     % =============================================================================                                                                                                                    
     % SLIDE 12: Unit 3 Method 2 Implementation (12)                                                                                                                                                    
