@@ -1,4 +1,4 @@
 cohort,sample_rows,best_model,best_model_mae,best_model_rmse,best_model_wape_pct,best_model_r2,naive_mae,naive_rmse,mae_reduction_vs_naive_pct
-RISING,1272,Extra_Trees,5.8132,12.1024,32.77,0.6276,5.816,12.9753,0.05
-STABLE,1272,Extra_Trees,4.5545,8.2416,17.57,0.789,5.0181,9.6385,9.24
-DECLINING,636,Extra_Trees,5.6647,9.3423,17.2,0.7133,6.0503,10.2549,6.37
+RISING,1272,LightGBM,5.7031,11.9127,32.15,0.6392,5.816,12.9753,1.94
+STABLE,1272,LightGBM,4.4566,8.1426,17.19,0.7941,5.0181,9.6385,11.19
+DECLINING,636,LightGBM,5.5618,9.287,16.89,0.7167,6.0503,10.2549,8.07
