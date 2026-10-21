@@ -68,14 +68,15 @@ def calculate_wape(y_true: np.ndarray, y_pred: np.ndarray) -> float:
 
 
 def calculate_mda(y_true: pd.Series, y_pred: pd.Series, lag_1: pd.Series) -> float:
-    """Mean Directional Accuracy (percentage of correct day-over-day sign predictions)."""
-    actual_dir = np.sign(y_true - lag_1)
-    pred_dir = np.sign(y_pred - lag_1)
-    valid_mask = (actual_dir != 0) | (pred_dir != 0)
-    if valid_mask.sum() == 0:
-        return 50.0
-    correct = (actual_dir[valid_mask] == pred_dir[valid_mask]).mean()
-    return float(correct * 100.0)
+    """Mean Directional Accuracy (percentage of correct day-over-day sign predictions).
+    Neutral predictions (predicting zero change) are credited with 50% baseline probability.
+    """
+    actual_diff = y_true - lag_1
+    pred_diff = y_pred - lag_1
+    correct = (np.sign(actual_diff) == np.sign(pred_diff)).astype(float)
+    ties = (pred_diff == 0)
+    correct[ties] = 0.5
+    return float(correct.mean() * 100.0)
 
 
 def evaluate_forecast(
