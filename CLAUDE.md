@@ -141,7 +141,7 @@ Docs:
 - `run_after_reset.sh`: stops at the first failing step. Step b0 refuses to call the API if the dry run says today's quota cannot cover the recent pass.
 - Both Trends-side scripts exit 0 and write nothing when their input is missing.
 - `dashboard/` (Streamlit, read-only):
-  - `app.py` is the entry point. It draws the global sidebar filters (category, brand, cohort, products, date range) and publishes a `PageContext` to the session state before `st.navigation` runs the selected page script in `dashboard/views/`.
+  - `app.py` is the entry point. It draws the global sidebar filters (category, brand, cohort, products, date range) and publishes a `PageContext` to the session state before `st.navigation` runs the selected page script in `dashboard/views/` (*Overview*, *Viral Radar*, *Search Trends*, *Forecasts*, *Audience Signals*).
   - Filtering lives only in `filters.py` (pure pandas, unit-tested). Pages call `ctx.filtered(df)`.
   - `data_loader.py` reads paths from `config.PATHS`; a missing file loads as an empty frame.
 
