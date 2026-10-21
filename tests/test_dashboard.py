@@ -78,7 +78,7 @@ def test_product_label_falls_back_to_id():
 # --- Whole-app smoke tests (headless Streamlit, real repo data) -----------------------------
 
 APP = str(flt.__file__).replace("filters.py", "app.py")
-PAGES = ["views/overview.py", "views/trends.py", "views/forecasts.py", "views/signals.py"]
+PAGES = ["views/overview.py", "views/radar.py", "views/trends.py", "views/forecasts.py", "views/signals.py"]
 
 
 @pytest.fixture
@@ -128,3 +128,42 @@ def test_reset_restores_defaults(app):
     assert not app.exception, app.exception
     assert _sidebar(app, "multiselect", "Brand").value == []
     assert app.caption[0].value.startswith("60 of 60 products")
+
+
+def test_radar_dataset_computation():
+    import sys
+    from pathlib import Path
+    dashboard_dir = Path(APP).parent
+    if str(dashboard_dir) not in sys.path:
+        sys.path.insert(0, str(dashboard_dir))
+    from views.radar import compute_radar_dataset
+
+    # Empty frame returns empty
+    assert compute_radar_dataset(pd.DataFrame(), pd.DataFrame(), CATALOG).empty
+
+    # Synthetic master frame
+    master = pd.DataFrame([
+        {"product_id": "P001", "product_name": "Phone A", "brand": "Apple", "product_type": "RISING",
+         "search_interest": 75.0, "search_interest_growth": 0.25, "search_interest_accel": 0.10,
+         "surge_label": 1, "date": pd.Timestamp("2026-08-15")},
+        {"product_id": "P002", "product_name": "Phone B", "brand": "Apple", "product_type": "STABLE",
+         "search_interest": 40.0, "search_interest_growth": -0.05, "search_interest_accel": -0.02,
+         "surge_label": 0, "date": pd.Timestamp("2026-08-15")},
+    ])
+    signals = pd.DataFrame([
+        {"product_id": "P001", "comments_published": 15, "sentiment_volume": 15,
+         "sentiment_mean": 0.35, "sentiment_pos_ratio": 0.70, "sentiment_neg_ratio": 0.10, "sentiment_net_polarity": 0.60},
+        {"product_id": "P002", "comments_published": 5, "sentiment_volume": 5,
+         "sentiment_mean": 0.05, "sentiment_pos_ratio": 0.40, "sentiment_neg_ratio": 0.20, "sentiment_net_polarity": 0.20},
+    ])
+
+    radar_df = compute_radar_dataset(master, signals, CATALOG)
+    assert len(radar_df) == 2
+    assert "breakout_score" in radar_df.columns
+    assert "quadrant_tier" in radar_df.columns
+    assert "recommended_action" in radar_df.columns
+    assert (radar_df["breakout_score"] >= 0.0).all() and (radar_df["breakout_score"] <= 100.0).all()
+    # P001 with higher interest, accel and sentiment should have higher breakout score than P002
+    assert radar_df.loc[radar_df["product_id"] == "P001", "breakout_score"].iloc[0] > \
+           radar_df.loc[radar_df["product_id"] == "P002", "breakout_score"].iloc[0]
+

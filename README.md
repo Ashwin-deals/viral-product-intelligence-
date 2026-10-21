@@ -201,6 +201,7 @@ All steps read their inputs without changing them, and re-running gives identica
   - a **Reset filters** button.
 - **Pages** (in `dashboard/views/`):
   - *Overview*: KPIs, search interest by cohort, surge days by brand and a per-product summary.
+  - *Viral Radar (SCRUM-32)*: 2D multimodal early-warning radar mapping search momentum vs audience sentiment, composite Viral Breakout Score (0-100), executive KPI ribbon, and prescriptive inventory recommendations.
   - *Search Trends*: per-product search interest, growth or acceleration with surge markers, plus a weekly surge calendar.
   - *Forecasts*: Method 1 model errors recomputed for the current selection, and actual vs predicted lines.
   - *Audience Signals*: Method 2 comment volume, sentiment and topic mix.
