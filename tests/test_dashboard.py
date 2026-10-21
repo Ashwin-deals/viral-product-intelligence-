@@ -78,7 +78,8 @@ def test_product_label_falls_back_to_id():
 # --- Whole-app smoke tests (headless Streamlit, real repo data) -----------------------------
 
 APP = str(flt.__file__).replace("filters.py", "app.py")
-PAGES = ["views/overview.py", "views/radar.py", "views/trends.py", "views/forecasts.py", "views/signals.py"]
+PAGES = ["views/overview.py", "views/radar.py", "views/trends.py", "views/forecasts.py", "views/signals.py",
+         "views/text_mining.py"]
 
 
 @pytest.fixture
