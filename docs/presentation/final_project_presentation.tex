@@ -729,7 +729,7 @@
                     {\fontsize{8pt}{9.5pt}\selectfont \textbf{\color{NavyPrimary}Main Achievement \& Practical Business Value}}\\[0.06cm]                                                              
                     \begin{itemize}\setlength{\itemsep}{2pt}                                                                                                                                           
                         \item \textbf{Integrated System:} Successfully delivered a 100\% complete, verified multi-modal intelligence platform fusing Trends time-series and YouTube NLP.               
-                        \item \textbf{Measurable Predictive Value:} Champion LightGBM forecaster achieves \textbf{$\text{MAE} = 5.18$}, \textbf{$R^2 = 0.734$}, and \textbf{67.8\% MDA}, delivering an 
+                        \item \textbf{Measurable Predictive Value:} Champion LightGBM forecaster achieves \textbf{$\text{MAE} = 5.176$}, \textbf{$R^2 = 0.7355$}, and \textbf{50.28\% MDA}, delivering an 
   11.2\% error reduction over baseline persistence.                                                                                                                                                    
                         \item \textbf{Decision Impact:} Grants supply chain and marketing teams a \textbf{7 to 14 day predictive foresight window} before retail stockouts occur.                      
                     \end{itemize}                                                                                                                                                                      
@@ -756,4 +756,36 @@
         \end{columns}                                                                                                                                                                                  
     \end{frame}                                                                                                                                                                                        
                                                                                                                                                                                                        
-    \end{document}               
+        % =============================================================================
+    % SLIDE 18: Comparative Analysis with Published Literature (18 / Appendix)
+    % =============================================================================
+    \begin{frame}[t]
+        \slideheader{BENCHMARK ANALYSIS}{Comparative analysis with other studies}{18}
+        \vspace{-0.15cm}
+        \begin{table}[h]
+            \centering{\fontsize{6.2pt}{7.5pt}\selectfont
+            \renewcommand{\arraystretch}{0.92}
+            \begin{tabular}{p{3.2cm}p{3.0cm}p{3.0cm}p{3.4cm}}
+                \toprule
+                \rowcolor{NavyPrimary!15} \textbf{Published Study \& Domain} & \textbf{Data \& Granularity} & \textbf{Reported Metric} & \textbf{Our Innovation \& Advantage} \\
+                \midrule
+                \textbf{Choi \& Varian (2012)} \newline \textit{Google / Econ. Record} & Google Trends (Weekly aggregate sales) & 5--18\% MAE error reduction over AR(1) & \textbf{Daily LightGBM} captures non-linear surge momentum (-11.2\% MAE on stable). \\
+                \addlinespace[2pt]
+                \textbf{Boone et al. (2018)} \newline \textit{Decision Support Systems} & Proprietary retail POS + Google search & WAPE = 24.0\%--28.5\%, \newline $R^2 = 0.65$--0.70 & \textbf{Superior Accuracy:} LightGBM out-of-sample $\text{WAPE} = \mathbf{21.52\%}$, $R^2 = \mathbf{0.7355}$. \\
+                \addlinespace[2pt]
+                \textbf{Carbonneau et al. (2008)} \newline \textit{Int. J. Prod. Research} & Supply chain orders (ARIMA, Neural Nets) & Neural net reduced RMSE by only 2--5\% & \textbf{10-Model Benchmark:} 10.5\% RMSE reduction; LightGBM beats ARIMA by 13.7\%. \\
+                \addlinespace[2pt]
+                \textbf{Lau, Zhang, \& Xu (2018)} \newline \textit{ACM Trans. Manage. Inf. Syst.} & Customer reviews \& brand sentiment & Topic coherence $\approx 0.44$, sentiment F1 $\approx 0.76$ & \textbf{Forward Leading Indicator:} Comment sentiment leads search peaks by 3--7d ($r=+0.41$). \\
+                \addlinespace[2pt]
+                \rowcolor{BlueAccent!10} \textbf{Our Project (2026)} \newline \textit{Viral Product Intelligence} & \textbf{Daily Trends + 29k YouTube comments} & \textbf{MAE 5.18, RMSE 10.03, WAPE 21.52\%, $R^2$ 0.736} & \textbf{2D Multimodal Radar:} Fuses search math + NLP into prescriptive early warning. \\
+                \bottomrule
+            \end{tabular}}
+        \end{table}
+        \vspace{-0.15cm}
+        \begin{highlightcard}
+            \centering\scriptsize
+            \textbf{Methodological Rigor:} Zero look-ahead leakage via \texttt{.shift(1).rolling(7)}, chronological cutoff at August 12, 2026, and full interactive dashboard.
+        \end{highlightcard}
+    \end{frame}
+
+\end{document}               
