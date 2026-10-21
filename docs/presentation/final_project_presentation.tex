@@ -50,34 +50,29 @@
 
 \setbeamertemplate{navigation symbols}{}
 
+% ZERO FOOTER: Prevents all bottom collisions and frees up full vertical canvas
+\setbeamertemplate{footline}{}
+
 % Compact List Formatting (Zero Wasted Vertical Space)
 \setbeamertemplate{itemize item}{\color{BlueAccent}\scriptsize$\blacktriangleright$}
 \setbeamertemplate{itemize subitem}{\color{BlueAccent!70}\tiny$\blacktriangleright$}
 \setbeamertemplate{itemize/enumerate body begin}{\vspace{-2pt}}
 \setbeamertemplate{itemize/enumerate body end}{\vspace{-2pt}}
 
-% Safe Header Macro: Replicating Exact Template Layout (Category + Title + Slide #)
+% Header Macro: Replicating Exact Template Layout (Category + Title + Slide #)
 \newcommand{\slideheader}[3]{%
-    \vspace{-0.25cm}%
+    \vspace{-0.35cm}%
     \noindent\begin{minipage}[t]{0.88\linewidth}%
         {\fontsize{7pt}{8.5pt}\selectfont \textbf{\color{BlueAccent}#1}}\par\vspace{1pt}%
-        {\fontsize{11.5pt}{13.5pt}\selectfont \textbf{\color{NavyPrimary}#2}}%
+        {\fontsize{11pt}{13pt}\selectfont \textbf{\color{NavyPrimary}#2}}%
     \end{minipage}%
     \hfill%
     \begin{minipage}[t]{0.10\linewidth}%
         \raggedleft{\fontsize{12pt}{14pt}\selectfont \textbf{\color{CoralAccent}#3}}%
     \end{minipage}\par%
-    \vspace{2pt}%
+    \vspace{1pt}%
     \textcolor{CardBorder}{\rule{\linewidth}{0.6pt}}\par%
-    \vspace{3pt}%
-}
-
-% Slim Footer
-\setbeamertemplate{footline}{%
-    \vspace{-0.15cm}%
-    \leavevmode\centering%
-    {\fontsize{6.5pt}{7.5pt}\selectfont \color{MutedGray} 23CSE452 Business Analytics \textbullet\ Final Project Presentation \textbullet\ Group 13 \hfill \insertframenumber/\inserttotalframenumber}%
-    \vspace{0.12cm}%
+    \vspace{2pt}%
 }
 
 % Card Environment
@@ -111,12 +106,12 @@
 % SLIDE 1: Title Slide (01)
 % =============================================================================
 \begin{frame}[plain]
-    \vspace{0.35cm}
+    \vspace{0.45cm}
     \begin{center}
-        {\fontsize{8.5pt}{10pt}\selectfont \textbf{\color{BlueAccent}23CSE452 BUSINESS ANALYTICS \textbullet\ FINAL PROJECT PRESENTATION}}\\[0.18cm]
+        {\fontsize{8.5pt}{10pt}\selectfont \textbf{\color{BlueAccent}23CSE452 BUSINESS ANALYTICS \textbullet\ FINAL PROJECT PRESENTATION}}\\[0.20cm]
         {\fontsize{16pt}{19pt}\selectfont \textbf{\color{NavyPrimary}Viral Product Intelligence}}\\[0.10cm]
         {\fontsize{10pt}{12pt}\selectfont \color{DarkText}Early Detection and Predictive Modeling of Consumer Demand Surges Using Multi-Source Signals}\\[0.20cm]
-        \textcolor{CoralAccent}{\rule{0.35\paperwidth}{1.2pt}}\\[0.25cm]
+        \textcolor{CoralAccent}{\rule{0.35\paperwidth}{1.2pt}}\\[0.30cm]
 
         \begin{card}
             \centering
@@ -138,37 +133,23 @@
     \begin{columns}[T]
         \begin{column}{0.49\textwidth}
             \begin{card}
-                {\fontsize{8pt}{9.5pt}\selectfont \textbf{\color{NavyPrimary}Business Problem \& Market Context}}\\[0.06cm]
-                \begin{itemize}\setlength{\itemsep}{2pt}
+                {\fontsize{8pt}{9.5pt}\selectfont \textbf{\color{NavyPrimary}Business Problem \& Measurable Objectives}}\\[0.06cm]
+                \begin{itemize}\setlength{\itemsep}{2pt}\scriptsize
                     \item \textbf{Viral Demand Volatility:} Indian smartphone demand experiences abrupt viral breakout spikes driven by social media hype and tech reviews.
-                    \item \textbf{Lagging Traditional Data:} Conventional ERP/POS sales records lag consumer interest by \textbf{7--14 days}, causing stockouts, lost margins, and missed sales.
-                    \item \textbf{Decision Latency:} Retailers cannot react to viral breakout surges in real time without forward-looking early-warning signals.
-                \end{itemize}
-            \end{card}
-            \vspace{0.15cm}
-            \begin{card}
-                {\fontsize{8pt}{9.5pt}\selectfont \textbf{\color{BlueAccent}Measurable Project Objectives}}\\[0.06cm]
-                \begin{itemize}\setlength{\itemsep}{2pt}
-                    \item \textbf{Objective 1:} Predict daily demand trajectories over a 53-day forward horizon using multi-horizon time-series forecasting (Method 1).
-                    \item \textbf{Objective 2:} Extract aspect sentiment and topic drivers from 29,189 comments to serve as leading indicators 3--7 days prior (Method 2).
+                    \item \textbf{Lagging Traditional Data:} Conventional ERP/POS sales records lag consumer interest by \textbf{7--14 days}, causing retail stockouts and lost margins.
+                    \item \textbf{Objective 1 (Method 1):} Forecast continuous daily search interest trajectories over a 53-day forward horizon using time-series models.
+                    \item \textbf{Objective 2 (Method 2):} Extract aspect sentiment and topic drivers from 29,189 comments to serve as leading indicators 3--7 days prior.
                 \end{itemize}
             \end{card}
         \end{column}
 
         \begin{column}{0.49\textwidth}
             \begin{card}
-                {\fontsize{8pt}{9.5pt}\selectfont \textbf{\color{NavyPrimary}Actionable Business Decision Supported}}\\[0.06cm]
-                \begin{itemize}\setlength{\itemsep}{2pt}
-                    \item \textbf{Proactive Pre-Allocation:} Pre-allocate retail inventory across tier-1 regional warehouses 7--10 days before retail demand realization.
+                {\fontsize{8pt}{9.5pt}\selectfont \textbf{\color{CoralAccent}Business Decisions Supported \& Expected Outputs}}\\[0.06cm]
+                \begin{itemize}\setlength{\itemsep}{2pt}\scriptsize
+                    \item \textbf{Proactive Pre-Allocation:} Pre-allocate retail inventory across regional fulfillment hubs 7--10 days before retail demand realization.
                     \item \textbf{Dynamic Ad Timing:} Synchronize marketing ad blitzes with positive sentiment velocity while throttling spend on negative-sentiment products.
-                \end{itemize}
-            \end{card}
-            \vspace{0.15cm}
-            \begin{card}
-                {\fontsize{8pt}{9.5pt}\selectfont \textbf{\color{CoralAccent}Expected Output \& End-State Deliverables}}\\[0.06cm]
-                \begin{itemize}\setlength{\itemsep}{2pt}
                     \item \textbf{Continuous Forecast:} Daily predicted search interest index ($0$--$100$).
-                    \item \textbf{Surge Alert:} Binary surge probability flag ($\text{F1} = 0.81$).
                     \item \textbf{2D Viral Radar:} Real-time 4-quadrant market classification tier with prescriptive inventory guidance on an interactive dashboard.
                 \end{itemize}
             \end{card}
@@ -184,26 +165,27 @@
     \vspace{-0.1cm}
     \begin{table}[h]
         \centering\scriptsize
+        \renewcommand{\arraystretch}{0.88}
         \begin{tabular}{p{2.3cm}p{7.2cm}p{3.5cm}}
             \toprule
             \rowcolor{NavyPrimary!15} \textbf{Stage} & \textbf{Your Implementation Across Sprints} & \textbf{Verified Deliverables} \\
             \midrule
             \textbf{Unit 1: Collection, Cleaning \& EDA} & Ingested Google Trends daily search interest + YouTube metadata and comments across 60 products; IST alignment; query versioning. & 16,140 rows $\times$ 35 vars; 0 duplicates; EDA reports; verified checklists. \\
             \addlinespace[2pt]
-            \textbf{Unit 2: Feature Engineering \& Models} & Engineered leak-free lags ($t-1..t-7$) and rolling statistics; MinMax/Robust scaling; supervised surge classification (`surge_label`). & GBR Classifier ($\text{ROC-AUC}=0.887$, $\text{F1}=0.81$); 80/20 chronological split. \\
+            \textbf{Unit 2: Feature Engineering \& Models} & Engineered leak-free lags ($t-1..t-7$) and rolling statistics; MinMax/Robust scaling; supervised surge classification (\texttt{surge\_label}). & GBR Classifier ($\text{ROC-AUC}=0.887$, $\text{F1}=0.81$); 80/20 chronological split. \\
             \addlinespace[2pt]
             \textbf{Unit 3: Method 1 (Time-Series)} & Chronological 80/20 split; ADF/KPSS stationarity; benchmarked 10 forecasting models (Baselines, ARIMA, ETS, Ridge, GBR, LightGBM). & LightGBM champion ($\text{MAE}=5.18$, $R^2=0.734$, $\text{MDA}=67.8\%$). \\
             \addlinespace[2pt]
             \textbf{Unit 3: Method 2 (Text Mining)} & Aspect-based VADER sentiment + 5-topic LDA topic modeling on 29,189 comments; 12-point leakage audit; lead-lag cross-correlation. & 3--7 day leading indicator ($r=+0.41$); 100-comment human spot-check eval. \\
             \addlinespace[2pt]
-            \textbf{Final Interactive Application} & Multi-page Streamlit dashboard (`dashboard/app.py`): Overview, Viral Radar (SCRUM-32), Search Trends, Forecasts, and Audience Signals. & Live on port 8501; interactive global sidebar filters; 14 dashboard tests passing. \\
+            \textbf{Final Interactive Application} & Multi-page Streamlit dashboard (\texttt{dashboard/app.py}): Overview, Viral Radar (SCRUM-32), Search Trends, Forecasts, and Audience Signals. & Live on port 8501; interactive global sidebar filters; 14 dashboard tests passing. \\
             \bottomrule
         \end{tabular}
     \end{table}
     \vspace{-0.15cm}
     \begin{highlightcard}
         \centering\scriptsize
-        \textbf{Completion Status:} \textcolor{GreenAccent}{\textbf{100\% Implementation Verified}} \textbullet\ Automated Pipeline DAG (\texttt{src/run_full_pipeline.py}) passes \textbf{222 of 222 unit tests} cleanly.
+        \textbf{Completion Status:} \textcolor{GreenAccent}{\textbf{100\% Implementation Verified}} \textbullet\ Automated Pipeline DAG (\texttt{src/run\_full\_pipeline.py}) passes \textbf{222 of 222 unit tests} cleanly.
     \end{highlightcard}
 \end{frame}
 
@@ -215,39 +197,24 @@
     \begin{columns}[T]
         \begin{column}{0.49\textwidth}
             \begin{card}
-                {\fontsize{8pt}{9.5pt}\selectfont \textbf{\color{NavyPrimary}Source and Collection / Ingestion Method}}\\[0.06cm]
-                \begin{itemize}\setlength{\itemsep}{2pt}
-                    \item \textbf{Google Trends Daily Series:} Unofficial endpoint via \texttt{pytrends} with strict retry/backoff; daily index ($0$--$100$) for 262 days.
+                {\fontsize{8pt}{9.5pt}\selectfont \textbf{\color{NavyPrimary}Source, Scope \& Dataset Dimensions}}\\[0.06cm]
+                \begin{itemize}\setlength{\itemsep}{2pt}\scriptsize
+                    \item \textbf{Google Trends Daily Series:} Unofficial endpoint via \texttt{pytrends} with strict backoff; daily interest index ($0$--$100$) for 262 days.
                     \item \textbf{YouTube Data API v3:} Official Google API ingesting video metadata, view counts, and 29,189 user comments across 60 products.
-                    \item \textbf{Alignment Engine:} Merged on \texttt{(product\_id, date)} after UTC to IST (\texttt{Asia/Kolkata}) calendar transformation.
-                \end{itemize}
-            \end{card}
-            \vspace{0.15cm}
-            \begin{card}
-                {\fontsize{8pt}{9.5pt}\selectfont \textbf{\color{BlueAccent}Final Dataset Dimensions \& Coverage}}\\[0.06cm]
-                \begin{itemize}\setlength{\itemsep}{2pt}
-                    \item \textbf{Record Count:} \textbf{16,140 product-day observations} (269 raw calendar span, 262 active panel days $\times$ 60 products).
-                    \item \textbf{Variable Count:} \textbf{35 production variables} (features, lags, rolling statistics, sentiment polarities, and targets).
-                    \item \textbf{Market Scope:} 60 smartphone devices across 13 brands in India.
+                    \item \textbf{Dataset Dimensions:} \textbf{16,140 product-day observations} across \textbf{35 production variables} (features, lags, targets).
+                    \item \textbf{Market Scope:} 60 smartphone devices across 13 brands in India aligned to Indian Standard Time (\texttt{Asia/Kolkata}).
                 \end{itemize}
             \end{card}
         \end{column}
 
         \begin{column}{0.49\textwidth}
             \begin{card}
-                {\fontsize{8pt}{9.5pt}\selectfont \textbf{\color{NavyPrimary}Cross-Unit Variable \& Data Mapping}}\\[0.06cm]
-                \begin{itemize}\setlength{\itemsep}{2pt}
+                {\fontsize{8pt}{9.5pt}\selectfont \textbf{\color{BlueAccent}Cross-Unit Pipeline Mapping}}\\[0.06cm]
+                \begin{itemize}\setlength{\itemsep}{2pt}\scriptsize
                     \item \textbf{Unit 1 (EDA \& Cleaning):} Raw search interest, video counts, on-target verification share ($\ge 60\%$), query version tracking.
                     \item \textbf{Unit 2 (Classification):} Engineered lags ($t-1, t-2, t-3, t-7$), rolling mean/std, binary surge target (\texttt{surge\_label}).
                     \item \textbf{Unit 3 Method 1 (Forecasting):} Continuous target (\texttt{search\_interest}), chronological 80/20 train (12,540) / test (3,180).
                     \item \textbf{Unit 3 Method 2 (Text Mining):} 29,189 comments, \texttt{text\_sentiment\_ready}, \texttt{text\_clean}, VADER compound, 5 LDA topics.
-                \end{itemize}
-            \end{card}
-            \vspace{0.15cm}
-            \begin{card}
-                {\fontsize{8pt}{9.5pt}\selectfont \textbf{\color{CoralAccent}Data Integrity \& Quarantine Protocol}}\\[0.06cm]
-                \begin{itemize}\setlength{\itemsep}{2pt}
-                    \item \textbf{Lookahead Quarantine:} Unlagged contemporaneous signals quarantined from predictors; rolling stats use strictly \texttt{.shift(1).rolling(7)}.
                 \end{itemize}
             \end{card}
         \end{column}
@@ -262,6 +229,7 @@
     \vspace{-0.1cm}
     \begin{table}[h]
         \centering\scriptsize
+        \renewcommand{\arraystretch}{0.88}
         \begin{tabular}{llccccccl}
             \toprule
             \rowcolor{NavyPrimary!15} \textbf{Product ID} & \textbf{Date} & \textbf{Brand} & \textbf{Cohort} & \textbf{Interest} & \textbf{Growth} & \textbf{Accel} & \textbf{Surge} & \textbf{Comments} \\
@@ -277,7 +245,7 @@
         \begin{column}{0.49\textwidth}
             \begin{card}
                 {\fontsize{7.5pt}{9pt}\selectfont \textbf{\color{NavyPrimary}Key Variable Definitions \& Units}}\\[0.04cm]
-                \begin{itemize}\setlength{\itemsep}{1.5pt}
+                \begin{itemize}\setlength{\itemsep}{1.5pt}\scriptsize
                     \item \texttt{search\_interest} (float, $0$--$100$): Continuous relative search volume index from Google Trends.
                     \item \texttt{surge\_label} (binary, $\{0, 1\}$): $1$ if 7-day interest z-score $\ge 1.5$ and growth $> 0.20$, else $0$.
                     \item \texttt{search\_interest\_growth} \& \texttt{accel}: First and second order velocity metrics.
@@ -287,7 +255,7 @@
         \begin{column}{0.49\textwidth}
             \begin{card}
                 {\fontsize{7.5pt}{9pt}\selectfont \textbf{\color{BlueAccent}Linked Method Subsets \& Partitions}}\\[0.04cm]
-                \begin{itemize}\setlength{\itemsep}{1.5pt}
+                \begin{itemize}\setlength{\itemsep}{1.5pt}\scriptsize
                     \item \textbf{Method 1 Partition:} \texttt{processed/train.csv} (12,540 rows) and \texttt{test.csv} (3,180 rows, 53 days).
                     \item \textbf{Method 2 Daily Signals:} \texttt{processed/method2\_daily\_signals.csv} (16,140 rows $\times$ 24 cols).
                     \item \textbf{Text Corpus:} \texttt{data/processed/text\_corpus.csv} (29,189 unique cleaned comments).
@@ -305,6 +273,7 @@
     \vspace{-0.1cm}
     \begin{table}[h]
         \centering\scriptsize
+        \renewcommand{\arraystretch}{0.88}
         \begin{tabular}{p{2.6cm}p{4.2cm}p{6.0cm}}
             \toprule
             \rowcolor{NavyPrimary!15} \textbf{Validation Check} & \textbf{Empirical Finding} & \textbf{Correction \& Verification Evidence} \\
@@ -335,9 +304,9 @@
         \begin{column}{0.49\textwidth}
             \begin{card}
                 {\fontsize{8pt}{9.5pt}\selectfont \textbf{\color{NavyPrimary}Key EDA Findings Relevant to Objectives}}\\[0.06cm]
-                \begin{itemize}\setlength{\itemsep}{2pt}
-                    \item \textbf{Finding 1 (Heavy-Tailed Surges):} Consumer search demand is highly skewed; the top 10\% of product-days account for \textbf{44.2\% of cumulative search interest}. 24 products exhibit sudden explosive viral regimes (\textit{RISING}).
-                    \item \textbf{Finding 2 (Multi-Tier Lead Times):} YouTube video reviews lead search peaks by \textbf{5--10 days}, while comment sentiment inflections lead by \textbf{3--7 days}, confirming multi-source signals provide layered early warning.
+                \begin{itemize}\setlength{\itemsep}{2pt}\scriptsize
+                    \item \textbf{Heavy-Tailed Surges:} Consumer search demand is highly skewed; the top 10\% of product-days account for \textbf{44.2\% of cumulative search interest}. 24 products exhibit sudden explosive viral regimes (\textit{RISING}).
+                    \item \textbf{Multi-Tier Lead Times:} YouTube video reviews lead search peaks by \textbf{5--10 days}, while comment sentiment inflections lead by \textbf{3--7 days}, confirming multi-source signals provide layered early warning.
                 \end{itemize}
             \end{card}
         \end{column}
@@ -345,19 +314,14 @@
         \begin{column}{0.49\textwidth}
             \begin{card}
                 {\fontsize{8pt}{9.5pt}\selectfont \textbf{\color{BlueAccent}Preprocessing \& Cleaning Pipeline}}\\[0.06cm]
-                \begin{itemize}\setlength{\itemsep}{2pt}
+                \begin{itemize}\setlength{\itemsep}{2pt}\scriptsize
                     \item \textbf{Timezone Sync:} Converted UTC YouTube timestamps to IST (\texttt{Asia/Kolkata}) to eliminate 5.5-hour calendar boundary shifts.
                     \item \textbf{Query Versioning:} Disambiguated overlapping search terms (e.g. \textit{Pixel 9 Pro} vs \textit{Google Pixel 9 Pro}) with registry checksums.
-                    \item \textbf{Text Tokenization:} Stripped emojis, URLs, and repeated characters while strictly preserving negations (\textit{not, never}) for sentiment.
+                    \item \textbf{Text Cleaning:} Stripped emojis, URLs, and repeated characters while strictly preserving negations (\textit{not, never}) for sentiment.
                 \end{itemize}
             \end{card}
         \end{column}
     \end{columns}
-    \vspace{0.15cm}
-    \begin{card}
-        \centering\scriptsize
-        \textbf{Pipeline Evidence:} \texttt{src/clean\_trends.py} and \texttt{src/clean\_youtube.py} run idempotently; before/after audits in \texttt{data/processed/full\_report.csv}.
-    \end{card}
 \end{frame}
 
 % =============================================================================
@@ -368,6 +332,7 @@
     \vspace{-0.1cm}
     \begin{table}[h]
         \centering\scriptsize
+        \renewcommand{\arraystretch}{0.88}
         \begin{tabular}{p{4.2cm}cccc}
             \toprule
             \rowcolor{NavyPrimary!15} \textbf{Model / Architecture} & \textbf{Precision} & \textbf{Recall} & \textbf{F1-Score} & \textbf{ROC-AUC} \\
@@ -384,7 +349,7 @@
         \begin{column}{0.49\textwidth}
             \begin{card}
                 {\fontsize{7.5pt}{9pt}\selectfont \textbf{\color{NavyPrimary}Evaluation Setup \& Target Formulations}}\\[0.04cm]
-                \begin{itemize}\setlength{\itemsep}{1.5pt}
+                \begin{itemize}\setlength{\itemsep}{1.5pt}\scriptsize
                     \item \textbf{Target:} Binary viral surge day (\texttt{surge\_label} $\in \{0, 1\}$).
                     \item \textbf{Chronological Split:} 12,540 train rows (80\%) / 3,180 held-out test rows (20\%, August 12 to October 3, 2026).
                     \item \textbf{Input Dimension:} 36 scaled predictors (lags, rolling statistics).
@@ -395,7 +360,7 @@
         \begin{column}{0.49\textwidth}
             \begin{card}
                 {\fontsize{7.5pt}{9pt}\selectfont \textbf{\color{BlueAccent}Selected Model Interpretation \& Limitations}}\\[0.04cm]
-                \begin{itemize}\setlength{\itemsep}{1.5pt}
+                \begin{itemize}\setlength{\itemsep}{1.5pt}\scriptsize
                     \item \textbf{Choice:} Gradient Boosting achieved highest F1 ($0.817$) and ROC-AUC ($0.887$), minimizing false alarms for supply chain planners.
                     \item \textbf{Key Feature:} Demand acceleration combined with comment volume spike accounts for 78\% of tree split gain.
                     \item \textbf{Limitation:} Predicts surge occurrence ($0/1$), not continuous trajectory.
@@ -413,13 +378,14 @@
     \vspace{-0.1cm}
     \begin{table}[h]
         \centering\small
+        \renewcommand{\arraystretch}{0.90}
         \begin{tabular}{p{3.8cm}p{4.6cm}p{4.5cm}}
             \toprule
             \rowcolor{NavyPrimary!15} \textbf{Selected Method} & \textbf{Business Question Answered} & \textbf{Final Data Fields \& Subset Used} \\
             \midrule
             \textbf{Method 1: Time-Series Analysis} \newline \textit{(Predictive Continuous Regression)} & What will the exact daily consumer search interest curve be over the 53-day forward horizon for all 60 devices? & Daily \texttt{search\_interest} ($0$--$100$), lags ($t-1..t-7$), 7d rolling statistics; held-out test split (3,180 rows). \\
             \addlinespace[4pt]
-            \textbf{Method 2: Text Mining} \newline \textit{(Aspect Sentiment \& LDA Topics)} & What community sentiments and product topics trigger demand inflection, and do they serve as early warnings? & 29,189 YouTube user comments, \texttt{text\_sentiment\_ready}, \texttt{text\_clean}, VADER compound, 5 LDA topics. \\
+            \textbf{Method 2: Text Mining} \newline \textit{(Aspect Sentiment \& LDA Topics)} & What community sentiments and product topics drive demand inflections, and do they serve as early warnings? & 29,189 YouTube user comments, \texttt{text\_sentiment\_ready}, \texttt{text\_clean}, VADER compound, 5 LDA topics. \\
             \bottomrule
         \end{tabular}
     \end{table}
@@ -439,7 +405,7 @@
         \begin{column}{0.49\textwidth}
             \begin{card}
                 {\fontsize{8pt}{9.5pt}\selectfont \textbf{\color{NavyPrimary}Selected Method \& Preparation Pipeline}}\\[0.06cm]
-                \begin{itemize}\setlength{\itemsep}{2pt}
+                \begin{itemize}\setlength{\itemsep}{2pt}\scriptsize
                     \item \textbf{Method:} Time-Series Demand Forecasting (Continuous Regression) on validated Google Trends search interest ($0$--$100$).
                     \item \textbf{Chronological Boundary:} Strict cutoff at \textbf{August 12, 2026}; train on 209 days (12,540 rows), held-out test on 53 days (3,180 rows).
                     \item \textbf{Zero-Leakage Lags:} Generated $t-1, t-2, t-3, t-7$ lags; rolling mean/std strictly via \texttt{.shift(1).rolling(7)}.
@@ -450,19 +416,14 @@
         \begin{column}{0.49\textwidth}
             \begin{card}
                 {\fontsize{8pt}{9.5pt}\selectfont \textbf{\color{BlueAccent}Implementation Algorithms \& Tools}}\\[0.06cm]
-                \begin{itemize}\setlength{\itemsep}{2pt}
+                \begin{itemize}\setlength{\itemsep}{2pt}\scriptsize
                     \item \textbf{10-Model Benchmark:} Evaluated Baselines (Naive Persistence, Seasonal Naive, Rolling Mean), Classical Statistical (ARIMA(1,1,1), ETS), and ML (Ridge, ElasticNet, RF, GBR, LightGBM).
                     \item \textbf{Edge Case Handling:} Auto-detected zero-variance series (e.g. unreleased concept devices) to prevent ARIMA Kalman filter crashes.
-                    \item \textbf{Orchestrator:} Automated CLI pipeline in \texttt{src/forecast\_method1.py}.
+                    \item \textbf{Output Artifacts:} 3,180 out-of-sample daily predictions in \texttt{processed/method1\_forecast\_predictions.csv}.
                 \end{itemize}
             \end{card}
         \end{column}
     \end{columns}
-    \vspace{0.15cm}
-    \begin{highlightcard}
-        \centering\scriptsize
-        \textbf{Output Artifacts:} 3,180 out-of-sample daily predictions in \texttt{processed/method1\_forecast\_predictions.csv} across all 60 products.
-    \end{highlightcard}
 \end{frame}
 
 % =============================================================================
@@ -473,6 +434,7 @@
     \vspace{-0.1cm}
     \begin{table}[h]
         \centering\scriptsize
+        \renewcommand{\arraystretch}{0.85}
         \begin{tabular}{lccccc}
             \toprule
             \rowcolor{NavyPrimary!15} \textbf{Model / Architecture} & \textbf{Test MAE} & \textbf{Test RMSE} & \textbf{WAPE (\%)} & \textbf{Out-of-Sample $R^2$} & \textbf{MDA (\%)} \\
@@ -482,9 +444,7 @@
             \textbf{Random Forest (100 Trees)} & 5.294 & 11.332 & 27.14\% & 0.7298 & 66.88\% \\
             \textbf{Ridge Regression (L2 Linear)} & 5.304 & 11.530 & 27.19\% & 0.7203 & 66.88\% \\
             \textbf{Naive Persistence ($t-1$ Baseline)} & 5.544 & 12.019 & 28.42\% & 0.6960 & 50.00\% \\
-            \textbf{Exponential Smoothing (ETS)} & 5.601 & 11.979 & 28.71\% & 0.6980 & 50.00\% \\
             \textbf{ARIMA(1,1,1) Univariate} & 6.002 & 12.599 & 30.77\% & 0.6660 & 50.00\% \\
-            \textbf{Seasonal Naive (7-Day Lag)} & 8.995 & 16.549 & 46.11\% & 0.4246 & 50.00\% \\
             \bottomrule
         \end{tabular}
     \end{table}
@@ -493,7 +453,7 @@
         \begin{column}{0.55\textwidth}
             \begin{card}
                 {\fontsize{7.5pt}{9pt}\selectfont \textbf{\color{NavyPrimary}Interpretation \& Benchmark Insights}}\\[0.04cm]
-                \begin{itemize}\setlength{\itemsep}{1.5pt}
+                \begin{itemize}\setlength{\itemsep}{1.5pt}\scriptsize
                     \item \textbf{Champion Selection:} LightGBM achieved lowest MAE ($5.18$) and highest $R^2$ ($0.734$); achieves \textbf{67.8\% Directional Accuracy (MDA)}.
                     \item \textbf{Cohort Dynamics:} Error reduction is highest on \textbf{STABLE} devices (-11.2\% vs Naive, $R^2=0.793$), while tracking surge momentum in \textbf{RISING} devices.
                 \end{itemize}
@@ -503,8 +463,8 @@
         \begin{column}{0.43\textwidth}
             \begin{card}
                 {\fontsize{7.5pt}{9pt}\selectfont \textbf{\color{CoralAccent}Operational Limitation}}\\[0.04cm]
-                \begin{itemize}\setlength{\itemsep}{1.5pt}
-                    \item Sudden explosive viral breakout spikes increase point MAE on day 1 of surge; directional accuracy remains robust.
+                \begin{itemize}\setlength{\itemsep}{1.5pt}\scriptsize
+                    \item Sudden explosive viral breakout spikes increase point MAE on day 1 of surge; directional momentum is reliably captured.
                 \end{itemize}
             \end{card}
         \end{column}
@@ -519,8 +479,8 @@
     \begin{columns}[T]
         \begin{column}{0.49\textwidth}
             \begin{card}
-                {\fontsize{8pt}{9.5pt}\selectfont \textbf{\color{NavyPrimary}Selected Method \& Purpose}}\\[0.06cm]
-                \begin{itemize}\setlength{\itemsep}{2pt}
+                {\fontsize{8pt}{9.5pt}\selectfont \textbf{\color{NavyPrimary}Selected Method \& Corpus Preparation}}\\[0.06cm]
+                \begin{itemize}\setlength{\itemsep}{2pt}\scriptsize
                     \item \textbf{Method:} Text Mining combining Lexicon Sentiment Analysis (VADER) and Aspect-Based Topic Modeling (LDA).
                     \item \textbf{Corpus Preparation:} 29,189 unique YouTube comments cleaned into \texttt{text\_sentiment\_ready} (negations preserved) and \texttt{text\_clean} (lemmatized tokens).
                     \item \textbf{Train-Only Isolation:} Vectorizers and LDA fitted strictly on training partition observations to guarantee zero lookahead leakage.
@@ -531,19 +491,14 @@
         \begin{column}{0.49\textwidth}
             \begin{card}
                 {\fontsize{8pt}{9.5pt}\selectfont \textbf{\color{BlueAccent}Implementation Details \& Domain Topics}}\\[0.06cm]
-                \begin{itemize}\setlength{\itemsep}{2pt}
+                \begin{itemize}\setlength{\itemsep}{2pt}\scriptsize
                     \item \textbf{Sentiment Polarity:} Computed VADER compound polarity, positive share, and negative ratio per product-day.
                     \item \textbf{Domain Aspect Extraction:} Tracked 5 hardware topics: \textit{Camera, Battery, Performance, Price/Value, Design/Display}.
-                    \item \textbf{12-Point Audit:} Enforced zero-leakage test suite in \texttt{tests/test\_isolate\_method2.py} (14/14 tests passing).
+                    \item \textbf{Output Artifacts:} \texttt{processed/method2\_daily\_signals.csv} (16,140 rows) and 12-point leakage audit (100\% pass).
                 \end{itemize}
             \end{card}
         \end{column}
     \end{columns}
-    \vspace{0.15cm}
-    \begin{highlightcard}
-        \centering\scriptsize
-        \textbf{Output Artifacts:} \texttt{processed/method2\_daily\_signals.csv} (16,140 rows) and topic distributions in \texttt{data/processed/text\_topics\_by\_product.csv}.
-    \end{highlightcard}
 \end{frame}
 
 % =============================================================================
@@ -554,6 +509,7 @@
     \vspace{-0.1cm}
     \begin{table}[h]
         \centering\scriptsize
+        \renewcommand{\arraystretch}{0.88}
         \begin{tabular}{lcccc}
             \toprule
             \rowcolor{NavyPrimary!15} \textbf{Text Mining Approach} & \textbf{Accuracy / Coherence} & \textbf{Macro F1} & \textbf{Latency} & \textbf{Lead-Lag Correlation} \\
@@ -570,7 +526,7 @@
         \begin{column}{0.55\textwidth}
             \begin{card}
                 {\fontsize{7.5pt}{9pt}\selectfont \textbf{\color{NavyPrimary}Interpretation \& Spot-Check Evidence}}\\[0.04cm]
-                \begin{itemize}\setlength{\itemsep}{1.5pt}
+                \begin{itemize}\setlength{\itemsep}{1.5pt}\scriptsize
                     \item \textbf{Reference Spot-Check:} 100-comment human-reviewed sample confirms VADER effectively handles tech domain informal slang.
                     \item \textbf{Leading Indicator Power:} Positive comment sentiment spikes \textbf{3 to 7 days before} Google search demand peaks ($r=+0.41$).
                 \end{itemize}
@@ -580,7 +536,7 @@
         \begin{column}{0.43\textwidth}
             \begin{card}
                 {\fontsize{7.5pt}{9pt}\selectfont \textbf{\color{CoralAccent}Operational Limitation}}\\[0.04cm]
-                \begin{itemize}\setlength{\itemsep}{1.5pt}
+                \begin{itemize}\setlength{\itemsep}{1.5pt}\scriptsize
                     \item English lexicon underperforms on transliterated Hinglish comments and subtle sarcasm.
                 \end{itemize}
             \end{card}
@@ -596,6 +552,7 @@
     \vspace{-0.1cm}
     \begin{table}[h]
         \centering\scriptsize
+        \renewcommand{\arraystretch}{0.88}
         \begin{tabular}{p{3.8cm}p{4.5cm}p{4.5cm}}
             \toprule
             \rowcolor{NavyPrimary!15} \textbf{Evidence from Project} & \textbf{Prescriptive Recommended Action} & \textbf{Expected Benefit \& Limitation} \\
@@ -621,23 +578,11 @@
     \begin{columns}[T]
         \begin{column}{0.48\textwidth}
             \begin{card}
-                {\fontsize{8pt}{9.5pt}\selectfont \textbf{\color{NavyPrimary}Application Architecture \& Local Launch}}\\[0.06cm]
-                \begin{itemize}\setlength{\itemsep}{2pt}
-                    \item \textbf{Framework:} Streamlit multi-page architecture (\texttt{dashboard/app.py}).
-                    \item \textbf{Launch Command:} \texttt{streamlit run dashboard/app.py}
-                    \item \textbf{Accessible URL:} \href{http://localhost:8501}{\color{BlueAccent}\underline{\textbf{http://localhost:8501}}} (Port 8501).
+                {\fontsize{8pt}{9.5pt}\selectfont \textbf{\color{NavyPrimary}Application Architecture \& 5 Interactive Views}}\\[0.06cm]
+                \begin{itemize}\setlength{\itemsep}{2pt}\scriptsize
+                    \item \textbf{Framework \& Launch:} Streamlit app (\texttt{dashboard/app.py}) live on port 8501: \href{http://localhost:8501}{\color{BlueAccent}\underline{\textbf{http://localhost:8501}}}.
                     \item \textbf{Global Filtering:} Category, brand, cohort, products, and date slider dynamically update all pages with zero lag.
-                \end{itemize}
-            \end{card}
-            \vspace{0.12cm}
-            \begin{card}
-                {\fontsize{8pt}{9.5pt}\selectfont \textbf{\color{BlueAccent}5 Interactive Dashboard Pages}}\\[0.06cm]
-                \begin{itemize}\setlength{\itemsep}{1.5pt}
-                    \item \textbf{Overview:} High-level KPIs, cohort trajectories, brand surges.
-                    \item \textbf{Viral Radar (SCRUM-32):} 2D Quadrant Matrix \& Breakout Score.
-                    \item \textbf{Search Trends:} Rolling mean slider (1--28d), surge markers.
-                    \item \textbf{Forecasts:} Out-of-sample LightGBM forecasts vs Naive baseline.
-                    \item \textbf{Audience Signals:} VADER sentiment mix \& 5-topic breakdown.
+                    \item \textbf{5 Pages:} \textit{Overview} (KPIs), \textit{Viral Radar} (SCRUM-32), \textit{Search Trends} (surges), \textit{Forecasts} (Method 1), \textit{Audience Signals} (Method 2).
                 \end{itemize}
             \end{card}
         \end{column}
@@ -664,6 +609,7 @@
     \vspace{-0.1cm}
     \begin{table}[h]
         \centering\scriptsize
+        \renewcommand{\arraystretch}{0.85}
         \begin{tabular}{p{3.2cm}p{5.8cm}p{4.0cm}}
             \toprule
             \rowcolor{NavyPrimary!15} \textbf{Team Member} & \textbf{Completed Technical Responsibility} & \textbf{Evidence \& Project-Board Task} \\
@@ -696,7 +642,7 @@
         \begin{column}{0.49\textwidth}
             \begin{card}
                 {\fontsize{8pt}{9.5pt}\selectfont \textbf{\color{NavyPrimary}Main Achievement \& Practical Business Value}}\\[0.06cm]
-                \begin{itemize}\setlength{\itemsep}{2pt}
+                \begin{itemize}\setlength{\itemsep}{2pt}\scriptsize
                     \item \textbf{Integrated System:} Successfully delivered a 100\% complete, verified multi-modal intelligence platform fusing Trends time-series and YouTube NLP.
                     \item \textbf{Measurable Predictive Value:} Champion LightGBM forecaster achieves \textbf{$\text{MAE} = 5.18$}, \textbf{$R^2 = 0.734$}, and \textbf{67.8\% MDA}, delivering an 11.2\% error reduction over baseline persistence.
                     \item \textbf{Decision Impact:} Grants supply chain and marketing teams a \textbf{7 to 14 day predictive foresight window} before retail stockouts occur.
@@ -707,7 +653,7 @@
         \begin{column}{0.49\textwidth}
             \begin{card}
                 {\fontsize{8pt}{9.5pt}\selectfont \textbf{\color{CoralAccent}Identified Technical Limitations}}\\[0.06cm]
-                \begin{itemize}\setlength{\itemsep}{2pt}
+                \begin{itemize}\setlength{\itemsep}{2pt}\scriptsize
                     \item \textbf{Relative vs Absolute Scale:} Google Trends provides a relative index ($0$--$100$) rather than absolute unit inventory orders.
                     \item \textbf{Language Scope:} English-focused lexicon (VADER) loses nuance on regional Indian Hinglish comments and local slang.
                 \end{itemize}
@@ -715,7 +661,7 @@
             \vspace{0.12cm}
             \begin{card}
                 {\fontsize{8pt}{9.5pt}\selectfont \textbf{\color{BlueAccent}Future Scope \& Production Extensions}}\\[0.06cm]
-                \begin{itemize}\setlength{\itemsep}{2pt}
+                \begin{itemize}\setlength{\itemsep}{2pt}\scriptsize
                     \item \textbf{Multilingual Transformers:} Fine-tune IndicBERT on mixed Hinglish consumer electronics reviews.
                     \item \textbf{ERP Integration:} Direct bidirectional connectors to SAP / Oracle ERP systems for automated replenishment triggers.
                 \end{itemize}
