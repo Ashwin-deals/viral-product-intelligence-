@@ -30,8 +30,8 @@ videos_published_lag_3,temporal_lag,0.00011,0.00033,0.00402,0.00149
 brand_Redmi,categorical_dummy,8e-05,0.00016,0.01716,0.0058
 brand_iQOO,categorical_dummy,2e-05,0.00017,0.02846,0.00955
 brand_Vivo,categorical_dummy,0.0,0.0,0.02422,0.00807
-brand_OnePlus,categorical_dummy,0.0,1e-05,0.02258,0.00753
-brand_Google,categorical_dummy,0.0,0.0002,0.02045,0.00688
 brand_Poco,categorical_dummy,0.0,8e-05,0.02178,0.00729
 brand_Oppo,categorical_dummy,0.0,2e-05,0.01624,0.00542
+brand_OnePlus,categorical_dummy,0.0,1e-05,0.02258,0.00753
 brand_Infinix,categorical_dummy,0.0,1e-05,0.00827,0.00276
+brand_Google,categorical_dummy,0.0,0.0002,0.02045,0.00688
