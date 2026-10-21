@@ -78,6 +78,7 @@
 % Card Environment
 \newenvironment{card}[1][]{%
     \begin{beamercolorbox}[rounded=true,shadow=false,wd=\linewidth,sep=3.5pt,#1]{block body}%
+    \fontsize{7.8pt}{9.8pt}\selectfont%
 }{%
     \end{beamercolorbox}%
 }
@@ -85,6 +86,7 @@
 % Highlight Card Environment
 \newenvironment{highlightcard}[1][]{%
     \begin{beamercolorbox}[rounded=true,shadow=false,wd=\linewidth,sep=3.5pt,#1]{block title}%
+    \fontsize{7.8pt}{9.8pt}\selectfont%
 }{%
     \end{beamercolorbox}%
 }
@@ -133,38 +135,38 @@
     \begin{columns}[T]
         \begin{column}{0.49\textwidth}
             \begin{card}
-                {\fontsize{8pt}{9.5pt}\selectfont \textbf{\color{NavyPrimary}Business Problem \& Market Context}}\\[0.05cm]
+                \textbf{\color{NavyPrimary}Business Problem \& Market Context}\\[0.03cm]
                 \begin{itemize}\setlength{\itemsep}{1.2pt}
-                    \item \textbf{Viral Demand Volatility:} Indian smartphone demand experiences abrupt viral breakout spikes driven by social media hype and tech reviews.
-                    \item \textbf{Lagging Traditional Data:} Conventional ERP/POS sales records lag consumer interest by \textbf{7--14 days}, causing stockouts, lost margins, and missed sales.
+                    \item \textbf{Viral Demand Volatility:} Indian smartphone demand exhibits sudden viral breakout spikes driven by social media hype and tech reviews.
+                    \item \textbf{Lagging Traditional Data:} Conventional ERP/POS sales records lag consumer interest by \textbf{7--14 days}, causing stockouts and lost margins.
                     \item \textbf{Decision Latency:} Retailers cannot react to viral breakout surges in real time without forward-looking early-warning signals.
                 \end{itemize}
             \end{card}
-            \vspace{0.08cm}
+            \vspace{0.14cm}
             \begin{card}
-                {\fontsize{8pt}{9.5pt}\selectfont \textbf{\color{BlueAccent}Measurable Project Objectives}}\\[0.05cm]
+                \textbf{\color{BlueAccent}Measurable Project Objectives}\\[0.03cm]
                 \begin{itemize}\setlength{\itemsep}{1.2pt}
-                    \item \textbf{Objective 1:} Predict daily demand trajectories over a 53-day forward horizon using multi-horizon time-series forecasting (Method 1).
-                    \item \textbf{Objective 2:} Extract aspect sentiment and topic drivers from 29,189 comments to serve as leading indicators 3--7 days prior (Method 2).
+                    \item \textbf{Objective 1 (Method 1):} Forecast continuous daily search interest curves over a 53-day forward horizon using time-series models.
+                    \item \textbf{Objective 2 (Method 2):} Extract aspect sentiment and topic drivers from 29,189 comments as leading indicators 3--7 days prior.
                 \end{itemize}
             \end{card}
         \end{column}
 
         \begin{column}{0.49\textwidth}
             \begin{card}
-                {\fontsize{8pt}{9.5pt}\selectfont \textbf{\color{NavyPrimary}Actionable Business Decision Supported}}\\[0.05cm]
+                \textbf{\color{NavyPrimary}Actionable Business Decision Supported}\\[0.03cm]
                 \begin{itemize}\setlength{\itemsep}{1.2pt}
-                    \item \textbf{Proactive Pre-Allocation:} Pre-allocate retail inventory across tier-1 regional warehouses 7--10 days before retail demand realization.
+                    \item \textbf{Proactive Pre-Allocation:} Pre-allocate retail inventory across tier-1 regional warehouses 7--10 days before peak consumer demand realization.
                     \item \textbf{Dynamic Ad Timing:} Synchronize marketing ad blitzes with positive sentiment velocity while throttling spend on negative-sentiment products.
                 \end{itemize}
             \end{card}
-            \vspace{0.08cm}
+            \vspace{0.14cm}
             \begin{card}
-                {\fontsize{8pt}{9.5pt}\selectfont \textbf{\color{CoralAccent}Expected Output \& End-State Deliverables}}\\[0.05cm]
+                \textbf{\color{CoralAccent}Expected Output \& End-State Deliverables}\\[0.03cm]
                 \begin{itemize}\setlength{\itemsep}{1.2pt}
-                    \item \textbf{Continuous Forecast:} Daily predicted search interest index ($0$--$100$).
-                    \item \textbf{Surge Alert:} Binary surge probability flag ($\text{F1} = 0.81$).
-                    \item \textbf{2D Viral Radar:} Real-time 4-quadrant market classification tier with prescriptive inventory guidance on an interactive dashboard.
+                    \item \textbf{Continuous Forecast:} Daily predicted search interest index ($0$--$100$) per product.
+                    \item \textbf{Surge Alert Flag:} Supervised classification surge alert ($\text{F1} = 0.817$, $\text{AUC} = 0.887$).
+                    \item \textbf{2D Viral Radar:} Real-time 4-quadrant market matrix with prescriptive inventory guidance on an interactive dashboard.
                 \end{itemize}
             \end{card}
         \end{column}
@@ -210,39 +212,40 @@
     \begin{columns}[T]
         \begin{column}{0.49\textwidth}
             \begin{card}
-                {\fontsize{8pt}{9.5pt}\selectfont \textbf{\color{NavyPrimary}Source and Collection / Ingestion Method}}\\[0.05cm]
+                \textbf{\color{NavyPrimary}Source and Ingestion Pipeline}\\[0.03cm]
                 \begin{itemize}\setlength{\itemsep}{1.2pt}
-                    \item \textbf{Google Trends Daily Series:} Unofficial endpoint via \texttt{pytrends} with strict retry/backoff; daily index ($0$--$100$) for 262 days.
-                    \item \textbf{YouTube Data API v3:} Official Google API ingesting video metadata, view counts, and 29,189 user comments across 60 products.
+                    \item \textbf{Google Trends Daily Series:} Daily search index ($0$--$100$) via \texttt{pytrends} with retry backoff for 262 active panel days.
+                    \item \textbf{YouTube Data API v3:} Official API ingesting video metadata, view counts, and 29,189 comments across 60 devices.
                     \item \textbf{Alignment Engine:} Merged on \texttt{(product\_id, date)} after UTC to IST (\texttt{Asia/Kolkata}) calendar transformation.
                 \end{itemize}
             \end{card}
-            \vspace{0.08cm}
+            \vspace{0.14cm}
             \begin{card}
-                {\fontsize{8pt}{9.5pt}\selectfont \textbf{\color{BlueAccent}Final Dataset Dimensions \& Coverage}}\\[0.05cm]
+                \textbf{\color{BlueAccent}Final Dataset Dimensions \& Coverage}\\[0.03cm]
                 \begin{itemize}\setlength{\itemsep}{1.2pt}
-                    \item \textbf{Record Count:} \textbf{16,140 product-day observations} (269 raw calendar span, 262 active panel days $\times$ 60 products).
-                    \item \textbf{Variable Count:} \textbf{35 production variables} (features, lags, rolling statistics, sentiment polarities, and targets).
-                    \item \textbf{Market Scope:} 60 smartphone devices across 13 brands in India.
+                    \item \textbf{Record Count:} \textbf{16,140 product-day observations} (262 active panel days $\times$ 60 smartphone products).
+                    \item \textbf{Variable Count:} \textbf{35 production variables} (features, lags, rolling statistics, sentiment polarities, targets).
+                    \item \textbf{Market Scope:} 60 smartphone models across 13 leading brands in India.
                 \end{itemize}
             \end{card}
         \end{column}
 
         \begin{column}{0.49\textwidth}
             \begin{card}
-                {\fontsize{8pt}{9.5pt}\selectfont \textbf{\color{NavyPrimary}Cross-Unit Variable \& Data Mapping}}\\[0.05cm]
+                \textbf{\color{NavyPrimary}Cross-Unit Variable \& Data Mapping}\\[0.03cm]
                 \begin{itemize}\setlength{\itemsep}{1.2pt}
-                    \item \textbf{Unit 1 (EDA \& Cleaning):} Raw search interest, video counts, on-target verification share ($\ge 60\%$), query version tracking.
+                    \item \textbf{Unit 1 (EDA \& Cleaning):} Raw search interest, video counts, on-target verification share ($\ge 60\%$), query versioning.
                     \item \textbf{Unit 2 (Classification):} Engineered lags ($t-1..t-7$), rolling mean/std, binary surge target (\texttt{surge\_label}).
                     \item \textbf{Unit 3 Method 1 (Forecasting):} Continuous target (\texttt{search\_interest}), chronological 80/20 train (12,540) / test (3,180).
                     \item \textbf{Unit 3 Method 2 (Text Mining):} 29,189 comments, \texttt{text\_sentiment\_ready}, \texttt{text\_clean}, VADER compound, 5 LDA topics.
                 \end{itemize}
             \end{card}
-            \vspace{0.08cm}
+            \vspace{0.14cm}
             \begin{card}
-                {\fontsize{8pt}{9.5pt}\selectfont \textbf{\color{CoralAccent}Data Integrity \& Quarantine Protocol}}\\[0.05cm]
+                \textbf{\color{CoralAccent}Data Integrity \& Quarantine Protocol}\\[0.03cm]
                 \begin{itemize}\setlength{\itemsep}{1.2pt}
-                    \item \textbf{Lookahead Quarantine:} Unlagged contemporaneous signals quarantined from predictors; rolling stats use strictly \texttt{.shift(1).rolling(7)}.
+                    \item \textbf{Lookahead Quarantine:} Contemporaneous signals quarantined; rolling stats strictly use \texttt{.shift(1).rolling(7)}.
+                    \item \textbf{Strict Chronology:} Train/test split at August 12, 2026; zero future information leaks into predictors.
                 \end{itemize}
             \end{card}
         \end{column}
@@ -614,37 +617,45 @@
 \begin{frame}[t]
     \slideheader{MANDATORY LIVE DEMONSTRATION}{Interactive dashboard or website}{15}
     \begin{columns}[T]
-        \begin{column}{0.48\textwidth}
+        \begin{column}{0.49\textwidth}
             \begin{card}
-                {\fontsize{8pt}{9.5pt}\selectfont \textbf{\color{NavyPrimary}Application Architecture \& Local Launch}}\\[0.05cm]
+                \textbf{\color{NavyPrimary}Application Architecture \& Local Launch}\\[0.03cm]
                 \begin{itemize}\setlength{\itemsep}{1.2pt}
                     \item \textbf{Framework:} Streamlit multi-page architecture (\texttt{dashboard/app.py}).
                     \item \textbf{Launch Command:} \texttt{streamlit run dashboard/app.py}
                     \item \textbf{Accessible URL:} \href{http://localhost:8501}{\color{BlueAccent}\underline{\textbf{http://localhost:8501}}} (Port 8501).
-                    \item \textbf{Global Filtering:} Dynamic filtering updates all views with zero lag.
+                    \item \textbf{Global Filtering:} Sidebar brand, cohort, and date filters dynamically update all views with zero lag.
                 \end{itemize}
             \end{card}
-            \vspace{0.08cm}
+            \vspace{0.14cm}
             \begin{card}
-                {\fontsize{8pt}{9.5pt}\selectfont \textbf{\color{BlueAccent}5 Interactive Dashboard Pages}}\\[0.05cm]
+                \textbf{\color{BlueAccent}5 Interactive Dashboard Pages}\\[0.03cm]
                 \begin{itemize}\setlength{\itemsep}{1.2pt}
-                    \item \textbf{Overview} (KPIs) \textbullet\ \textbf{Viral Radar} (2D Matrix \& Score)
-                    \item \textbf{Search Trends} (Surges) \textbullet\ \textbf{Forecasts} (Method 1)
+                    \item \textbf{Overview} (KPI ribbon) \textbullet\ \textbf{Viral Radar} (2D Matrix \& Score)
+                    \item \textbf{Search Trends} (Surges) \textbullet\ \textbf{Forecasts} (Method 1 LightGBM)
                     \item \textbf{Audience Signals} (VADER Sentiment \& 5 LDA Topics)
                 \end{itemize}
             \end{card}
         \end{column}
 
-        \begin{column}{0.50\textwidth}
+        \begin{column}{0.49\textwidth}
             \begin{highlightcard}
-                {\fontsize{8pt}{9.5pt}\selectfont \textbf{\color{NavyPrimary}Live Demonstration Scenario for Review Panel}}\\[0.05cm]
-                \begin{enumerate}\setlength{\itemsep}{1.5pt}
+                \textbf{\color{NavyPrimary}Live Demonstration Scenario for Review Panel}\\[0.03cm]
+                \begin{enumerate}\setlength{\itemsep}{1.2pt}
                     \item \textbf{Filter Selection:} Filter sidebar to \textbf{Brand = Apple} and date range covering the September 2026 launch window.
                     \item \textbf{Viral Radar Quadrant:} Observe \textit{iPhone 18 Pro} position in the top-right \textbf{Viral Breakout} quadrant (Breakout Score $\ge 70$).
                     \item \textbf{Prescriptive Action:} Radar automatically displays recommendation: \textit{"Scale channel inventory \& initiate promotional campaign"}.
                     \item \textbf{Forecast Trajectory:} Switch to Forecasts page; verify LightGBM tracks actual demand peak without extreme lag dampening.
                 \end{enumerate}
             \end{highlightcard}
+            \vspace{0.14cm}
+            \begin{card}
+                \textbf{\color{GreenAccent}Quality Assurance \& System Verification}\\[0.03cm]
+                \begin{itemize}\setlength{\itemsep}{1.2pt}
+                    \item \textbf{Automated Test Suite:} \textbf{14/14 dashboard tests passing} in \texttt{tests/test\_dashboard.py} verifying state and charts.
+                    \item \textbf{End-to-End Reliability:} Responsive zero-latency updates on 16,140 rows across desktop and projection displays.
+                \end{itemize}
+            \end{card}
         \end{column}
     \end{columns}
 \end{frame}
