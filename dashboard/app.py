@@ -35,6 +35,7 @@ PAGES = [  # (script relative to this file, title, icon); the first one is the d
     ("views/trends.py", "Search Trends", ":material/trending_up:"),
     ("views/forecasts.py", "Forecasts", ":material/query_stats:"),
     ("views/signals.py", "Audience Signals", ":material/forum:"),
+    ("views/text_mining.py", "Text Mining", ":material/reviews:"),
 ]
 
 
