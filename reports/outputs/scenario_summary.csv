@@ -1,0 +1,4 @@
+scenario,value_per_anticipated_surge_day_inr,cost_per_alert_inr,true_alerts,alerts,benefit_inr,cost_inr,net_inr
+Worst,10000,6000,75,330,750000,1980000,-1230000
+Base,25000,4000,75,330,1875000,1320000,555000
+Best,50000,2000,75,330,3750000,660000,3090000
