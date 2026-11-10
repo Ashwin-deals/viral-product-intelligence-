@@ -1,0 +1,7 @@
+model,params,cv_pr_auc_mean,cv_pr_auc_std,oof_threshold,cv_f1_at_threshold
+Logistic Regression (baseline),"{'C': 0.1, 'max_iter': 2000}",0.0951,0.0273,0.5963,0.1797
+Logistic Regression (baseline),"{'C': 1.0, 'max_iter': 2000}",0.0929,0.0256,0.6003,0.1718
+Random Forest,"{'max_depth': 6, 'n_estimators': 300}",0.2221,0.0161,0.56,0.2731
+Random Forest,"{'max_depth': 10, 'n_estimators': 300}",0.2312,0.0255,0.4505,0.2934
+HistGradientBoosting,"{'learning_rate': 0.05, 'max_depth': 4, 'max_iter': 300}",0.2081,0.0125,0.5705,0.2956
+HistGradientBoosting,"{'learning_rate': 0.1, 'max_depth': 6, 'max_iter': 300}",0.2013,0.0188,0.5869,0.261
