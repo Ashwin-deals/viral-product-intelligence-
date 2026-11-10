@@ -30,11 +30,11 @@ FONT = "Times New Roman"
 REPO = "https://github.com/Ashwin-deals/viral-product-intelligence-"
 
 TEAM = [
-    ("Mounik Sai", "23CSE561", "Method 1 Forecasting, Method 2 Isolation & Viral Radar"),
-    ("Ashwin E", "23CSE09", "Data Collection Pipeline, Text Corpus & Text Mining"),
-    ("Vijay Krishna", "23CSE112", "Master Dataset, EDA & Text-Mining Evaluation"),
-    ("Sisthick S", "23CSE465", "Feature Engineering, Scaling & Streamlit Dashboard"),
-    ("Konduru Hemesh", "23CSE724", "Time-Series Preparation & Pipeline Consolidation"),
+    ("Mounik Sai", "CB.SC.U4CSE23561", "Method 1 Forecasting, Method 2 Isolation & Viral Radar"),
+    ("Ashwin E", "CB.SC.U4CSE23009", "Data Collection Pipeline, Text Corpus & Text Mining"),
+    ("Vijay Krishna", "CB.SC.U4CSE23112", "Master Dataset, EDA & Text-Mining Evaluation"),
+    ("Sisthick S", "CB.SC.U4CSE23465", "Feature Engineering, Scaling & Streamlit Dashboard"),
+    ("Konduru Hemesh", "CB.SC.U4CSE23724", "Time-Series Preparation & Pipeline Consolidation"),
 ]
 
 
@@ -738,17 +738,17 @@ def build():
         "Completed; link: **[insert Jira board URL]**) and merged via GitHub pull requests. Commit counts are "
         "from `git shortlog`; individual marks may vary with participation and explanation.")
     R.table(["Member / Reg. No.", "Work items (completed)", "Evidence"], [
-        ["Mounik Sai (23CSE561)", "SCRUM-10, 14, 19, 24, 26, 32: documentation, pipeline consolidation, Method 2 "
+        ["Mounik Sai (CB.SC.U4CSE23561)", "SCRUM-10, 14, 19, 24, 26, 32: documentation, pipeline consolidation, Method 2 "
          "isolation & audit, Method 1 benchmark, Viral Radar, presentations (4–21 Oct)",
          "forecast_method1.py, isolate_method2_data.py, radar.py; 38 commits"],
-        ["Ashwin E (23CSE09)", "Task 1, SCRUM-23, 28, 33: collection, cleaning, alignment, EDA, text corpus and "
+        ["Ashwin E (CB.SC.U4CSE23009)", "Task 1, SCRUM-23, 28, 33: collection, cleaning, alignment, EDA, text corpus and "
          "mining, Text Mining page (4–21 Oct)", "collect_youtube.py, text_mining.py; 12 commits"],
-        ["Vijay Krishna (23CSE112)", "SCRUM-5, 12, 17, 21, 29: registry analysis, problem statement, cleaning "
+        ["Vijay Krishna (CB.SC.U4CSE23112)", "SCRUM-5, 12, 17, 21, 29: registry analysis, problem statement, cleaning "
          "docs, master dataset, text-mining evaluation (4–21 Oct)",
          "build_master.py, evaluate_text_mining.py; 29 commits"],
-        ["Sisthick S (23CSE465)", "SCRUM-20, dashboard: set-up, encoding & scaling, Streamlit app, time-series "
+        ["Sisthick S (CB.SC.U4CSE23465)", "SCRUM-20, dashboard: set-up, encoding & scaling, Streamlit app, time-series "
          "evaluation (3–21 Oct)", "feature_encoding_scaling.py, dashboard/app.py; 30 commits"],
-        ["Konduru Hemesh (23CSE724)", "SCRUM-22, 30: chronological split & stationarity, end-to-end orchestration "
+        ["Konduru Hemesh (CB.SC.U4CSE23724)", "SCRUM-22, 30: chronological split & stationarity, end-to-end orchestration "
          "and tests (20 Oct)", "prep_time_series.py, run_full_pipeline.py; 5 commits"],
     ], "Individual contributions and evidence", widths=[1.45, 3.15, 1.9], size=8.5, bold_first_col=True)
     R.h2("8.3 AI use and originality declarations")
