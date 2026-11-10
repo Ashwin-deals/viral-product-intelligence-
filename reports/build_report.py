@@ -735,8 +735,10 @@ def build():
     ], "Objective-to-evidence traceability matrix", widths=[1.1, 1.1, 1.9, 1.6, 0.6], size=8.5, bold_first_col=True)
     R.h2("8.2 Project tracking and individual work")
     R.p("Work was tracked on a Jira Scrum board (key SCRUM; Backlog → To Do → In Progress → Review/Testing → "
-        "Completed; link: **[insert Jira board URL]**) and merged via GitHub pull requests. Commit counts are "
-        "from `git shortlog`; individual marks may vary with participation and explanation.")
+        "Completed) and merged via GitHub pull requests. Commit counts are from `git shortlog`. Jira board: "
+        "https://cb-team-vqckglys.atlassian.net/?continue=https%3A%2F%2Fcb-team-vqckglys.atlassian.net%2Fwelcome"
+        "%2Fsoftware%3FprojectId%3D10000&atlOrigin=eyJpIjoiZmE0ZGQ2YzJiMDA3NDA1Y2I4MDNiYmZhODk2ODdlNjMiLCJwIjoiamly"
+        "YS1zb2Z0d2FyZSJ9", align=WD_ALIGN_PARAGRAPH.LEFT)
     R.table(["Member / Reg. No.", "Work items (completed)", "Evidence"], [
         ["Mounik Sai (CB.SC.U4CSE23561)", "SCRUM-10, 14, 19, 24, 26, 32: documentation, pipeline consolidation, Method 2 "
          "isolation & audit, Method 1 benchmark, Viral Radar, presentations (4–21 Oct)",
