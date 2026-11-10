@@ -1,0 +1,5 @@
+model,params,threshold,precision,recall,f1,roc_auc,pr_auc,alerts
+Persistence rule (baseline),growth_lag_1 >= train median of surge days,-0.0457,0.055,0.4952,0.099,0.4315,0.0782,1872
+Logistic Regression (baseline),"{'C': 0.1, 'max_iter': 2000}",0.5963,0.1199,0.2115,0.153,0.6159,0.0985,367
+Random Forest,"{'max_depth': 10, 'n_estimators': 300}",0.4505,0.2273,0.3606,0.2788,0.7506,0.2223,330
+HistGradientBoosting,"{'learning_rate': 0.05, 'max_depth': 4, 'max_iter': 300}",0.5705,0.1684,0.4712,0.2481,0.7507,0.2349,582

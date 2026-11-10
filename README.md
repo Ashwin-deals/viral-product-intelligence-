@@ -211,6 +211,17 @@ All steps read their inputs without changing them, and re-running gives identica
   - `dashboard/data_loader.py` loads the data; a missing file shows a notice instead of an error;
   - `dashboard/context.py` holds the per-session page context.
 
+### Final Report (Group 13)
+The final capstone report is in `reports/` as [DOCX](reports/Group13_Viral_Product_Intelligence_Final_Report.docx) and [PDF](reports/Group13_Viral_Product_Intelligence_Final_Report.pdf) (23 pages, course format, supplied cover page). To regenerate it, run from the repo root:
+
+```
+python reports/unit2_surge_classification.py   # Unit 2 next-day surge classifier (date-fold CV, held-out test)
+python reports/make_report_figures.py          # workflow, topic and scenario figures
+python reports/capture_dashboard.py            # dashboard screenshots (app running on localhost:8517)
+python reports/build_report.py "<path to Cover Page.docx>"
+powershell -File reports/export_pdf.ps1        # updates TOC/captions in Word and writes the PDF
+```
+
 Handoff for teammates: [docs/handoff_task1.md](docs/handoff_task1.md), bundled as `data/handoff/task1_handoff.zip` (`python3 src/build_handoff.py`).
 
 All-product status: `python3 src/full_report.py` writes `data/processed/full_report.csv` and [docs/full_report.md](docs/full_report.md). The all-product EDA is `notebooks/04_eda_full.ipynb`, with charts in `docs/figures/eda_full_*.png`.
