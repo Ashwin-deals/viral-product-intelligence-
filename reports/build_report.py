@@ -755,7 +755,7 @@ def build():
     R.p("Anthropic Claude (via Claude Code and GitHub Copilot) assisted with code, documentation and drafting this "
         "report; the team verified every number against committed outputs, re-ran tests and corrected unsupported "
         "earlier slide claims (surge-classifier F1, sentiment lead time). An AI reviewer supplied 95 of 100 "
-        "sentiment reference labels (flagged per row). Turnitin similarity: **[insert %]** (limit ≤ 15%).")
+        "sentiment reference labels (flagged per row). Turnitin similarity: **13%** (limit ≤ 15%).")
 
     # 9
     R.h1("9. Conclusion, Recommendations and Roadmap")
@@ -843,7 +843,7 @@ def build():
         "2026-08-12.", size=10, spacing=1.0)
     R.h2("Appendix D: Tracking, AI declaration and similarity report")
     R.p("Attach the Jira board screenshot (Completed column), the signed declaration (front matter, AI use in "
-        "Section 8.3) and the Turnitin similarity report (**[insert %]**). Full commit history: `git log` in the "
+        "Section 8.3) and the Turnitin similarity report (**13%**). Full commit history: `git log` in the "
         "repository.", size=10, spacing=1.0)
 
     doc.save(str(TARGET))
