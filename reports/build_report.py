@@ -358,7 +358,13 @@ def build():
     page_numbers(front, "lowerRoman")
     R = Report(doc)
 
-    R.h1("Declaration", in_toc=True)
+    R.h1("Table of Contents", in_toc=False)
+    add_field(doc.add_paragraph(), 'TOC \\o "1-2" \\h \\z \\u', "Update field to build the table of contents.")
+    R.h1("List of Figures and Tables", in_toc=False)
+    add_field(doc.add_paragraph(), 'TOC \\h \\z \\c "Figure"', "Update field to build the list of figures.")
+    add_field(doc.add_paragraph(), 'TOC \\h \\z \\c "Table"', "Update field to build the list of tables.")
+
+    R.h1("Declaration", page_break=True)
     R.p("We, the members of Group 13, declare that this report, **“Viral Product Intelligence: Early Detection and "
         "Predictive Modeling of Consumer Demand Surges Using Multi-Source Signals”**, submitted for 23CSE452 Business "
         "Analytics, is our original work. The data were collected by the team from Google Trends and the YouTube "
@@ -418,12 +424,6 @@ def build():
         "money if an alert costs more than ~23% of a surge-day's value, so thresholds must match each retailer's costs.")
     R.p("**Actions.** Use forecasts for short-horizon allocation; route RISING-model alerts to category managers as a "
         "daily check list; use sentiment for brand health, not demand; pilot with one retailer and add sales data.")
-
-    R.h1("Table of Contents", page_break=True, in_toc=False)
-    add_field(doc.add_paragraph(), 'TOC \\o "1-2" \\h \\z \\u', "Update field to build the table of contents.")
-    R.h1("List of Figures and Tables", in_toc=False)
-    add_field(doc.add_paragraph(), 'TOC \\h \\z \\c "Figure"', "Update field to build the list of figures.")
-    add_field(doc.add_paragraph(), 'TOC \\h \\z \\c "Table"', "Update field to build the list of tables.")
 
     # ------------------------------------------------------------------ main body
     body = doc.add_section(WD_SECTION.NEW_PAGE)
